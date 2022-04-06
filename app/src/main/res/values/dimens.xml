@@ -2,4 +2,7 @@
 <resources>
     <dimen name="primary_padding">24dp</dimen>
     <dimen name="secondary_padding">16dp</dimen>
+
+    <!-- Action Card -->
+    <dimen name="action_image_size">96dp</dimen>
 </resources>

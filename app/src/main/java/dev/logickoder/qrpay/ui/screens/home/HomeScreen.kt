@@ -16,10 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -28,6 +29,7 @@ import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.shared.components.Card
 import dev.logickoder.qrpay.ui.shared.components.Icon
 import dev.logickoder.qrpay.ui.theme.Theme
+import dev.logickoder.qrpay.ui.theme.text
 import dev.logickoder.qrpay.utils.formattedWith
 import kotlinx.coroutines.launch
 
@@ -82,10 +84,22 @@ private fun HomeContent(
             BalanceSummaryCard(balance, currency, cardContentModifier)
         }
         Card(modifier = cardModifier) {
-            UserIdCard(user.id, cardContentModifier)
+            InfoCard(
+                title = R.string.your_userid,
+                content = user.id,
+                caption = R.string.login_transactions,
+                icon = Icons.Outlined.Contacts,
+                modifier = cardContentModifier,
+            )
         }
         Card(modifier = cardModifier) {
-            TransactionsCard(transactions, cardContentModifier)
+            InfoCard(
+                title = R.string.transactions,
+                content = transactions.toString(),
+                caption = R.string.total_transactions,
+                icon = Icons.Outlined.TrendingUp,
+                modifier = cardContentModifier,
+            )
         }
         Card(modifier = cardModifier) {
             DemoCard(user.name, balance, currency, cardContentModifier)
@@ -121,8 +135,7 @@ fun BalanceSummaryCard(
     modifier: Modifier = Modifier
 ) = ConstraintLayout(modifier = modifier) {
 
-    val verticalPadding = dimensionResource(id = R.dimen.primary_padding)
-    val horizontalPadding = dimensionResource(id = R.dimen.secondary_padding)
+    val padding = dimensionResource(id = R.dimen.secondary_padding)
     val (title, icon, caption, amount) = createRefs()
 
     Text(
@@ -131,11 +144,12 @@ fun BalanceSummaryCard(
             start.linkTo(parent.start)
         },
         text = stringResource(id = R.string.balance_summary),
-        style = Theme.typography.h6,
+        style = Theme.typography.h5.copy(fontWeight = FontWeight.Medium),
+        color = Theme.colors.text.title,
     )
     Icon(
         modifier = Modifier.constrainAs(icon) {
-            top.linkTo(title.bottom, verticalPadding)
+            top.linkTo(title.bottom, padding)
             start.linkTo(parent.start)
         },
         icon = Icons.Outlined.AccountBalanceWallet,
@@ -143,9 +157,11 @@ fun BalanceSummaryCard(
     Text(
         modifier = Modifier.constrainAs(caption) {
             top.linkTo(icon.top)
-            start.linkTo(icon.end, horizontalPadding)
+            start.linkTo(icon.end, padding)
         },
         text = stringResource(id = R.string.total_balance),
+        style = Theme.typography.caption,
+        color = Theme.colors.text.disabled,
     )
     Text(
         modifier = Modifier.constrainAs(amount) {
@@ -153,86 +169,56 @@ fun BalanceSummaryCard(
             start.linkTo(caption.start)
         },
         text = balance.formattedWith(currency),
+        style = Theme.typography.h6.copy(fontWeight = FontWeight.Medium),
+        color = Theme.colors.text.body,
     )
 }
 
 @Composable
-fun UserIdCard(
-    userId: String,
-    modifier: Modifier = Modifier
-) = ConstraintLayout(modifier = modifier) {
-
-    val verticalPadding = dimensionResource(id = R.dimen.primary_padding)
-    val (title, icon, id, caption) = createRefs()
-
-    Text(
-        modifier = Modifier.constrainAs(title) {
-            top.linkTo(parent.top)
-            start.linkTo(parent.start)
-        },
-        text = stringResource(id = R.string.your_userid),
-    )
-    Icon(
-        modifier = Modifier.constrainAs(icon) {
-            top.linkTo(parent.top)
-            end.linkTo(parent.end)
-        },
-        icon = Icons.Outlined.Contacts,
-    )
-    Text(
-        modifier = Modifier.constrainAs(id) {
-            top.linkTo(icon.bottom)
-            start.linkTo(parent.start)
-        },
-        text = userId.uppercase(),
-        style = Theme.typography.h4,
-    )
-    Text(
-        modifier = Modifier.constrainAs(caption) {
-            top.linkTo(id.bottom, verticalPadding)
-            start.linkTo(parent.start)
-        },
-        text = stringResource(id = R.string.login_transactions),
-    )
-}
-
-@Composable
-fun TransactionsCard(
-    transactions: Int,
+fun InfoCard(
+    @StringRes title: Int,
+    content: String,
+    @StringRes caption: Int,
+    icon: ImageVector,
     modifier: Modifier = Modifier,
 ) = ConstraintLayout(modifier = modifier) {
 
-    val verticalPadding = dimensionResource(id = R.dimen.primary_padding)
-    val (title, icon, count, caption) = createRefs()
+    val padding = dimensionResource(id = R.dimen.secondary_padding)
+    val (titleView, iconView, contentView, captionView) = createRefs()
 
     Text(
-        modifier = Modifier.constrainAs(title) {
+        modifier = Modifier.constrainAs(titleView) {
             top.linkTo(parent.top)
             start.linkTo(parent.start)
         },
-        text = stringResource(id = R.string.transactions),
+        text = stringResource(id = title),
+        style = Theme.typography.body1,
+        color = Theme.colors.text.body,
     )
     Icon(
-        modifier = Modifier.constrainAs(icon) {
+        modifier = Modifier.constrainAs(iconView) {
             top.linkTo(parent.top)
             end.linkTo(parent.end)
         },
-        icon = Icons.Outlined.TrendingUp,
+        icon = icon,
     )
     Text(
-        modifier = Modifier.constrainAs(count) {
-            top.linkTo(icon.bottom)
+        modifier = Modifier.constrainAs(contentView) {
+            top.linkTo(iconView.bottom)
             start.linkTo(parent.start)
         },
-        text = transactions.toString(),
-        style = Theme.typography.h4,
+        text = content,
+        style = Theme.typography.h4.copy(fontWeight = FontWeight.Medium),
+        color = Theme.colors.text.title,
     )
     Text(
-        modifier = Modifier.constrainAs(caption) {
-            top.linkTo(count.bottom, verticalPadding)
+        modifier = Modifier.constrainAs(captionView) {
+            top.linkTo(contentView.bottom, padding)
             start.linkTo(parent.start)
         },
-        text = stringResource(id = R.string.total_transactions),
+        text = stringResource(id = caption),
+        style = Theme.typography.caption,
+        color = Theme.colors.text.body,
     )
 }
 
@@ -255,15 +241,22 @@ fun DemoCard(
         width = Dimension.fillToConstraints
     }) {
         Text(
-            text = stringResource(id = R.string.demo_title, userName)
+            text = stringResource(id = R.string.demo_title, userName),
+            style = Theme.typography.h6.copy(fontWeight = FontWeight.Medium),
+            color = Theme.colors.text.title,
         )
-        Text(text = stringResource(id = R.string.demo_subtitle))
+        Text(
+            text = stringResource(id = R.string.demo_subtitle),
+            style = Theme.typography.caption,
+            color = Theme.colors.text.body,
+        )
         Text(
             modifier = Modifier.padding(vertical = verticalPadding),
             text = demoBalance.formattedWith(currency),
+            style = Theme.typography.h5.copy(fontWeight = FontWeight.Medium),
             color = Theme.colors.primary,
         )
-        Button(modifier = Modifier.clip(Theme.shapes.medium), onClick = {}) {
+        Button(shape = Theme.shapes.medium, onClick = {}) {
             Text(text = stringResource(id = R.string.view_history))
         }
     }
@@ -287,10 +280,14 @@ fun ActionCard(
     modifier: Modifier = Modifier,
 ) = Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
     Image(
-        modifier = Modifier.fillMaxWidth(0.6f),
+        modifier = Modifier.size(dimensionResource(id = R.dimen.action_image_size)),
         painter = painterResource(id = imageId),
         contentDescription = null,
     )
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.secondary_padding)))
-    Text(text = stringResource(id = textId))
+    Text(
+        text = stringResource(id = textId),
+        style = Theme.typography.body1.copy(fontWeight = FontWeight.Bold),
+        color = Theme.colors.text.body,
+    )
 }
