@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">QRPay</string>
+
+    <!-- Balance Summary -->
+    <string name="balance_summary">Balance Summary</string>
+    <string name="total_balance">Total Balance</string>
+
+    <!-- Your UserID -->
+    <string name="your_userid">Your UserID</string>
+    <string name="login_transactions">Login &amp; Transactions</string>
+
+    <!-- Transactions -->
+    <string name="transactions">Transactions</string>
+    <string name="total_transactions">Total Transactions</string>
+
+    <!-- Demo -->
+    <string name="demo_title">Congratulations %1$s</string>
+    <string name="demo_subtitle">You\'ve received a demo balance</string>
+    <string name="view_history">View history</string>
+
+    <!-- Actions -->
+    <string name="send_money">Send Money</string>
+    <string name="receive_money">Receive Money</string>
+    <string name="payment_history">Payment History</string>
 </resources>

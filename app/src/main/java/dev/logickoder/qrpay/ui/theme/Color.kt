@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 internal val Colors = lightColors(
     primary = Color(0xFF696CFF),
+    primaryVariant = Color(0xFFE7E7FF),
     background = Color(0xFFF5F5F9),
 
     /* Other default colors to override
