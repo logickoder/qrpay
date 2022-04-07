@@ -53,7 +53,7 @@ fun HomeScreen(
         Scaffold(
             modifier = modifier,
             topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) }
-        ) { _ ->
+        ) {
             HomeContent(
                 viewModel,
                 modifier = Modifier
@@ -170,7 +170,6 @@ fun BalanceSummaryCard(
         },
         text = balance.formattedWith(currency),
         style = Theme.typography.h6.copy(fontWeight = FontWeight.Medium),
-        color = Theme.colors.text.body,
     )
 }
 
@@ -183,7 +182,7 @@ fun InfoCard(
     modifier: Modifier = Modifier,
 ) = ConstraintLayout(modifier = modifier) {
 
-    val padding = dimensionResource(id = R.dimen.secondary_padding)
+    val padding = dimensionResource(id = R.dimen.secondary_padding) / 2
     val (titleView, iconView, contentView, captionView) = createRefs()
 
     Text(
@@ -192,8 +191,7 @@ fun InfoCard(
             start.linkTo(parent.start)
         },
         text = stringResource(id = title),
-        style = Theme.typography.body1,
-        color = Theme.colors.text.body,
+        style = Theme.typography.body2,
     )
     Icon(
         modifier = Modifier.constrainAs(iconView) {
@@ -208,7 +206,7 @@ fun InfoCard(
             start.linkTo(parent.start)
         },
         text = content,
-        style = Theme.typography.h4.copy(fontWeight = FontWeight.Medium),
+        style = Theme.typography.h5.copy(fontWeight = FontWeight.Medium),
         color = Theme.colors.text.title,
     )
     Text(
@@ -218,7 +216,6 @@ fun InfoCard(
         },
         text = stringResource(id = caption),
         style = Theme.typography.caption,
-        color = Theme.colors.text.body,
     )
 }
 
@@ -248,10 +245,9 @@ fun DemoCard(
         Text(
             text = stringResource(id = R.string.demo_subtitle),
             style = Theme.typography.caption,
-            color = Theme.colors.text.body,
         )
         Text(
-            modifier = Modifier.padding(vertical = verticalPadding),
+            modifier = Modifier.padding(vertical = verticalPadding / 2),
             text = demoBalance.formattedWith(currency),
             style = Theme.typography.h5.copy(fontWeight = FontWeight.Medium),
             color = Theme.colors.primary,
@@ -287,7 +283,6 @@ fun ActionCard(
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.secondary_padding)))
     Text(
         text = stringResource(id = textId),
-        style = Theme.typography.body1.copy(fontWeight = FontWeight.Bold),
-        color = Theme.colors.text.body,
+        style = Theme.typography.body2.copy(fontWeight = FontWeight.Bold),
     )
 }
