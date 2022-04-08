@@ -24,6 +24,8 @@ android {
         }
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
@@ -46,6 +48,8 @@ android {
 }
 
 dependencies {
+    // for using some java 8 classes like LocalDate with older versions of android
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
