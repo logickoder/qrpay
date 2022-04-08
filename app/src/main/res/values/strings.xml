@@ -22,4 +22,9 @@
     <string name="send_money">Send Money</string>
     <string name="receive_money">Receive Money</string>
     <string name="payment_history">Payment History</string>
+
+    <!-- Payment History -->
+    <string name="refresh">Refresh</string>
+    <string name="transfer_date">TRANSFER (%1$s)</string>
+    <string name="transfer_info">Transfer from %1$s to %2$s // %3$s</string>
 </resources>

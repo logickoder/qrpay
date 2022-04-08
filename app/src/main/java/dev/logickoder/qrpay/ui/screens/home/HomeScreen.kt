@@ -12,8 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.Contacts
 import androidx.compose.material.icons.outlined.TrendingUp
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -40,15 +39,25 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) = with(viewModel) {
 
-    val horizontalPadding = dimensionResource(id = R.dimen.secondary_padding)
+    val padding = dimensionResource(id = R.dimen.secondary_padding)
 
     val coroutineScope = rememberCoroutineScope()
     val modalState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
+    var modalScreen by remember { mutableStateOf(HomeModal.SendMoney) }
+
     ModalBottomSheetLayout(
         sheetState = modalState,
         sheetContent = {
-            Text("Hello")
+            when (modalScreen) {
+                HomeModal.PaymentHistory -> PaymentHistory(
+                    transactions = transactions,
+                    currency = currency,
+                )
+                else -> {
+                    Text("Hello")
+                }
+            }
         }) {
         Scaffold(
             modifier = modifier,
@@ -58,9 +67,12 @@ fun HomeScreen(
                 viewModel,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = horizontalPadding)
-            ) {
-                coroutineScope.launch { modalState.show() }
+                    .padding(horizontal = padding)
+            ) { screen ->
+                coroutineScope.launch {
+                    modalScreen = screen
+                    modalState.show()
+                }
             }
         }
     }
@@ -70,7 +82,7 @@ fun HomeScreen(
 private fun HomeContent(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
-    showSheet: () -> Unit,
+    showSheet: (HomeModal) -> Unit,
 ) = with(viewModel) {
 
     Column(modifier = modifier.verticalScroll(state = rememberScrollState())) {
@@ -95,34 +107,39 @@ private fun HomeContent(
         Card(modifier = cardModifier) {
             InfoCard(
                 title = R.string.transactions,
-                content = transactions.toString(),
+                content = transactions.size.toString(),
                 caption = R.string.total_transactions,
                 icon = Icons.Outlined.TrendingUp,
                 modifier = cardContentModifier,
             )
         }
         Card(modifier = cardModifier) {
-            DemoCard(user.name, balance, currency, cardContentModifier)
-        }
-        Card(modifier = cardModifier.clickable { showSheet() }) {
-            ActionCard(
-                R.drawable.ic_initiate_money_transfer,
-                R.string.send_money,
-                cardContentModifier
+            DemoCard(
+                userName = user.name,
+                demoBalance = balance,
+                currency = currency,
+                modifier = cardContentModifier
             )
         }
-        Card(modifier = cardModifier.clickable { showSheet() }) {
+        Card(modifier = cardModifier.clickable { showSheet(HomeModal.SendMoney) }) {
             ActionCard(
-                R.drawable.ic_request_money,
-                R.string.receive_money,
-                cardContentModifier
+                imageId = R.drawable.ic_initiate_money_transfer,
+                textId = R.string.send_money,
+                modifier = cardContentModifier,
             )
         }
-        Card(modifier = cardModifier.clickable { showSheet() }) {
+        Card(modifier = cardModifier.clickable { showSheet(HomeModal.ReceiveMoney) }) {
             ActionCard(
-                R.drawable.ic_payment_history,
-                R.string.payment_history,
-                cardContentModifier
+                imageId = R.drawable.ic_request_money,
+                textId = R.string.receive_money,
+                modifier = cardContentModifier
+            )
+        }
+        Card(modifier = cardModifier.clickable { showSheet(HomeModal.PaymentHistory) }) {
+            ActionCard(
+                imageId = R.drawable.ic_payment_history,
+                textId = R.string.payment_history,
+                modifier = cardContentModifier
             )
         }
     }
