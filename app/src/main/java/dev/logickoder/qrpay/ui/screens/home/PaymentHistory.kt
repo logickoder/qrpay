@@ -1,6 +1,5 @@
 package dev.logickoder.qrpay.ui.screens.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -49,7 +48,7 @@ fun PaymentHistory(
 ) {
     val padding = dimensionResource(id = R.dimen.primary_padding)
     Spacer(modifier = Modifier.height(padding / 2))
-    LazyColumn(modifier = Modifier.background(Theme.colors.surface)) {
+    LazyColumn {
         items(transactions) { transaction ->
             Payment(
                 currency = currency,

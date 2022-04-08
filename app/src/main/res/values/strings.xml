@@ -27,4 +27,7 @@
     <string name="refresh">Refresh</string>
     <string name="transfer_date">TRANSFER (%1$s)</string>
     <string name="transfer_info">Transfer from %1$s to %2$s // %3$s</string>
+
+    <!-- Receive Money -->
+    <string name="use_user_id">Use your User ID: %1$s</string>
 </resources>

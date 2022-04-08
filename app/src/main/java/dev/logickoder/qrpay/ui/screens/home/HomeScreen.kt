@@ -54,6 +54,7 @@ fun HomeScreen(
                     transactions = transactions,
                     currency = currency,
                 )
+                HomeModal.ReceiveMoney -> ReceiveMoney(userId = user.id)
                 else -> {
                     Text("Hello")
                 }
