@@ -3,6 +3,8 @@ name: Android CI
 on:
   push:
     branches: [ main ]
+    tags:
+      - '*'
   pull_request:
     branches: [ main ]
 
@@ -25,7 +27,7 @@ jobs:
         run: bash ./gradlew test --stacktrace
 
   apk:
-    name: Generate APK
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
@@ -45,3 +47,22 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
+  
+  release-apk:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+    - name: setup jdk
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Make Gradle executable
+      run: chmod +x ./gradlew
+    - name: Build Release APK
+      run: ./gradlew assembleRelease
+    - name: Releasing using Hub
+      uses: kyze8439690/action-release-releaseapk@master
+      env:
+       GITHUB_TOKEN: ${{ secrets.TOKEN }}
+       APP_FOLDER: app
