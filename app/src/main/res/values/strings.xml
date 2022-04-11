@@ -30,4 +30,10 @@
 
     <!-- Receive Money -->
     <string name="use_user_id">Use your User ID: %1$s</string>
+
+    <!-- Footer -->
+    <string name="made_by">&#169; Made for android by</string>
+    <string name="me">logickoder</string>
+    <string name="currency">Currency</string>
+    <string name="logout">Logout</string>
 </resources>

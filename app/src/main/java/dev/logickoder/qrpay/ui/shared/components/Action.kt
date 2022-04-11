@@ -1,11 +1,11 @@
 package dev.logickoder.qrpay.ui.shared.components
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -21,8 +21,8 @@ fun Action(
     modifier: Modifier = Modifier,
     action: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit,
-) = Scaffold (
-    modifier = modifier.background(Theme.colors.surface).fillMaxSize(),
+) = Scaffold(
+    modifier = modifier,
     topBar = {
         TopAppBar(
             title = {
@@ -32,10 +32,18 @@ fun Action(
                 )
             },
             backgroundColor = Theme.colors.surface,
-            actions = { action?.let{
-                it()
-                Spacer(Modifier.width(dimensionResource(id = R.dimen.primary_padding) / 2))
-            } }
+            actions = {
+                action?.let {
+                    it()
+                    Spacer(Modifier.width(dimensionResource(id = R.dimen.primary_padding) / 2))
+                }
+            }
         )
     },
-) { content() }
+) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        content()
+    }
+}

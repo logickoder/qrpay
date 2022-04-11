@@ -12,7 +12,6 @@ import androidx.compose.ui.text.font.FontWeight
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.data.models.Transaction
 import dev.logickoder.qrpay.ui.theme.Theme
-import dev.logickoder.qrpay.ui.theme.text
 import dev.logickoder.qrpay.utils.formattedTransactionWith
 import dev.logickoder.qrpay.utils.isDebit
 import java.time.format.DateTimeFormatter
@@ -34,7 +33,7 @@ fun Payment(
                 transaction.date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
             ),
             style = Theme.typography.caption,
-            color = Theme.colors.text.disabled,
+            color = Theme.colors.onError,
         )
         with(transaction) {
             Text(

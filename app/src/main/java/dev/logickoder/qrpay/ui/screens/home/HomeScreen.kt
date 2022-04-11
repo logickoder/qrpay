@@ -26,9 +26,9 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.shared.components.Card
+import dev.logickoder.qrpay.ui.shared.components.Footer
 import dev.logickoder.qrpay.ui.shared.components.Icon
 import dev.logickoder.qrpay.ui.theme.Theme
-import dev.logickoder.qrpay.ui.theme.text
 import dev.logickoder.qrpay.utils.formattedWith
 import kotlinx.coroutines.launch
 
@@ -38,8 +38,6 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel()
 ) = with(viewModel) {
-
-    val padding = dimensionResource(id = R.dimen.secondary_padding)
 
     val coroutineScope = rememberCoroutineScope()
     val modalState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -68,7 +66,6 @@ fun HomeScreen(
                 viewModel,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = padding)
             ) { screen ->
                 coroutineScope.launch {
                     modalScreen = screen
@@ -88,9 +85,12 @@ private fun HomeContent(
 
     Column(modifier = modifier.verticalScroll(state = rememberScrollState())) {
 
+        val padding = dimensionResource(id = R.dimen.secondary_padding)
         val verticalPadding = dimensionResource(id = R.dimen.primary_padding)
 
-        val cardModifier = Modifier.padding(bottom = verticalPadding)
+        val cardModifier = Modifier.padding(
+            bottom = verticalPadding, start = padding, end = padding,
+        )
         val cardContentModifier = Modifier.fillMaxWidth()
 
         Card(modifier = cardModifier.padding(top = verticalPadding / 2)) {
@@ -143,6 +143,11 @@ private fun HomeContent(
                 modifier = cardContentModifier
             )
         }
+        Footer(
+            listOf("Naira"),
+            {},
+            {}
+        )
     }
 }
 
@@ -163,7 +168,7 @@ fun BalanceSummaryCard(
         },
         text = stringResource(id = R.string.balance_summary),
         style = Theme.typography.h5.copy(fontWeight = FontWeight.Medium),
-        color = Theme.colors.text.title,
+        color = Theme.colors.secondaryVariant,
     )
     Icon(
         modifier = Modifier.constrainAs(icon) {
@@ -179,7 +184,7 @@ fun BalanceSummaryCard(
         },
         text = stringResource(id = R.string.total_balance),
         style = Theme.typography.caption,
-        color = Theme.colors.text.disabled,
+        color = Theme.colors.onError,
     )
     Text(
         modifier = Modifier.constrainAs(amount) {
@@ -225,7 +230,7 @@ fun InfoCard(
         },
         text = content,
         style = Theme.typography.h5.copy(fontWeight = FontWeight.Medium),
-        color = Theme.colors.text.title,
+        color = Theme.colors.secondaryVariant,
     )
     Text(
         modifier = Modifier.constrainAs(captionView) {
@@ -258,7 +263,7 @@ fun DemoCard(
         Text(
             text = stringResource(id = R.string.demo_title, userName),
             style = Theme.typography.h6.copy(fontWeight = FontWeight.Medium),
-            color = Theme.colors.text.title,
+            color = Theme.colors.secondaryVariant,
         )
         Text(
             text = stringResource(id = R.string.demo_subtitle),

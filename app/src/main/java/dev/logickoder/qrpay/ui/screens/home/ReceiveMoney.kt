@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.shared.components.Action
+import dev.logickoder.qrpay.ui.theme.Theme
 
 @Composable
 fun ReceiveMoney(
@@ -25,6 +26,7 @@ fun ReceiveMoney(
             .fillMaxWidth()
             .padding(horizontal = padding, vertical = padding * 2),
         text = stringResource(id = R.string.use_user_id, userId),
+        style = Theme.typography.body2,
         textAlign = TextAlign.Center,
     )
 }
