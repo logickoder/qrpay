@@ -9,8 +9,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.shared.components.Action
 import dev.logickoder.qrpay.ui.shared.components.RadioBox
@@ -30,6 +30,7 @@ fun SendMoney(
     recipientsId: String,
     onRecipientsIdChange: (String) -> Unit,
     note: String,
+    onNoteChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     send: () -> Unit,
 ) = Action(
@@ -46,9 +47,12 @@ fun SendMoney(
         @Composable
         fun SMText(text: String) = Text(
             text = text.uppercase(),
-            style = Theme.typography.caption,
+            style = Theme.typography.caption.copy(fontWeight = FontWeight.Medium),
             color = Theme.colors.secondaryVariant,
-            modifier = Modifier.padding(top = padding),
+            modifier = Modifier.padding(
+                top = padding,
+                bottom = dimensionResource(R.dimen.secondary_padding) / 2
+            ),
         )
 
         SMText(stringResource(id = R.string.send_method))
@@ -75,13 +79,19 @@ fun SendMoney(
             onValueChange = { id -> onRecipientsIdChange(id) },
             placeholder = { Text(text = stringResource(id = R.string.recipients_user_id)) },
             singleLine = true,
-            trailingIcon = { Text(text = "@${stringResource(id = R.string.app_name)}") }
+            textStyle = Theme.typography.body2,
+            trailingIcon = {
+                Text(
+                    text = "@${stringResource(id = R.string.app_name)}",
+                    modifier = Modifier.padding(end = dimensionResource(id = R.dimen.primary_padding) / 2),
+                )
+            }
         )
         Text(
             text = stringResource(id = R.string.userid_of_receiver),
             style = Theme.typography.caption,
             color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
-            modifier = Modifier.padding(top = padding),
+            modifier = Modifier.padding(top = padding / 4),
         )
 
         SMText(stringResource(id = R.string.amount))
@@ -89,8 +99,8 @@ fun SendMoney(
             modifier = Modifier.fillMaxWidth(),
             shape = Theme.shapes.medium,
             value = amount.toString(),
+            textStyle = Theme.typography.body2,
             onValueChange = { amount -> onAmountChange(amount.toDoubleOrNull() ?: 0.0) },
-            placeholder = { Text(text = stringResource(id = R.string.amount)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
             leadingIcon = { Text(text = currency) }
@@ -100,11 +110,12 @@ fun SendMoney(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(62.dp),
+                .height(TextFieldDefaults.MinHeight * 2),
             shape = Theme.shapes.medium,
             value = note,
             placeholder = { Text(text = stringResource(id = R.string.optional_note)) },
             onValueChange = {},
+            textStyle = Theme.typography.body2,
         )
 
         Button(
@@ -116,7 +127,7 @@ fun SendMoney(
         ) {
             Text(
                 text = stringResource(id = R.string.send),
-                style = Theme.typography.body2,
+                style = Theme.typography.body1,
             )
         }
     }

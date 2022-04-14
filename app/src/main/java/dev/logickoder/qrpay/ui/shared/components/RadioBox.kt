@@ -29,7 +29,7 @@ fun RadioBox(
 ) = Row(
     modifier = modifier
         .border(
-            1.dp,
+            if (selected) 2.dp else 1.dp,
             if (selected) color else unselectedColor,
             Theme.shapes.medium
         )
