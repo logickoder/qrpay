@@ -53,9 +53,14 @@ fun HomeScreen(
                     currency = currency,
                 )
                 HomeModal.ReceiveMoney -> ReceiveMoney(userId = user.id)
-                else -> {
-                    Text("Hello")
-                }
+                HomeModal.SendMoney -> SendMoney(
+                    currency = currency,
+                    amount = sendAmount,
+                    onAmountChange = { amount -> sendAmount = amount },
+                    recipientsId = recipientsId,
+                    onRecipientsIdChange = { id -> recipientsId = id },
+                    note = note,
+                ) {}
             }
         }) {
         Scaffold(

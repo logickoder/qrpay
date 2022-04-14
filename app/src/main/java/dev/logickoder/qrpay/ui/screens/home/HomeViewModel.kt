@@ -24,6 +24,12 @@ class HomeViewModel : ViewModel() {
 
     val user by mutableStateOf(User("logickoder", "LOER22TS4A"))
 
+    var sendAmount by mutableStateOf(0.0)
+
+    var recipientsId by mutableStateOf(user.id)
+
+    var note by mutableStateOf("")
+
     var transactions = mutableStateListOf(
         Transaction(LocalDateTime.now(), user, user, "h", 100.0),
         Transaction(LocalDateTime.now(), user, user, "h", -800.0),

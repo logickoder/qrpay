@@ -31,6 +31,16 @@
     <!-- Receive Money -->
     <string name="use_user_id">Use your User ID: %1$s</string>
 
+    <!-- Send Money -->
+    <string name="send">Send</string>
+    <string name="send_method">Send Method</string>
+    <string name="recipients_id">Recipient\'s ID</string>
+    <string name="recipients_user_id">Recipient\'s User ID</string>
+    <string name="userid_of_receiver">UserID of the receiver</string>
+    <string name="amount">Amount</string>
+    <string name="note">Note (Optional)</string>
+    <string name="optional_note">Optional Note</string>
+
     <!-- Footer -->
     <string name="made_by">&#169; Made for android by</string>
     <string name="me">logickoder</string>
