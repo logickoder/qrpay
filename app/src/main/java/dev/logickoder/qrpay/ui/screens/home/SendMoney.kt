@@ -16,6 +16,7 @@ import dev.logickoder.qrpay.ui.shared.components.Action
 import dev.logickoder.qrpay.ui.shared.components.RadioBox
 import dev.logickoder.qrpay.ui.theme.Theme
 import dev.logickoder.qrpay.utils.Amount
+import dev.logickoder.qrpay.utils.formatted
 
 enum class SendMethod {
     UserID,
@@ -98,11 +99,13 @@ fun SendMoney(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             shape = Theme.shapes.medium,
-            value = amount.toString(),
+            value = amount.formatted,
             textStyle = Theme.typography.body2,
-            onValueChange = { amount -> onAmountChange(amount.toDoubleOrNull() ?: 0.0) },
+            onValueChange = { amount ->
+                amount.replace(",", "").toDoubleOrNull()?.let { onAmountChange(it) }
+            },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             leadingIcon = { Text(text = currency) }
         )
 
@@ -114,7 +117,7 @@ fun SendMoney(
             shape = Theme.shapes.medium,
             value = note,
             placeholder = { Text(text = stringResource(id = R.string.optional_note)) },
-            onValueChange = {},
+            onValueChange = onNoteChange,
             textStyle = Theme.typography.body2,
         )
 

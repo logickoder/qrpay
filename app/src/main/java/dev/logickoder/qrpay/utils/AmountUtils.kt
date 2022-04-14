@@ -3,13 +3,15 @@ package dev.logickoder.qrpay.utils
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
+private val formatter = DecimalFormat("#,###.00")
+
 typealias Amount = Double
 
 /**
  * Returns a formatted amount
  */
 val Amount.formatted: String
-    get() = DecimalFormat("#,###.00").format(this)
+    get() = formatter.format(this)
 
 /**
  * Returns a formatted decimal value with a [currency] in front
