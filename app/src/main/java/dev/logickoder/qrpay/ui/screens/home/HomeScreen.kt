@@ -60,6 +60,7 @@ fun HomeScreen(
                     recipientsId = recipientsId,
                     onRecipientsIdChange = { id -> recipientsId = id },
                     note = note,
+                    onNoteChange = { content -> note = content },
                 ) {}
             }
         }) {
