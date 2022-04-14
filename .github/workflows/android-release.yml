@@ -2,8 +2,11 @@ name: Android Release CI
 
 on:
   push:
+    branches: [ main ]
     tags:
       - '*'
+  pull_request:
+    branches: [ main ]
 
 jobs:
   release-apk:
