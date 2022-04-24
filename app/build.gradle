@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -80,8 +82,17 @@ dependencies {
     // preferences datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+    // work manager
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+
+    // hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-work:1.0.0"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
+
     // gson
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
     // retrofit
     def retrofit_version = '2.9.0'
@@ -89,6 +100,12 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit-converters:2.8.1"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
+
+    // Room
+    def room_version = "2.4.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
