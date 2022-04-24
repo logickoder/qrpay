@@ -8,10 +8,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import dagger.hilt.android.AndroidEntryPoint
 import dev.logickoder.qrpay.ui.screens.home.HomeScreen
 import dev.logickoder.qrpay.ui.theme.QRPayTheme
 import dev.logickoder.qrpay.ui.theme.Theme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

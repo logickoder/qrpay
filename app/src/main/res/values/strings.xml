@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">QRPay</string>
 
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="user_id">UserId</string>
+    <string name="name">Name</string>
+    <string name="enter_your_userid">Enter Your UserID</string>
+    <string name="name_or_nickname">Name or Nickname</string>
+    <string name="dont_have_userid">Don\'t have a UserID?</string>
+    <string name="already_have_userid">Already have a UserID?</string>
+
     <!-- Balance Summary -->
     <string name="balance_summary">Balance Summary</string>
     <string name="total_balance">Total Balance</string>
@@ -25,8 +35,6 @@
 
     <!-- Payment History -->
     <string name="refresh">Refresh</string>
-    <string name="transfer_date">TRANSFER (%1$s)</string>
-    <string name="transfer_info">Transfer from %1$s to %2$s // %3$s</string>
 
     <!-- Receive Money -->
     <string name="use_user_id">Use your User ID: %1$s</string>

@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.components
+package dev.logickoder.qrpay.ui.shared.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

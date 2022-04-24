@@ -9,7 +9,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.shared.components.Action
+import dev.logickoder.qrpay.ui.shared.component.Action
 import dev.logickoder.qrpay.ui.theme.Theme
 
 @Composable

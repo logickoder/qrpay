@@ -17,9 +17,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.data.models.Transaction
-import dev.logickoder.qrpay.ui.shared.components.Action
-import dev.logickoder.qrpay.ui.shared.components.Payment
+import dev.logickoder.qrpay.data.model.Transaction
+import dev.logickoder.qrpay.ui.shared.component.Action
+import dev.logickoder.qrpay.ui.shared.component.Payment
 import dev.logickoder.qrpay.ui.theme.Theme
 
 @Composable

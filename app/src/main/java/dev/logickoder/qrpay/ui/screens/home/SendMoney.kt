@@ -12,8 +12,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.shared.components.Action
-import dev.logickoder.qrpay.ui.shared.components.RadioBox
+import dev.logickoder.qrpay.ui.shared.component.Action
+import dev.logickoder.qrpay.ui.shared.component.RadioBox
 import dev.logickoder.qrpay.ui.theme.Theme
 import dev.logickoder.qrpay.utils.Amount
 import dev.logickoder.qrpay.utils.formatted

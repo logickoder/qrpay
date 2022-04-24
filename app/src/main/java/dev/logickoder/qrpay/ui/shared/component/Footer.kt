@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.components
+package dev.logickoder.qrpay.ui.shared.component
 
 import android.content.Intent
 import android.net.Uri
