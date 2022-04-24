@@ -19,7 +19,7 @@ class QrPayApp : Application(), Configuration.Provider {
     override fun getWorkManagerConfiguration() = Configuration
         .Builder()
         .setWorkerFactory(workerFactory)
-        .setMinimumLoggingLevel(Log.VERBOSE)
+        .setMinimumLoggingLevel(Log.DEBUG)
         .build()
 
     override fun onCreate() {
