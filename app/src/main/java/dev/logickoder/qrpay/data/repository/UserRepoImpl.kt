@@ -30,7 +30,6 @@ class UserRepoImpl @Inject constructor(
                 local.save(user)
                 ResultWrapper.Success(user)
             } else ResultWrapper.Failure(result.data.message)
-            // retrieve the user from the local source
             else -> result as ResultWrapper<User>
         }
     }

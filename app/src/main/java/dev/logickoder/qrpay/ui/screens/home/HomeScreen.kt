@@ -1,5 +1,6 @@
 package dev.logickoder.qrpay.ui.screens.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +38,17 @@ fun HomeScreen(
 
     var modalScreen by remember { mutableStateOf(HomeModal.SendMoney) }
 
+    BackHandler(modalState.currentValue != ModalBottomSheetValue.Hidden) {
+        coroutineScope.launch {
+            modalState.animateTo(
+                when (modalState.currentValue) {
+                    ModalBottomSheetValue.Expanded -> ModalBottomSheetValue.HalfExpanded
+                    else -> ModalBottomSheetValue.Hidden
+                }
+            )
+        }
+    }
+
     ModalBottomSheetLayout(
         sheetState = modalState,
         sheetContent = {
@@ -45,16 +57,13 @@ fun HomeScreen(
                     transactions = transactions,
                     currency = user?.currency ?: DefaultCurrency,
                 )
-                HomeModal.ReceiveMoney -> ReceiveMoney(userId = user?.id ?: "")
+                HomeModal.ReceiveMoney -> ReceiveMoney(
+                    userId = user?.id ?: ""
+                )
                 HomeModal.SendMoney -> SendMoney(
-                    currency = user?.currency ?: DefaultCurrency,
-                    amount = sendAmount,
-                    onAmountChange = { amount -> sendAmount = amount },
-                    recipientsId = recipientsId,
-                    onRecipientsIdChange = { id -> recipientsId = id },
-                    note = note,
-                    onNoteChange = { content -> note = content },
-                ) {}
+                    userId = user?.id ?: "",
+                    currency = user?.currency ?: DefaultCurrency
+                )
             }
         }) {
         Scaffold(

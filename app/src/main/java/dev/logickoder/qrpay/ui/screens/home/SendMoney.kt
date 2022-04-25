@@ -11,12 +11,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.shared.component.Action
 import dev.logickoder.qrpay.ui.shared.component.RadioBox
+import dev.logickoder.qrpay.ui.shared.viewmodel.SendMoneyViewModel
 import dev.logickoder.qrpay.ui.theme.Theme
-import dev.logickoder.qrpay.utils.Amount
+import dev.logickoder.qrpay.utils.ResultWrapper
 import dev.logickoder.qrpay.utils.formatted
+import kotlin.math.absoluteValue
 
 enum class SendMethod {
     UserID,
@@ -26,14 +29,9 @@ enum class SendMethod {
 @Composable
 fun SendMoney(
     currency: String,
-    amount: Amount,
-    onAmountChange: (Amount) -> Unit,
-    recipientsId: String,
-    onRecipientsIdChange: (String) -> Unit,
-    note: String,
-    onNoteChange: (String) -> Unit,
+    userId: String,
     modifier: Modifier = Modifier,
-    send: () -> Unit,
+    viewModel: SendMoneyViewModel = viewModel()
 ) = Action(
     modifier = modifier,
     title = R.string.send_money,
@@ -76,8 +74,8 @@ fun SendMoney(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             shape = Theme.shapes.medium,
-            value = recipientsId.uppercase(),
-            onValueChange = { id -> onRecipientsIdChange(id) },
+            value = viewModel.recipientsId.uppercase(),
+            onValueChange = { id -> viewModel.recipientsId = id },
             placeholder = { Text(text = stringResource(id = R.string.recipients_user_id)) },
             singleLine = true,
             textStyle = Theme.typography.body2,
@@ -99,10 +97,12 @@ fun SendMoney(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             shape = Theme.shapes.medium,
-            value = amount.formatted,
+            value = viewModel.amount.formatted,
             textStyle = Theme.typography.body2,
             onValueChange = { amount ->
-                amount.replace(",", "").toDoubleOrNull()?.let { onAmountChange(it) }
+                amount.replace(",", "").toDoubleOrNull()?.let {
+                    viewModel.amount = it.absoluteValue
+                }
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -115,18 +115,40 @@ fun SendMoney(
                 .fillMaxWidth()
                 .height(TextFieldDefaults.MinHeight * 2),
             shape = Theme.shapes.medium,
-            value = note,
+            value = viewModel.note,
             placeholder = { Text(text = stringResource(id = R.string.optional_note)) },
-            onValueChange = onNoteChange,
+            onValueChange = { viewModel.note = it },
             textStyle = Theme.typography.body2,
         )
 
+        viewModel.uiState?.let { state ->
+            when (state) {
+                is ResultWrapper.Success -> Text(
+                    text = stringResource(id = R.string.transaction_successful),
+                    style = Theme.typography.caption,
+                    color = Theme.colors.secondary,
+                    modifier = Modifier.padding(top = padding / 2),
+                )
+                is ResultWrapper.Failure -> if (state.error.message.toString().isNotBlank()) Text(
+                    text = state.error.message.toString(),
+                    style = Theme.typography.caption,
+                    color = Theme.colors.error,
+                    modifier = Modifier.padding(top = padding / 2),
+                )
+                else -> Unit
+            }
+        }
+
         Button(
-            onClick = send,
+            onClick = { viewModel.send(userId) },
             modifier = Modifier
                 .padding(vertical = padding / 2)
                 .fillMaxWidth(),
             shape = Theme.shapes.medium,
+            enabled = viewModel.run {
+                amount > 0 && note.isNotBlank() && recipientsId.length == userId.length &&
+                        uiState != ResultWrapper.Loading
+            }
         ) {
             Text(
                 text = stringResource(id = R.string.send),

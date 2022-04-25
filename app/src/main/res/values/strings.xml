@@ -48,6 +48,7 @@
     <string name="amount">Amount</string>
     <string name="note">Note (Optional)</string>
     <string name="optional_note">Optional Note</string>
+    <string name="transaction_successful">Transaction Successful!</string>
 
     <!-- Footer -->
     <string name="made_by">&#169; Made for android by</string>

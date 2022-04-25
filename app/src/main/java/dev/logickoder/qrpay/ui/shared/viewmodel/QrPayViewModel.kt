@@ -34,34 +34,25 @@ class QrPayViewModel @Inject constructor(
 
     var user by mutableStateOf<User?>(null)
 
-    var sendAmount by mutableStateOf(0.0)
-
-    var recipientsId by mutableStateOf("")
-
-    var note by mutableStateOf("")
-
-    var transactions = mutableStateListOf<Transaction>()
-        private set
-
-    private fun getUserData() = viewModelScope.launch(Dispatchers.IO) {
-        launch {
-            userRepo.currentUser.collect {
-                it ?: return@collect
-                withContext(Dispatchers.Main) {
-                    user = it
-                }
-            }
-        }
-        launch {
-            transactionsRepo.transactions.collect {
-                withContext(Dispatchers.Main) {
-                    transactions.addAll(it.filter { data -> data !in transactions })
-                }
-            }
-        }
-    }
+    val transactions = mutableStateListOf<Transaction>()
 
     init {
-        getUserData()
+        viewModelScope.launch(Dispatchers.IO) {
+            launch {
+                userRepo.currentUser.collect {
+                    it ?: return@collect
+                    withContext(Dispatchers.Main) {
+                        user = it
+                    }
+                }
+            }
+            launch {
+                transactionsRepo.transactions.collect {
+                    withContext(Dispatchers.Main) {
+                        transactions.addAll(it.filter { data -> data !in transactions })
+                    }
+                }
+            }
+        }
     }
 }
