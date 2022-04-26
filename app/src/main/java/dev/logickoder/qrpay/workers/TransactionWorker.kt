@@ -9,8 +9,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dev.logickoder.qrpay.data.repository.TransactionsRepo
 import dev.logickoder.qrpay.data.repository.UserRepo
+import dev.logickoder.qrpay.utils.RERUN_DELAY
 import dev.logickoder.qrpay.utils.ResultWrapper
-import dev.logickoder.qrpay.utils.createWorker
+import dev.logickoder.qrpay.utils.createWork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,26 +32,31 @@ class TransactionWorker @AssistedInject constructor(
                 launch {
                     // get the user id first
                     userRepo.currentUser.collect { user ->
-                        user ?: continuation.resume(Result.failure())
-                        val result = transactionsRepo.fetchTransactions(user!!.id)
-                        continuation.resume(
-                            when (result) {
-                                is ResultWrapper.Success -> {
-                                    Log.d(TAG, "Refreshed transactions from server")
-                                    Result.success()
+                        if (user == null)
+                            continuation.resume(Result.failure())
+                        else {
+                            val result = transactionsRepo.fetchTransactions(user.id)
+                            continuation.resume(
+                                when (result) {
+                                    is ResultWrapper.Success -> {
+                                        Log.d(TAG, "Refreshed transactions from server")
+                                        Result.success()
+                                    }
+                                    is ResultWrapper.Failure -> Result.failure()
+                                    is ResultWrapper.Loading -> Result.retry()
                                 }
-                                is ResultWrapper.Failure -> Result.failure()
-                                is ResultWrapper.Loading -> Result.retry()
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
+        }.also {
+            // re-run the work
+            applicationContext.createWork<TransactionWorker>(RERUN_DELAY)
         }
     }
 
     companion object {
         val TAG = TransactionWorker::class.simpleName
-        val WORKER = createWorker<TransactionWorker>()
     }
 }

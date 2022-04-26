@@ -18,7 +18,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.screens.login.LoginScreen
 import dev.logickoder.qrpay.ui.shared.component.*
 import dev.logickoder.qrpay.ui.shared.viewmodel.DefaultCurrency
 import dev.logickoder.qrpay.ui.shared.viewmodel.HomeModal

@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens.login
+package dev.logickoder.qrpay.ui.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.ui.shared.viewmodel.LoginScreenState
+import dev.logickoder.qrpay.ui.shared.viewmodel.LoginViewModel
 import dev.logickoder.qrpay.ui.theme.Theme
 
 @Composable

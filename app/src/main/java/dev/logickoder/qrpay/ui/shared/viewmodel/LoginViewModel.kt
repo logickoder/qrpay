@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens.login
+package dev.logickoder.qrpay.ui.shared.viewmodel
 
 import android.app.Application
 import androidx.compose.runtime.getValue
@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.logickoder.qrpay.data.repository.UserRepo
 import dev.logickoder.qrpay.utils.ResultWrapper
+import dev.logickoder.qrpay.utils.createWork
+import dev.logickoder.qrpay.workers.TransactionWorker
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +22,7 @@ enum class LoginScreenState {
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val userRepo: UserRepo,
-    app: Application
+    private val app: Application
 ) : AndroidViewModel(app) {
     var loginScreenState by mutableStateOf(LoginScreenState.Login)
     var working by mutableStateOf(false)
@@ -38,5 +40,7 @@ class LoginViewModel @Inject constructor(
             userRepo.register(name))
         if (result is ResultWrapper.Failure) error = result.error.message.toString()
         working = false
+        // run the transaction worker
+        app.createWork<TransactionWorker>()
     }
 }
