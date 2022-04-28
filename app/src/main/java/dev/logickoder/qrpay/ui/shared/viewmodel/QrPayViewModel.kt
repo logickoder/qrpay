@@ -47,9 +47,10 @@ class QrPayViewModel @Inject constructor(
                 }
             }
             launch {
-                transactionsRepo.transactions.collect {
+                transactionsRepo.transactions.collect { data ->
                     withContext(Dispatchers.Main) {
-                        transactions.addAll(it.filter { data -> data !in transactions })
+                        transactions.removeAll { true }
+                        transactions.addAll(data)
                     }
                 }
             }

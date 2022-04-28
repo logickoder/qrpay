@@ -8,6 +8,8 @@ import dagger.hilt.android.HiltAndroidApp
 import dev.logickoder.qrpay.utils.createWork
 import dev.logickoder.qrpay.workers.TransactionWorker
 import dev.logickoder.qrpay.workers.UserWorker
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -19,12 +21,14 @@ class QrPayApp : Application(), Configuration.Provider {
     override fun getWorkManagerConfiguration() = Configuration
         .Builder()
         .setWorkerFactory(workerFactory)
-        .setMinimumLoggingLevel(Log.DEBUG)
+        .setMinimumLoggingLevel(Log.INFO)
         .build()
 
     override fun onCreate() {
         super.onCreate()
-        createWork<UserWorker>()
-        createWork<TransactionWorker>()
+        runBlocking(Dispatchers.Default) {
+            createWork<UserWorker>()
+            createWork<TransactionWorker>()
+        }
     }
 }

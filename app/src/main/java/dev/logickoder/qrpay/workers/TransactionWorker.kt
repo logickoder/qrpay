@@ -26,35 +26,33 @@ class TransactionWorker @AssistedInject constructor(
     private val userRepo: UserRepo,
 ) : CoroutineWorker(context, workerParams) {
 
-    override suspend fun doWork(): Result {
-        return withContext(Dispatchers.IO) {
-            return@withContext suspendCoroutine<Result> { continuation ->
-                launch {
-                    // get the user id first
-                    userRepo.currentUser.collect { user ->
-                        if (user == null)
-                            continuation.resume(Result.failure())
-                        else {
-                            val result = transactionsRepo.fetchTransactions(user.id)
-                            continuation.resume(
-                                when (result) {
-                                    is ResultWrapper.Success -> {
-                                        Log.d(TAG, "Refreshed transactions from server")
-                                        Result.success()
-                                    }
-                                    is ResultWrapper.Failure -> Result.failure()
-                                    is ResultWrapper.Loading -> Result.retry()
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        val result = suspendCoroutine<Result> { continuation ->
+            launch {
+                // get the user id first
+                userRepo.currentUser.collect { user ->
+                    if (user == null)
+                        continuation.resume(Result.failure())
+                    else {
+                        val result = transactionsRepo.fetchTransactions(user.id)
+                        continuation.resume(
+                            when (result) {
+                                is ResultWrapper.Success -> {
+                                    Log.d(TAG, "Refreshed transactions from server")
+                                    Result.success()
                                 }
-                            )
-                        }
+                                else -> Result.failure()
+                            }
+                        )
                     }
                 }
             }
-        }.also {
-            // re-run the work
-            applicationContext.createWork<TransactionWorker>(RERUN_DELAY)
         }
+        // re-run the work
+        applicationContext.createWork<TransactionWorker>(RERUN_DELAY)
+        return@withContext result
     }
+
 
     companion object {
         val TAG = TransactionWorker::class.simpleName
