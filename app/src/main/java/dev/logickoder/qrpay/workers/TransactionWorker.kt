@@ -11,12 +11,11 @@ import dev.logickoder.qrpay.data.repository.TransactionsRepo
 import dev.logickoder.qrpay.data.repository.UserRepo
 import dev.logickoder.qrpay.utils.RERUN_DELAY
 import dev.logickoder.qrpay.utils.ResultWrapper
-import dev.logickoder.qrpay.utils.createWork
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import kotlin.time.Duration.Companion.seconds
 
 @HiltWorker
 class TransactionWorker @AssistedInject constructor(
@@ -26,31 +25,26 @@ class TransactionWorker @AssistedInject constructor(
     private val userRepo: UserRepo,
 ) : CoroutineWorker(context, workerParams) {
 
+    private var id: String? = null
+
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        val result = suspendCoroutine<Result> { continuation ->
-            launch {
-                // get the user id first
-                userRepo.currentUser.collect { user ->
-                    if (user == null)
-                        continuation.resume(Result.failure())
-                    else {
-                        val result = transactionsRepo.fetchTransactions(user.id)
-                        continuation.resume(
-                            when (result) {
-                                is ResultWrapper.Success -> {
-                                    Log.d(TAG, "Refreshed transactions from server")
-                                    Result.success()
-                                }
-                                else -> Result.failure()
-                            }
-                        )
+        launch {
+            userRepo.currentUser.collect { user -> id = user?.id }
+        }
+        while (true) {
+            id?.let { id ->
+                when (val result = transactionsRepo.fetchTransactions(id)) {
+                    is ResultWrapper.Success ->
+                        Log.d(TAG, "Refreshed transactions from server")
+                    is ResultWrapper.Failure ->
+                        Log.e(TAG, "Failed to refresh transactions from server")
+                    ResultWrapper.Loading -> {/* Do nothing */
                     }
                 }
             }
+            delay(RERUN_DELAY.seconds)
         }
-        // re-run the work
-        applicationContext.createWork<TransactionWorker>(RERUN_DELAY)
-        return@withContext result
+        return@withContext Result.success()
     }
 
 
