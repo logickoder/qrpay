@@ -14,9 +14,9 @@ import dev.logickoder.qrpay.R
 
 
 @Composable
-fun InfoCard(
+fun <T> InfoCard(
     @StringRes title: Int,
-    content: String,
+    content: T?,
     @StringRes caption: Int,
     icon: ImageVector,
     modifier: Modifier = Modifier,
@@ -41,11 +41,13 @@ fun InfoCard(
         icon = icon,
     )
     Text(
-        modifier = Modifier.constrainAs(contentView) {
-            top.linkTo(iconView.bottom)
-            start.linkTo(parent.start)
-        },
-        text = content,
+        modifier = Modifier
+            .constrainAs(contentView) {
+                top.linkTo(iconView.bottom)
+                start.linkTo(parent.start)
+            }
+            .nonExistent(content),
+        text = content.toString(),
         style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Medium),
         color = MaterialTheme.colors.secondaryVariant,
     )

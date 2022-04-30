@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens.home
+package dev.logickoder.qrpay.ui.screens
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

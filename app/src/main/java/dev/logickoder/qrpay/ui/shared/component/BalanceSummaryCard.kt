@@ -11,12 +11,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.theme.Theme
+import dev.logickoder.qrpay.utils.Amount
 import dev.logickoder.qrpay.utils.formattedWith
 
 @Composable
 fun BalanceSummaryCard(
-    balance: Double,
-    currency: String,
+    balance: Amount?,
+    currency: String?,
     modifier: Modifier = Modifier
 ) = ConstraintLayout(modifier = modifier) {
 
@@ -49,11 +50,13 @@ fun BalanceSummaryCard(
         color = Theme.colors.onError,
     )
     Text(
-        modifier = Modifier.constrainAs(amount) {
-            bottom.linkTo(icon.bottom)
-            start.linkTo(caption.start)
-        },
-        text = balance.formattedWith(currency),
+        modifier = Modifier
+            .constrainAs(amount) {
+                bottom.linkTo(icon.bottom)
+                start.linkTo(caption.start)
+            }
+            .nonExistent(balance),
+        text = balance?.formattedWith(currency.toString()).toString(),
         style = Theme.typography.h6.copy(fontWeight = FontWeight.Medium),
     )
 }

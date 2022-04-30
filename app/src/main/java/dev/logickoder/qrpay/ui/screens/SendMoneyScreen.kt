@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens.home
+package dev.logickoder.qrpay.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -106,7 +106,11 @@ fun SendMoney(
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            leadingIcon = { Text(text = currency) }
+            leadingIcon = {
+                Text(
+                    text = currency,
+                )
+            }
         )
 
         SMText(stringResource(id = R.string.note))

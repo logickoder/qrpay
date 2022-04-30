@@ -33,7 +33,7 @@ class TransactionWorker @AssistedInject constructor(
         }
         while (true) {
             id?.let { id ->
-                when (val result = transactionsRepo.fetchTransactions(id)) {
+                when (transactionsRepo.fetchTransactions(id)) {
                     is ResultWrapper.Success ->
                         Log.d(TAG, "Refreshed transactions from server")
                     is ResultWrapper.Failure ->
@@ -46,7 +46,6 @@ class TransactionWorker @AssistedInject constructor(
         }
         return@withContext Result.success()
     }
-
 
     companion object {
         val TAG = TransactionWorker::class.simpleName

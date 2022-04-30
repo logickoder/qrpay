@@ -17,14 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.utils.Amount
 import dev.logickoder.qrpay.utils.formattedWith
 
 
 @Composable
 fun DemoCard(
-    userName: String,
-    demoBalance: Double,
-    currency: String,
+    userName: String?,
+    demoBalance: Amount?,
+    currency: String?,
     modifier: Modifier = Modifier,
 ) = ConstraintLayout(modifier = modifier) {
 
@@ -39,7 +40,8 @@ fun DemoCard(
         width = Dimension.fillToConstraints
     }) {
         Text(
-            text = stringResource(id = R.string.demo_title, userName),
+            modifier = Modifier.nonExistent(userName),
+            text = stringResource(id = R.string.demo_title, userName.toString()),
             style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Medium),
             color = MaterialTheme.colors.secondaryVariant,
         )
@@ -48,8 +50,10 @@ fun DemoCard(
             style = MaterialTheme.typography.caption,
         )
         Text(
-            modifier = Modifier.padding(vertical = verticalPadding / 2),
-            text = demoBalance.formattedWith(currency),
+            modifier = Modifier
+                .padding(vertical = verticalPadding / 2)
+                .nonExistent(demoBalance),
+            text = demoBalance?.formattedWith(currency.toString()).toString(),
             style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Medium),
             color = MaterialTheme.colors.primary,
         )

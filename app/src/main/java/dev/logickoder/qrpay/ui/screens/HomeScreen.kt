@@ -1,97 +1,87 @@
-package dev.logickoder.qrpay.ui.screens.home
+package dev.logickoder.qrpay.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Contacts
 import androidx.compose.material.icons.outlined.TrendingUp
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.data.model.Transaction
+import dev.logickoder.qrpay.data.model.User
 import dev.logickoder.qrpay.ui.shared.component.*
-import dev.logickoder.qrpay.ui.shared.viewmodel.DefaultCurrency
-import dev.logickoder.qrpay.ui.shared.viewmodel.HomeModal
-import dev.logickoder.qrpay.ui.shared.viewmodel.QrPayViewModel
-import kotlinx.coroutines.launch
-import java.util.*
+
+enum class HomeModal {
+    SendMoney,
+    ReceiveMoney,
+    PaymentHistory
+}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeScreen(
+fun HomeModal(
+    modal: HomeModal,
+    modalState: ModalBottomSheetValue,
+    user: User?,
+    transactions: List<Transaction>,
     modifier: Modifier = Modifier,
-    viewModel: QrPayViewModel = viewModel()
-) = with(viewModel) {
-
-    val coroutineScope = rememberCoroutineScope()
-    val modalState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
-    var modalScreen by remember { mutableStateOf(HomeModal.SendMoney) }
-
-    BackHandler(modalState.currentValue != ModalBottomSheetValue.Hidden) {
-        coroutineScope.launch {
-            modalState.animateTo(
-                when (modalState.currentValue) {
-                    ModalBottomSheetValue.Expanded -> ModalBottomSheetValue.HalfExpanded
-                    else -> ModalBottomSheetValue.Hidden
-                }
-            )
-        }
+    onStateChanged: (ModalBottomSheetValue) -> Unit,
+) {
+    BackHandler(
+        enabled = modalState != ModalBottomSheetValue.Hidden
+    ) {
+        onStateChanged(
+            when (modalState) {
+                ModalBottomSheetValue.Expanded -> ModalBottomSheetValue.HalfExpanded
+                else -> ModalBottomSheetValue.Hidden
+            }
+        )
     }
 
-    ModalBottomSheetLayout(
-        sheetState = modalState,
-        sheetContent = {
-            when (modalScreen) {
-                HomeModal.PaymentHistory -> PaymentHistory(
-                    transactions = transactions,
-                    currency = user?.currency ?: DefaultCurrency,
-                )
-                HomeModal.ReceiveMoney -> ReceiveMoney(
-                    userId = user?.id ?: ""
-                )
-                HomeModal.SendMoney -> SendMoney(
-                    userId = user?.id ?: "",
-                    currency = user?.currency ?: DefaultCurrency
-                )
-            }
-        }) {
-        Scaffold(
+    val id = user?.id ?: ""
+    val currency = user?.currency ?: ""
+
+    when (modal) {
+        HomeModal.PaymentHistory -> PaymentHistory(
+            transactions = transactions,
+            currency = currency,
             modifier = modifier,
-            topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) }
-        ) {
-            if (user == null) LoginScreen()
-            HomeContent(
-                viewModel,
-                modifier = Modifier
-                    .fillMaxSize()
-            ) { screen ->
-                coroutineScope.launch {
-                    modalScreen = screen
-                    modalState.show()
-                }
-            }
-        }
+        )
+        HomeModal.ReceiveMoney -> ReceiveMoney(
+            userId = id
+        )
+        HomeModal.SendMoney -> SendMoney(
+            userId = id,
+            currency = currency,
+        )
     }
 }
 
 @Composable
-private fun HomeContent(
-    viewModel: QrPayViewModel,
+fun HomeScreen(
+    user: User?,
+    isRefreshing: Boolean,
     modifier: Modifier = Modifier,
+    refresh: () -> Unit,
     showSheet: (HomeModal) -> Unit,
-) = with(viewModel) {
-
-    Column(modifier = modifier.verticalScroll(state = rememberScrollState())) {
+) = SwipeRefresh(
+    state = rememberSwipeRefreshState(isRefreshing),
+    onRefresh = { refresh() }
+) {
+    Column(
+        modifier = modifier.verticalScroll(state = rememberScrollState())
+    ) {
 
         val padding = dimensionResource(id = R.dimen.secondary_padding)
         val verticalPadding = dimensionResource(id = R.dimen.primary_padding)
@@ -103,15 +93,15 @@ private fun HomeContent(
 
         Card(modifier = cardModifier.padding(top = verticalPadding / 2)) {
             BalanceSummaryCard(
-                user?.balance ?: 0.0,
-                user?.currency ?: "$",
+                user?.balance,
+                user?.currency,
                 cardContentModifier
             )
         }
         Card(modifier = cardModifier) {
             InfoCard(
                 title = R.string.your_userid,
-                content = user?.id ?: "",
+                content = user?.id,
                 caption = R.string.login_transactions,
                 icon = Icons.Outlined.Contacts,
                 modifier = cardContentModifier,
@@ -120,7 +110,7 @@ private fun HomeContent(
         Card(modifier = cardModifier) {
             InfoCard(
                 title = R.string.transactions,
-                content = transactions.size.toString(),
+                content = user?.transactions,
                 caption = R.string.total_transactions,
                 icon = Icons.Outlined.TrendingUp,
                 modifier = cardContentModifier,
@@ -128,9 +118,9 @@ private fun HomeContent(
         }
         Card(modifier = cardModifier) {
             DemoCard(
-                userName = user?.name ?: "",
-                demoBalance = user?.balance ?: 0.0,
-                currency = user?.currency ?: "$",
+                userName = user?.name,
+                demoBalance = user?.demoBalance,
+                currency = user?.currency,
                 modifier = cardContentModifier
             )
         }
@@ -156,8 +146,7 @@ private fun HomeContent(
             )
         }
         Footer(
-            listOf(Currency.getAvailableCurrencies().firstOrNull { it.symbol == user?.currency }
-                .toString()),
+            listOf(user?.currency ?: ""),
             {},
             {}
         )
