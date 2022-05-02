@@ -45,3 +45,11 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Upload debug apk to appetize
+        uses: JongtaekChoi/github-action-appetize@master
+        id: apppetize_upload
+        with:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
+          # PUBLICKEY: "public_key"
+          FILE_URL: app/build/outputs/apk/debug/app-debug.apk
+          PLATFORM: "android"
