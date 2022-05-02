@@ -1,10 +1,13 @@
-package dev.logickoder.qrpay.ui.screens.home
+package dev.logickoder.qrpay.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
@@ -16,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.ui.shared.component.LoadingButton
 import dev.logickoder.qrpay.ui.shared.viewmodel.LoginScreenState
 import dev.logickoder.qrpay.ui.shared.viewmodel.LoginViewModel
 import dev.logickoder.qrpay.ui.theme.Theme
@@ -110,20 +114,17 @@ fun LoginScreen(
                                     if (login) LoginScreenState.Register else LoginScreenState.Login
                         },
                 )
-                Button(
+                LoadingButton(
+                    isLoading = working,
                     onClick = ::login,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    shape = Theme.shapes.medium,
-                    enabled = !working,
-                ) {
-                    Text(
-                        text =
-                        stringResource(id = if (login) R.string.login else R.string.register) +
-                                if (working) "ing…" else "",
-                        style = Theme.typography.body1,
-                    )
-                }
+                    modifier = Modifier.fillMaxWidth(),
+                    content = {
+                        Text(
+                            text = stringResource(if (login) R.string.login else R.string.register),
+                            style = Theme.typography.body1,
+                        )
+                    }
+                )
             }
         },
         properties = DialogProperties(

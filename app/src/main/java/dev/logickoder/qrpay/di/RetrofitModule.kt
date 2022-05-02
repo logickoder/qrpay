@@ -23,7 +23,7 @@ object RetrofitModule {
     @Singleton
     @Provides
     fun retrofitBuilder(): Retrofit.Builder {
-        return retrofit2.Retrofit.Builder().client(
+        return Retrofit.Builder().client(
             OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY

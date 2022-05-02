@@ -14,6 +14,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.shared.component.Action
+import dev.logickoder.qrpay.ui.shared.component.LoadingButton
+import dev.logickoder.qrpay.ui.shared.component.QRCodeScanner
 import dev.logickoder.qrpay.ui.shared.component.RadioBox
 import dev.logickoder.qrpay.ui.shared.viewmodel.SendMoneyViewModel
 import dev.logickoder.qrpay.ui.theme.Theme
@@ -79,6 +81,7 @@ fun SendMoney(
             placeholder = { Text(text = stringResource(id = R.string.recipients_user_id)) },
             singleLine = true,
             textStyle = Theme.typography.body2,
+            enabled = sendMethod == SendMethod.UserID,
             trailingIcon = {
                 Text(
                     text = "@${stringResource(id = R.string.app_name)}",
@@ -93,6 +96,16 @@ fun SendMoney(
             modifier = Modifier.padding(top = padding / 4),
         )
 
+        if (sendMethod == SendMethod.QR) {
+            SMText(stringResource(id = R.string.scan_qr_code))
+            dev.logickoder.qrpay.ui.shared.component.Card {
+                QRCodeScanner(
+                    modifier = Modifier.fillMaxWidth(),
+                    onCodeCaptured = { id -> viewModel.recipientsId = id }
+                )
+            }
+        }
+
         SMText(stringResource(id = R.string.amount))
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -106,11 +119,7 @@ fun SendMoney(
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            leadingIcon = {
-                Text(
-                    text = currency,
-                )
-            }
+            leadingIcon = { Text(currency) }
         )
 
         SMText(stringResource(id = R.string.note))
@@ -143,21 +152,21 @@ fun SendMoney(
             }
         }
 
-        Button(
-            onClick = { viewModel.send(userId) },
+        LoadingButton(
+            isLoading = viewModel.uiState == ResultWrapper.Loading,
             modifier = Modifier
                 .padding(vertical = padding / 2)
                 .fillMaxWidth(),
-            shape = Theme.shapes.medium,
             enabled = viewModel.run {
-                amount > 0 && note.isNotBlank() && recipientsId.length == userId.length &&
-                        uiState != ResultWrapper.Loading
+                amount > 0 && note.isNotBlank() && recipientsId.length == userId.length
+            },
+            onClick = { viewModel.send(userId) },
+            content = {
+                Text(
+                    text = stringResource(id = R.string.send),
+                    style = Theme.typography.body1,
+                )
             }
-        ) {
-            Text(
-                text = stringResource(id = R.string.send),
-                style = Theme.typography.body1,
-            )
-        }
+        )
     }
 }

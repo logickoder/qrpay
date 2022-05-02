@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.screens.home.LoginScreen
 import dev.logickoder.qrpay.ui.shared.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 

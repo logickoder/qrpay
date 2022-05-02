@@ -20,12 +20,7 @@ fun Action(
     modifier = modifier,
     topBar = {
         TopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = title),
-                    color = Theme.colors.secondary,
-                )
-            },
+            title = { Text(text = stringResource(id = title)) },
             backgroundColor = Theme.colors.surface,
         )
     },
