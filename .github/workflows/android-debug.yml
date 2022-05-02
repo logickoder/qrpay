@@ -25,7 +25,7 @@ jobs:
         run: bash ./gradlew test --stacktrace
 
   apk:
-    name: Build APK
+    name: Build Debug APK
     runs-on: ubuntu-latest
 
     steps:
@@ -38,9 +38,9 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build debug APK
+      - name: Build debug apk
         run: bash ./gradlew assembleDebug --stacktrace
-      - name: Upload APK
+      - name: Upload debug apk
         uses: actions/upload-artifact@v1
         with:
           name: app
