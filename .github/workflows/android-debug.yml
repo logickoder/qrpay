@@ -50,5 +50,5 @@ jobs:
         uses: JantHsueh/upload-file-action@master
         with:
           url: ${{ format('https://{0}@api.appetize.io/v1/apps', secrets.APPETIZE_TOKEN) }}
-          forms: '{"platform":"android"}'
+          forms: ${{ format('{ "platform":"android", "publicKey":"{0}" }', secrets.APPETIZE_KEY) }}
           fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk"}'
