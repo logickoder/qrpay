@@ -50,7 +50,8 @@ jobs:
         uses: JantHsueh/upload-file-action@master
         with:
           url: https://file.io/
-          fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk", "autoDelete":"true"}'
+          forms: '{"autoDelete":"true"}'
+          fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk"}'
       - name: Convert json response to object
         id: output
         run: export output = '${{ steps.upload.outputs.output }}' | ConvertFrom-Json
