@@ -52,13 +52,14 @@ jobs:
           url: https://file.io/
           forms: '{"autoDelete":"true"}'
           fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk"}'
-      - name: Verify response
-        run: echo '${{ steps.upload.outputs.output }}'
+      - name: Get link
+        id: link
+        run: echo ::set-output name=link::${{fromJson(steps.upload.outputs.output).link}}
       - name: Upload debug apk to appetize
         uses: JongtaekChoi/github-action-appetize@master
         id: apppetize_upload
         with:
           APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
           # PUBLICKEY: "public_key"
-          FILE_URL: ${{fromJson(steps.upload.outputs.output).link}}
+          FILE_URL: steps.link.outputs.link
           PLATFORM: "android"
