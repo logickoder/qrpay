@@ -25,7 +25,7 @@ jobs:
         run: bash ./gradlew test --stacktrace
 
   apk:
-    name: Build Debug APK
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
@@ -38,18 +38,25 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build debug apk
+      - name: Build apk
         run: bash ./gradlew assembleDebug --stacktrace
-      - name: Upload debug apk
+      - name: Create app artifact
         uses: actions/upload-artifact@v1
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Upload file to file.io
+        id: upload
+        uses: JantHsueh/upload-file-action@master
+        with:
+          url: https://file.io/
+          fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk", "autoDelete":"true"}'
       - name: Upload debug apk to appetize
+        run: $output = '${{ steps.upload.outputs.output }}' | ConvertFrom-Json
         uses: JongtaekChoi/github-action-appetize@master
         id: apppetize_upload
         with:
           APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
           # PUBLICKEY: "public_key"
-          FILE_URL: https://nightly.link/logickoder/qrpay/workflows/android-debug/main/app.zip
+          FILE_URL: $($output.link)
           PLATFORM: "android"
