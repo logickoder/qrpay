@@ -15,6 +15,8 @@ import dev.logickoder.qrpay.data.model.User
 import dev.logickoder.qrpay.data.store.DataStoreManager
 import dev.logickoder.qrpay.data.store.TransactionsStoreImpl
 import dev.logickoder.qrpay.data.store.UserStoreImpl
+import dev.logickoder.qrpay.data.sync.SyncLauncher
+import dev.logickoder.qrpay.data.sync.SyncLauncherImpl
 import javax.inject.Singleton
 
 val Context.userStore: DataStore<Preferences> by preferencesDataStore(
@@ -23,11 +25,15 @@ val Context.userStore: DataStore<Preferences> by preferencesDataStore(
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataStoreModule {
+abstract class DataModule {
 
     @Singleton
     @Binds
     abstract fun transactionsStore(store: TransactionsStoreImpl): DataStoreManager<List<Transaction>>
+
+    @Singleton
+    @Binds
+    abstract fun syncLauncher(launcher: SyncLauncherImpl): SyncLauncher
 
     companion object {
         @Singleton
