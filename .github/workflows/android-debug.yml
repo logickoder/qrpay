@@ -62,5 +62,5 @@ jobs:
         with:
           APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
           # PUBLICKEY: "public_key"
-          FILE_URL: '${{ steps.output.outputs.OUTPUT.link }}'
+          FILE_URL: '${{ steps.output.outputs.output.link }}'
           PLATFORM: "android"
