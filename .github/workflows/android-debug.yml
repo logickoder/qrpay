@@ -2,7 +2,7 @@ name: Android Debug CI
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ dev, fix/upload-apk ]
   pull_request:
     branches: [ dev ]
 
@@ -49,8 +49,7 @@ jobs:
         id: upload
         uses: JantHsueh/upload-file-action@master
         with:
-          url: https://file.io/
-          forms: '{"autoDelete":"true"}'
+          url: https://api.anonfiles.com/upload
           fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk"}'
       - name: Upload debug apk to appetize
         uses: JongtaekChoi/github-action-appetize@master
@@ -58,5 +57,5 @@ jobs:
         with:
           APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
           # PUBLICKEY: "public_key"
-          FILE_URL: ${{fromJson(steps.upload.outputs.output).data.link}}
+          FILE_URL: ${{fromJson(steps.upload.outputs.output).data.file.url.full}}
           PLATFORM: "android"
