@@ -39,7 +39,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![QrPay Screen Shot][product-screenshot]]()
+![product-screenshot](./screenshot.png)
 
 Very simple
 * You register, the system generates a unique ID
