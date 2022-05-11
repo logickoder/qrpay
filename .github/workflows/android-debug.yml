@@ -45,17 +45,9 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
-      - name: Upload file to file.io
+      - name: Upload apk to appetize
         id: upload
         uses: JantHsueh/upload-file-action@master
         with:
-          url: https://api.anonfiles.com/upload
-          fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk"}'
-      - name: Upload debug apk to appetize
-        uses: JongtaekChoi/github-action-appetize@master
-        id: apppetize_upload
-        with:
-          APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
-          # PUBLICKEY: "public_key"
-          FILE_URL: ${{fromJson(steps.upload.outputs.output).data.file.url.full}}
-          PLATFORM: "android"
+          url: ${{ format('https://{0}@api.appetize.io/v1/apps', secrets.APPETIZE_TOKEN) }}
+          fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk", "platform":"android"}'
