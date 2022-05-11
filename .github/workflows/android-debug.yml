@@ -51,12 +51,14 @@ jobs:
         with:
           url: https://file.io/
           fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk", "autoDelete":"true"}'
+      - name: Convert json response to object
+        id: output
+        run: export output = '${{ steps.upload.outputs.output }}' | ConvertFrom-Json
       - name: Upload debug apk to appetize
-        run: $output = '${{ steps.upload.outputs.output }}' | ConvertFrom-Json
         uses: JongtaekChoi/github-action-appetize@master
         id: apppetize_upload
         with:
           APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
           # PUBLICKEY: "public_key"
-          FILE_URL: $($output.link)
+          FILE_URL: '${{ steps.output.link }}'
           PLATFORM: "android"
