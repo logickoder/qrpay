@@ -54,12 +54,13 @@ jobs:
           fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk"}'
       - name: Convert json response to object
         id: output
-        run: export output = '${{ steps.upload.outputs.output }}' | ConvertFrom-Json
+        run: |
+          echo ::set-output name=output::'${{ steps.upload.outputs.output }}' | ConvertFrom-Json
       - name: Upload debug apk to appetize
         uses: JongtaekChoi/github-action-appetize@master
         id: apppetize_upload
         with:
           APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }} 
           # PUBLICKEY: "public_key"
-          FILE_URL: '${{ steps.output.link }}'
+          FILE_URL: '${{ steps.output.outputs.OUTPUT.link }}'
           PLATFORM: "android"
