@@ -27,7 +27,7 @@
   <h3 align="center">QrPay</h3>
 
   <p align="center">
-    <a href="https://demo.logad.net/qrpay">View Demo</a>
+    <a href="https://appetize.io/embed/g0z1zuju8b88vf6bq40xx9t8ym">View Demo</a>
     ·
     <a href="https://github.com/logickoder/qrpay/issues">Report Bug</a>
     ·
@@ -39,7 +39,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![QrPay Screen Shot][product-screenshot]](https://demo.logad.net/qrpay)
+[![QrPay Screen Shot][product-screenshot]]()
 
 Very simple
 * You register, the system generates a unique ID

@@ -2,7 +2,7 @@ name: Android Debug CI
 
 on:
   push:
-    branches: [ dev, fix/upload-apk ]
+    branches: [ dev ]
   pull_request:
     branches: [ dev ]
 
@@ -50,5 +50,5 @@ jobs:
         uses: JantHsueh/upload-file-action@master
         with:
           url: ${{ format('https://{0}@api.appetize.io/v1/apps', secrets.APPETIZE_TOKEN) }}
-          forms: ${{ format('{ "platform":"android", "publicKey":"{0}" }', secrets.APPETIZE_KEY) }}
+          forms: '{"platform":"android", "publicKey":"g0z1zuju8b88vf6bq40xx9t8ym"}'
           fileForms: '{"file":"app/build/outputs/apk/debug/app-debug.apk"}'
