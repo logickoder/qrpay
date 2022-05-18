@@ -27,7 +27,7 @@
   <h3 align="center">QrPay</h3>
 
   <p align="center">
-    <a href="https://appetize.io/embed/g0z1zuju8b88vf6bq40xx9t8ym">View Demo</a>
+    <a href="https://appetize.io/g0z1zuju8b88vf6bq40xx9t8ym">View Demo</a>
     ·
     <a href="https://github.com/logickoder/qrpay/issues">Report Bug</a>
     ·

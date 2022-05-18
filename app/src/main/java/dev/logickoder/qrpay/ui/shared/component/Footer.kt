@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.ui.theme.Theme
+import dev.logickoder.qrpay.ui.theme.TintedText
 
 @Composable
 fun Footer(
@@ -50,7 +51,7 @@ fun Footer(
         withStyle(style = SpanStyle(fontWeight = FontWeight.Black)) {
             append(stringResource(id = R.string.app_name))
         }
-        withStyle(style = SpanStyle(color = Theme.colors.onError)) {
+        withStyle(style = SpanStyle(color = TintedText)) {
             append(" ${stringResource(id = R.string.made_by)} ")
         }
         val me = stringResource(id = R.string.me)

@@ -21,8 +21,5 @@ sealed class ResultWrapper<out T> {
      * */
     open class Failure(val error: Throwable) : ResultWrapper<Nothing>() {
         constructor(message: String) : this(Throwable(message))
-
-        class GenericError(val code: Int? = null, error: Throwable) : Failure(error)
-        object NetworkError : Failure("")
     }
 }
