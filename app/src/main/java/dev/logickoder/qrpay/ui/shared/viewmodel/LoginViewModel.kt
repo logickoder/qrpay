@@ -27,16 +27,24 @@ enum class LoginScreenState(
         }
 }
 
+val LoginScreenState.isError: Boolean
+    get() = this == LoginScreenState.Error
+
+val LoginScreenState.isLogin: Boolean
+    get() = this == LoginScreenState.Login
+
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val userRepo: UserRepo,
     private val transactionsRepo: TransactionsRepo,
 ) : ViewModel() {
     private var lastScreen = LoginScreenState.Login
+
     var uiState by mutableStateOf(lastScreen)
         private set
 
     var working by mutableStateOf(false)
+        private set
 
     fun switchScreen(state: LoginScreenState) {
         lastScreen = if (state != LoginScreenState.Error) state else lastScreen
