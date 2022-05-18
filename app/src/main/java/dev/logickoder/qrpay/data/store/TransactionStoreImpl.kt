@@ -15,11 +15,15 @@ interface TransactionStore {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(vararg data: Transaction)
+
+    @Query("DELETE FROM `transaction`")
+    suspend fun clear()
 }
 
 class TransactionsStoreImpl @Inject constructor(
-    private val dao: TransactionStore
+    private val table: TransactionStore
 ) : DataStoreManager<List<@JvmSuppressWildcards Transaction>> {
-    override suspend fun save(data: List<Transaction>) = dao.save(*data.toTypedArray())
-    override fun get(): Flow<List<Transaction>?> = dao.get()
+    override suspend fun save(data: List<Transaction>) = table.save(*data.toTypedArray())
+    override fun get(): Flow<List<Transaction>?> = table.get()
+    override suspend fun clear() = table.clear()
 }

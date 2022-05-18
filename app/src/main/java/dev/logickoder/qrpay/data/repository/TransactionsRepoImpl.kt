@@ -52,4 +52,6 @@ class TransactionsRepoImpl @Inject constructor(
             is ResultWrapper.Loading -> result
         }
     }
+
+    override suspend fun clear() = local.clear()
 }

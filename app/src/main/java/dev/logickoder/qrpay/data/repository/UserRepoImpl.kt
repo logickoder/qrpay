@@ -47,4 +47,6 @@ class UserRepoImpl @Inject constructor(
             else -> result as ResultWrapper<User>
         }
     }
+
+    override suspend fun clear() = local.clear()
 }

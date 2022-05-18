@@ -27,4 +27,8 @@ class UserStoreImpl @Inject constructor(val context: Context) : DataStoreManager
             Gson().fromJson(preferences[USER], User::class.java)
         }
     }
+
+    override suspend fun clear() {
+        context.userStore.edit { preferences -> preferences.clear() }
+    }
 }

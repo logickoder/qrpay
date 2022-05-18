@@ -63,7 +63,8 @@ fun MainContent(
                                 modal = screen
                                 modalState.show()
                             }
-                        }
+                        },
+                        logout = { viewModel.logout() }
                     )
                 }
             )
