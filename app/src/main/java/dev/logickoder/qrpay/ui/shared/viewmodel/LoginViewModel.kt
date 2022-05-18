@@ -1,5 +1,6 @@
 package dev.logickoder.qrpay.ui.shared.viewmodel
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,9 +13,18 @@ import dev.logickoder.qrpay.utils.ResultWrapper
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class LoginScreenState {
+enum class LoginScreenState(
+    private var _value: MutableState<String> = mutableStateOf("")
+) {
+    Login,
     Register,
-    Login
+    Error;
+
+    var value: String
+        get() = _value.value
+        set(value) {
+            _value.value = value
+        }
 }
 
 @HiltViewModel
@@ -22,23 +32,36 @@ class LoginViewModel @Inject constructor(
     private val userRepo: UserRepo,
     private val transactionsRepo: TransactionsRepo,
 ) : ViewModel() {
-    var loginScreenState by mutableStateOf(LoginScreenState.Login)
+    private var lastScreen = LoginScreenState.Login
+    var uiState by mutableStateOf(lastScreen)
+        private set
+
     var working by mutableStateOf(false)
 
-    var userId by mutableStateOf("")
-    var name by mutableStateOf("")
-    var error by mutableStateOf("")
+    fun switchScreen(state: LoginScreenState) {
+        lastScreen = if (state != LoginScreenState.Error) state else lastScreen
+        uiState = state
+    }
 
-    fun login() = viewModelScope.launch {
-        error = ""
+    fun buttonClick() = viewModelScope.launch {
         working = true
-        val result = (if (loginScreenState == LoginScreenState.Login)
-            userRepo.login(userId)
-        else
-            userRepo.register(name))
-        if (result is ResultWrapper.Failure) error = result.error.message.toString()
+        when (uiState) {
+            LoginScreenState.Login -> userRepo.login(uiState.value).also {
+                // fetch the new batch of transactions
+                if (it is ResultWrapper.Success)
+                    transactionsRepo.fetchTransactions(it.data.id)
+            }
+            LoginScreenState.Register -> userRepo.register(uiState.value)
+            LoginScreenState.Error -> {
+                switchScreen(lastScreen)
+                ResultWrapper.Loading
+            }
+        }.let { result ->
+            if (result is ResultWrapper.Failure) {
+                switchScreen(LoginScreenState.Error)
+                uiState.value = result.error.message ?: ""
+            }
+        }
         working = false
-        // fetch the new batch of transactions
-        transactionsRepo.fetchTransactions(userId)
     }
 }

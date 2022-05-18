@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.ui.shared.component.ErrorScreen
 import dev.logickoder.qrpay.ui.shared.component.LoadingButton
 import dev.logickoder.qrpay.ui.shared.viewmodel.LoginScreenState
 import dev.logickoder.qrpay.ui.shared.viewmodel.LoginViewModel
@@ -29,18 +30,23 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel(),
 ) = with(viewModel) {
-    val login = loginScreenState == LoginScreenState.Login
+    val login = uiState == LoginScreenState.Login
+    val error = uiState == LoginScreenState.Error
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = { /* Don't */ },
         title = {
-            Text(
+            if (!error) Text(
                 text = stringResource(id = if (login) R.string.login else R.string.register),
                 style = Theme.typography.h6,
             )
         },
         text = {
-            Column {
+            if (error) ErrorScreen(
+                error = uiState.value,
+                modifier = Modifier.fillMaxWidth()
+            ) else Column {
                 Text(
                     text = stringResource(id = if (login) R.string.user_id else R.string.name).uppercase(),
                     style = Theme.typography.caption.copy(fontWeight = FontWeight.Medium),
@@ -52,9 +58,9 @@ fun LoginScreen(
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     shape = Theme.shapes.medium,
-                    value = if (login) userId.uppercase() else name,
-                    onValueChange = { id ->
-                        if (login) userId = id else name = id
+                    value = uiState.value,
+                    onValueChange = { value ->
+                        uiState.value = value
                     },
                     placeholder = {
                         Text(
@@ -82,12 +88,6 @@ fun LoginScreen(
                         }
                     } else null,
                 )
-                if (error.isNotEmpty()) Text(
-                    text = error,
-                    style = Theme.typography.caption,
-                    color = Theme.colors.error,
-                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.primary_padding) / 4),
-                )
             }
         },
         buttons = {
@@ -98,7 +98,7 @@ fun LoginScreen(
                     .padding(bottom = padding),
                 horizontalAlignment = Alignment.End,
             ) {
-                Text(
+                if (!error) Text(
                     text = stringResource(
                         id = if (login) R.string.dont_have_userid else R.string.already_have_userid,
                     ),
@@ -110,17 +110,23 @@ fun LoginScreen(
                         )
                         .clickable {
                             if (!working)
-                                loginScreenState =
-                                    if (login) LoginScreenState.Register else LoginScreenState.Login
+                                switchScreen(if (login) LoginScreenState.Register else LoginScreenState.Login)
                         },
                 )
                 LoadingButton(
                     isLoading = working,
-                    onClick = ::login,
+                    onClick = ::buttonClick,
                     modifier = Modifier.fillMaxWidth(),
+                    color = if (error) Theme.colors.error else null,
                     content = {
                         Text(
-                            text = stringResource(if (login) R.string.login else R.string.register),
+                            text = stringResource(
+                                when (uiState) {
+                                    LoginScreenState.Login -> R.string.login
+                                    LoginScreenState.Register -> R.string.register
+                                    LoginScreenState.Error -> R.string.go_back
+                                }
+                            ),
                             style = Theme.typography.body1,
                         )
                     }
