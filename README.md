@@ -9,11 +9,15 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+<div align="center">
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+
+</div>
 
 
 
@@ -27,7 +31,7 @@
   <h3 align="center">QrPay</h3>
 
   <p align="center">
-    <a href="https://appetize.io/embed/g0z1zuju8b88vf6bq40xx9t8ym">View Demo</a>
+    <a href="https://appetize.io/app/g0z1zuju8b88vf6bq40xx9t8ym" target="_blank">View Demo</a>
     ·
     <a href="https://github.com/logickoder/qrpay/issues">Report Bug</a>
     ·

@@ -12,6 +12,7 @@
     <string name="name_or_nickname">Name or Nickname</string>
     <string name="dont_have_userid">Don\'t have a UserID?</string>
     <string name="already_have_userid">Already have a UserID?</string>
+    <string name="go_back">Go back</string>
 
     <!-- Balance Summary -->
     <string name="balance_summary">Balance Summary</string>

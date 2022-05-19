@@ -1,11 +1,10 @@
-package dev.logickoder.qrpay.ui.shared.viewmodel
+package dev.logickoder.qrpay.ui.screens
 
-import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.logickoder.qrpay.data.model.Transaction
@@ -14,38 +13,35 @@ import dev.logickoder.qrpay.data.repository.TransactionsRepo
 import dev.logickoder.qrpay.data.repository.UserRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    app: Application,
     private val transactionsRepo: TransactionsRepo,
     private val userRepo: UserRepo,
-) : AndroidViewModel(app) {
+) : ViewModel() {
 
-    var user by mutableStateOf<User?>(null)
     val transactions = mutableStateListOf<Transaction>()
 
+    var user by mutableStateOf<User?>(null)
+        private set
+
     var isRefreshing by mutableStateOf(false)
+        private set
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch {
-                userRepo.currentUser.collect {
-                    it ?: return@collect
-                    withContext(Dispatchers.Main) {
-                        user = it
-                    }
+                userRepo.currentUser.flowOn(Dispatchers.Main).collect {
+                    user = it
                 }
             }
             launch {
-                transactionsRepo.transactions.collect { data ->
-                    withContext(Dispatchers.Main) {
-                        transactions.removeAll { true }
-                        transactions.addAll(data)
-                    }
+                transactionsRepo.transactions.flowOn(Dispatchers.Main).collect { data ->
+                    transactions.removeAll { true }
+                    transactions.addAll(data)
                 }
             }
         }
@@ -64,5 +60,10 @@ class MainViewModel @Inject constructor(
             }
         }
         isRefreshing = false
+    }
+
+    fun logout() = viewModelScope.launch {
+        userRepo.clear()
+        transactionsRepo.clear()
     }
 }

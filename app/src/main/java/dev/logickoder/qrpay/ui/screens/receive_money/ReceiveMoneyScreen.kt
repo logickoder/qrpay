@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens
+package dev.logickoder.qrpay.ui.screens.receive_money
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.data.model.QrCode
-import dev.logickoder.qrpay.ui.shared.component.Action
-import dev.logickoder.qrpay.ui.shared.component.QRCode
+import dev.logickoder.qrpay.ui.shared.composables.Action
+import dev.logickoder.qrpay.ui.shared.composables.QRCode
 import dev.logickoder.qrpay.ui.theme.Theme
 
 @Composable

@@ -12,6 +12,8 @@ interface DataStoreManager<T> {
      */
     suspend fun save(data: T)
 
+    suspend fun clear()
+
     /**
      *
      * returns the data if it exists or null if not

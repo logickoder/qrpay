@@ -3,6 +3,8 @@ package dev.logickoder.qrpay.ui.theme
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
+val TintedText = Color(0xFFA1ACB8)
+
 internal val Colors = lightColors(
     primary = Color(0xFF696CFF),
     primaryVariant = Color(0xFFE7E7FF),
@@ -13,11 +15,4 @@ internal val Colors = lightColors(
     onSurface = Color(0xFF697A8D),
     onBackground = Color(0xFF697A8D),
     onSecondary = Color.White,
-    onError = Color(0xFFA1ACB8),
-
-    /* Other default colors to override
-        surface = Color.White,
-        onPrimary = Color.White,
-        onBackground = Color.Black,
-    */
 )

@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.screens.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

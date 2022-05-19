@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.screens.send_money
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Column
@@ -39,6 +39,7 @@ fun QRCodeScanner(
             setCameraId(0)
             setBeepEnabled(true)
             setBarcodeImageEnabled(true)
+            setOrientationLocked(false)
         }
     }
 

@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.screens.payment_history
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -10,7 +10,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.data.model.Transaction
+import dev.logickoder.qrpay.ui.shared.composables.Icon
 import dev.logickoder.qrpay.ui.theme.Theme
+import dev.logickoder.qrpay.ui.theme.TintedText
 import dev.logickoder.qrpay.utils.formattedTransactionWith
 import dev.logickoder.qrpay.utils.isDebit
 
@@ -28,7 +30,7 @@ fun Payment(
             Text(
                 "${type.uppercase()} ($date)",
                 style = Theme.typography.caption,
-                color = Theme.colors.onError,
+                color = TintedText,
             )
         }
         with(transaction) {

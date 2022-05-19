@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens
+package dev.logickoder.qrpay.ui.screens.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -19,30 +20,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.shared.component.LoadingButton
-import dev.logickoder.qrpay.ui.shared.viewmodel.LoginScreenState
-import dev.logickoder.qrpay.ui.shared.viewmodel.LoginViewModel
+import dev.logickoder.qrpay.ui.shared.composables.Error
+import dev.logickoder.qrpay.ui.shared.composables.LoadingButton
 import dev.logickoder.qrpay.ui.theme.Theme
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel(),
 ) = with(viewModel) {
-    val login = loginScreenState == LoginScreenState.Login
     AlertDialog(
-        modifier = modifier,
+        modifier = modifier.padding(dimensionResource(id = R.dimen.primary_padding)),
+        properties = DialogProperties(
+            dismissOnBackPress = false,
+            dismissOnClickOutside = false,
+            usePlatformDefaultWidth = false,
+        ),
         onDismissRequest = { /* Don't */ },
         title = {
-            Text(
-                text = stringResource(id = if (login) R.string.login else R.string.register),
+            if (uiState.isError.not()) Text(
+                text = stringResource(id = if (uiState.isLogin) R.string.login else R.string.register),
                 style = Theme.typography.h6,
             )
         },
         text = {
-            Column {
+            if (uiState.isError) Error(
+                error = uiState.value,
+                modifier = Modifier.fillMaxWidth()
+            ) else Column {
                 Text(
-                    text = stringResource(id = if (login) R.string.user_id else R.string.name).uppercase(),
+                    text = stringResource(id = if (uiState.isLogin) R.string.user_id else R.string.name).uppercase(),
                     style = Theme.typography.caption.copy(fontWeight = FontWeight.Medium),
                     color = Theme.colors.secondaryVariant,
                     modifier = Modifier.padding(
@@ -52,20 +60,20 @@ fun LoginScreen(
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     shape = Theme.shapes.medium,
-                    value = if (login) userId.uppercase() else name,
-                    onValueChange = { id ->
-                        if (login) userId = id else name = id
+                    value = uiState.value,
+                    onValueChange = { value ->
+                        uiState.value = value
                     },
                     placeholder = {
                         Text(
                             text = stringResource(
-                                id = if (login) R.string.enter_your_userid else R.string.name_or_nickname
+                                id = if (uiState.isLogin) R.string.enter_your_userid else R.string.name_or_nickname
                             )
                         )
                     },
                     singleLine = true,
                     textStyle = Theme.typography.body2,
-                    leadingIcon = if (!login) {
+                    leadingIcon = if (uiState.isLogin.not()) {
                         {
                             Icon(
                                 imageVector = Icons.Outlined.Person,
@@ -73,7 +81,7 @@ fun LoginScreen(
                             )
                         }
                     } else null,
-                    trailingIcon = if (login) {
+                    trailingIcon = if (uiState.isLogin) {
                         {
                             Text(
                                 text = "@${stringResource(id = R.string.app_name)}",
@@ -81,12 +89,6 @@ fun LoginScreen(
                             )
                         }
                     } else null,
-                )
-                if (error.isNotEmpty()) Text(
-                    text = error,
-                    style = Theme.typography.caption,
-                    color = Theme.colors.error,
-                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.primary_padding) / 4),
                 )
             }
         },
@@ -98,9 +100,9 @@ fun LoginScreen(
                     .padding(bottom = padding),
                 horizontalAlignment = Alignment.End,
             ) {
-                Text(
+                if (uiState.isError.not()) Text(
                     text = stringResource(
-                        id = if (login) R.string.dont_have_userid else R.string.already_have_userid,
+                        id = if (uiState.isLogin) R.string.dont_have_userid else R.string.already_have_userid,
                     ),
                     style = Theme.typography.body2.copy(fontWeight = FontWeight.Bold),
                     color = Theme.colors.primary,
@@ -110,27 +112,32 @@ fun LoginScreen(
                         )
                         .clickable {
                             if (!working)
-                                loginScreenState =
-                                    if (login) LoginScreenState.Register else LoginScreenState.Login
+                                switchScreen(
+                                    if (uiState.isLogin) LoginScreenState.Register
+                                    else LoginScreenState.Login
+                                )
                         },
                 )
                 LoadingButton(
                     isLoading = working,
-                    onClick = ::login,
+                    onClick = ::buttonClick,
                     modifier = Modifier.fillMaxWidth(),
+                    color = if (uiState.isError) Theme.colors.error else null,
                     content = {
                         Text(
-                            text = stringResource(if (login) R.string.login else R.string.register),
+                            text = stringResource(
+                                when (uiState) {
+                                    LoginScreenState.Login -> R.string.login
+                                    LoginScreenState.Register -> R.string.register
+                                    LoginScreenState.Error -> R.string.go_back
+                                }
+                            ),
                             style = Theme.typography.body1,
                         )
                     }
                 )
             }
         },
-        properties = DialogProperties(
-            dismissOnBackPress = false,
-            dismissOnClickOutside = false,
-        ),
         shape = Theme.shapes.large,
     )
 }
