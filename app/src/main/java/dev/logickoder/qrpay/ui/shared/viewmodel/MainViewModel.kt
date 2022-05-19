@@ -14,8 +14,8 @@ import dev.logickoder.qrpay.data.repository.TransactionsRepo
 import dev.logickoder.qrpay.data.repository.UserRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,27 +25,25 @@ class MainViewModel @Inject constructor(
     private val userRepo: UserRepo,
 ) : AndroidViewModel(app) {
 
-    var user by mutableStateOf<User?>(null)
     val transactions = mutableStateListOf<Transaction>()
 
+    var user by mutableStateOf<User?>(null)
+        private set
+
     var isRefreshing by mutableStateOf(false)
+        private set
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch {
-                userRepo.currentUser.collect {
-                    it ?: return@collect
-                    withContext(Dispatchers.Main) {
-                        user = it
-                    }
+                userRepo.currentUser.flowOn(Dispatchers.Main).collect {
+                    user = it
                 }
             }
             launch {
-                transactionsRepo.transactions.collect { data ->
-                    withContext(Dispatchers.Main) {
-                        transactions.removeAll { true }
-                        transactions.addAll(data)
-                    }
+                transactionsRepo.transactions.flowOn(Dispatchers.Main).collect { data ->
+                    transactions.removeAll { true }
+                    transactions.addAll(data)
                 }
             }
         }
@@ -63,6 +61,13 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+        isRefreshing = false
+    }
+
+    fun logout() = viewModelScope.launch {
+        isRefreshing = true
+        userRepo.clear()
+        transactionsRepo.clear()
         isRefreshing = false
     }
 }

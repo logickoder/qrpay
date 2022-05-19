@@ -57,13 +57,14 @@ fun MainContent(
                             .fillMaxSize()
                             .padding(it),
                         isRefreshing = isRefreshing,
-                        refresh = { viewModel.refresh() },
+                        refresh = ::refresh,
                         showSheet = { screen ->
                             coroutineScope.launch {
                                 modal = screen
                                 modalState.show()
                             }
-                        }
+                        },
+                        logout = ::logout
                     )
                 }
             )

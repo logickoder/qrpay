@@ -75,6 +75,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     refresh: () -> Unit,
     showSheet: (HomeModal) -> Unit,
+    logout: () -> Unit,
 ) = SwipeRefresh(
     state = rememberSwipeRefreshState(isRefreshing),
     onRefresh = { refresh() }
@@ -146,9 +147,9 @@ fun HomeScreen(
             )
         }
         Footer(
-            listOf(user?.currency ?: ""),
-            {},
-            {}
+            currencies = listOf(user?.currency ?: ""),
+            onCurrencyChange = {},
+            logout = logout,
         )
     }
 }
