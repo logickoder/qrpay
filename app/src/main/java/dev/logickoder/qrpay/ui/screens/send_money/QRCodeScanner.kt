@@ -39,6 +39,7 @@ fun QRCodeScanner(
             setCameraId(0)
             setBeepEnabled(true)
             setBarcodeImageEnabled(true)
+            setOrientationLocked(false)
         }
     }
 
