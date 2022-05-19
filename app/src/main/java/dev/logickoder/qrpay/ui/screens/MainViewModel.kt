@@ -65,9 +65,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun logout() = viewModelScope.launch {
-        isRefreshing = true
         userRepo.clear()
         transactionsRepo.clear()
-        isRefreshing = false
     }
 }
