@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.shared.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +19,7 @@ import dev.logickoder.qrpay.ui.theme.Theme
 
 
 @Composable
-fun ErrorScreen(
+fun Error(
     error: String, modifier: Modifier = Modifier
 ) = BoxWithConstraints(
     modifier = modifier.padding(dimensionResource(id = R.dimen.secondary_padding))

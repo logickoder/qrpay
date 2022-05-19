@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.screens.home
 
 import androidx.annotation.StringRes
 import androidx.compose.material.MaterialTheme
@@ -11,6 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.ui.shared.composables.Icon
+import dev.logickoder.qrpay.ui.shared.modifiers.nonExistent
 
 
 @Composable

@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens
+package dev.logickoder.qrpay.ui.screens.send_money
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,11 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.shared.component.Action
-import dev.logickoder.qrpay.ui.shared.component.LoadingButton
-import dev.logickoder.qrpay.ui.shared.component.QRCodeScanner
-import dev.logickoder.qrpay.ui.shared.component.RadioBox
-import dev.logickoder.qrpay.ui.shared.viewmodel.SendMoneyViewModel
+import dev.logickoder.qrpay.ui.shared.composables.Action
+import dev.logickoder.qrpay.ui.shared.composables.LoadingButton
+import dev.logickoder.qrpay.ui.shared.composables.RadioBox
 import dev.logickoder.qrpay.ui.theme.Theme
 import dev.logickoder.qrpay.utils.ResultWrapper
 import dev.logickoder.qrpay.utils.formatted
@@ -98,7 +96,7 @@ fun SendMoney(
 
         if (sendMethod == SendMethod.QR) {
             SMText(stringResource(id = R.string.scan_qr_code))
-            dev.logickoder.qrpay.ui.shared.component.Card {
+            dev.logickoder.qrpay.ui.shared.composables.Card {
                 QRCodeScanner(
                     modifier = Modifier.fillMaxWidth(),
                     onCodeCaptured = { id -> viewModel.recipientsId = id }

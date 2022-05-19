@@ -8,7 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.shared.viewmodel.MainViewModel
+import dev.logickoder.qrpay.ui.screens.home.HomeModal
+import dev.logickoder.qrpay.ui.screens.home.HomeScreen
+import dev.logickoder.qrpay.ui.screens.login.LoginScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)

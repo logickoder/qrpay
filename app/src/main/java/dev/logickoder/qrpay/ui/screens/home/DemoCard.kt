@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.ui.shared.modifiers.nonExistent
 import dev.logickoder.qrpay.utils.Amount
 import dev.logickoder.qrpay.utils.formattedWith
 

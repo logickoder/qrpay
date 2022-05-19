@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.shared.modifiers
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color

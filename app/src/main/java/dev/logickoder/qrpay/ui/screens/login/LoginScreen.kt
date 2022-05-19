@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens
+package dev.logickoder.qrpay.ui.screens.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,12 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.ui.shared.component.ErrorScreen
-import dev.logickoder.qrpay.ui.shared.component.LoadingButton
-import dev.logickoder.qrpay.ui.shared.viewmodel.LoginScreenState
-import dev.logickoder.qrpay.ui.shared.viewmodel.LoginViewModel
-import dev.logickoder.qrpay.ui.shared.viewmodel.isError
-import dev.logickoder.qrpay.ui.shared.viewmodel.isLogin
+import dev.logickoder.qrpay.ui.shared.composables.Error
+import dev.logickoder.qrpay.ui.shared.composables.LoadingButton
 import dev.logickoder.qrpay.ui.theme.Theme
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -49,7 +45,7 @@ fun LoginScreen(
             )
         },
         text = {
-            if (uiState.isError) ErrorScreen(
+            if (uiState.isError) Error(
                 error = uiState.value,
                 modifier = Modifier.fillMaxWidth()
             ) else Column {

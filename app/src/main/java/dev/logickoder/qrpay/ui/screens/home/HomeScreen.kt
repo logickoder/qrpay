@@ -1,6 +1,8 @@
-package dev.logickoder.qrpay.ui.screens
+package dev.logickoder.qrpay.ui.screens.home
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Contacts
 import androidx.compose.material.icons.outlined.TrendingUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -20,7 +23,10 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.data.model.Transaction
 import dev.logickoder.qrpay.data.model.User
-import dev.logickoder.qrpay.ui.shared.component.*
+import dev.logickoder.qrpay.ui.screens.payment_history.PaymentHistory
+import dev.logickoder.qrpay.ui.screens.receive_money.ReceiveMoney
+import dev.logickoder.qrpay.ui.screens.send_money.SendMoney
+import dev.logickoder.qrpay.ui.shared.composables.Card
 
 enum class HomeModal {
     SendMoney,
@@ -80,8 +86,19 @@ fun HomeScreen(
     state = rememberSwipeRefreshState(isRefreshing),
     onRefresh = { refresh() }
 ) {
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = user) {
+        // scrolls to the top of the screen when the user is null
+        // which is what usually happens when the user is logged out
+        if (user == null) scrollState.animateScrollTo(
+            value = 0,
+            animationSpec = tween(durationMillis = 1_000, easing = LinearEasing),
+        )
+    }
+
     Column(
-        modifier = modifier.verticalScroll(state = rememberScrollState())
+        modifier = modifier.verticalScroll(state = scrollState)
     ) {
 
         val padding = dimensionResource(id = R.dimen.secondary_padding)
