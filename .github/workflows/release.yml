@@ -1,0 +1,37 @@
+name: Release CLI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  apk:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build debug
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Build release
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Upload build outputs (APK)
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-outputs
+          path: app/build/outputs
