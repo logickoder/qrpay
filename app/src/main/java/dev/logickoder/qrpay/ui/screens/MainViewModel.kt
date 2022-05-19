@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.viewmodel
+package dev.logickoder.qrpay.ui.screens
 
 import android.app.Application
 import androidx.compose.runtime.getValue

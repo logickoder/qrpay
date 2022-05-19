@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.shared.composables
 
 import androidx.compose.material.*
 import androidx.compose.runtime.*

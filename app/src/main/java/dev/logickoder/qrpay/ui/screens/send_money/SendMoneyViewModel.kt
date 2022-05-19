@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.viewmodel
+package dev.logickoder.qrpay.ui.screens.send_money
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

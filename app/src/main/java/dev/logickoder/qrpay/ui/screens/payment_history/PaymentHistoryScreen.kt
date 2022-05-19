@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens
+package dev.logickoder.qrpay.ui.screens.payment_history
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -10,8 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.data.model.Transaction
-import dev.logickoder.qrpay.ui.shared.component.Action
-import dev.logickoder.qrpay.ui.shared.component.Payment
+import dev.logickoder.qrpay.ui.shared.composables.Action
 
 @Composable
 fun PaymentHistory(

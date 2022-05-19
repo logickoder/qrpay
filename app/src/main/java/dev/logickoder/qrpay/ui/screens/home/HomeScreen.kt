@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.screens
+package dev.logickoder.qrpay.ui.screens.home
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
@@ -20,7 +20,10 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.data.model.Transaction
 import dev.logickoder.qrpay.data.model.User
-import dev.logickoder.qrpay.ui.shared.component.*
+import dev.logickoder.qrpay.ui.screens.payment_history.PaymentHistory
+import dev.logickoder.qrpay.ui.screens.receive_money.ReceiveMoney
+import dev.logickoder.qrpay.ui.screens.send_money.SendMoney
+import dev.logickoder.qrpay.ui.shared.composables.Card
 
 enum class HomeModal {
     SendMoney,

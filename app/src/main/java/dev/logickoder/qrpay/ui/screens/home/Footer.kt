@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.ui.shared.component
+package dev.logickoder.qrpay.ui.screens.home
 
 import android.content.Intent
 import android.net.Uri
@@ -28,6 +28,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.ui.shared.composables.DropdownField
 import dev.logickoder.qrpay.ui.theme.Theme
 import dev.logickoder.qrpay.ui.theme.TintedText
 
