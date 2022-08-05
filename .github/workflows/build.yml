@@ -27,6 +27,13 @@ jobs:
       - name: Unit tests
         run: ./gradlew test --stacktrace
 
+  analyze:
+    name: Run detekt
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: natiginfo/action-detekt-all@1.21.0
+
   apk:
     name: Build APK
     runs-on: ubuntu-latest
