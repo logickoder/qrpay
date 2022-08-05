@@ -10,9 +10,11 @@ updates:
       directory: "/"
       schedule:
         interval: "weekly"
+      target-branch: "dev"
 # Updates for Gradle dependencies used in the app      
     - package-ecosystem: gradle
       directory: "/"
       schedule:
         interval: "weekly"
+      target-branch: "dev"
       open-pull-requests-limit: 10
