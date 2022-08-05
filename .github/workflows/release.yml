@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew assembleRelease --stacktrace
 
       - name: Upload build outputs (APK)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build-outputs
           path: app/build/outputs
