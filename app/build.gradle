@@ -110,7 +110,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
     implementation "com.squareup.retrofit2:retrofit-converters:2.8.1"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
-    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
 
     // Room
     def room_version = "2.4.3"
