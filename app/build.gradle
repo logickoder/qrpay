@@ -75,7 +75,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
     // Google Accompanist
-    def accompanist_version = "0.25.1"
+    def accompanist_version = "0.28.0"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
     implementation "com.google.accompanist:accompanist-placeholder-material:$accompanist_version"
 
@@ -87,7 +87,7 @@ dependencies {
 
     // qrcode scanner
     implementation('com.journeyapps:zxing-android-embedded:4.3.0') { transitive = false }
-    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'com.google.zxing:core:3.5.1'
 
     // lifecycle
     def lifecycle_version = "2.6.0-alpha01"
@@ -103,14 +103,14 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // gson
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // retrofit
     def retrofit_version = '2.9.0'
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
     implementation "com.squareup.retrofit2:retrofit-converters:2.8.1"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
-    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
 
     // Room
     def room_version = "2.4.3"
