@@ -1,24 +1,22 @@
-package dev.logickoder.qrpay.data.api.params
+package dev.logickoder.qrpay.data.remote.params
 
-import com.google.gson.annotations.SerializedName
 import dev.logickoder.qrpay.data.model.User
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-data class UserInfo(
-    @SerializedName("QrPayUid")
-    val qrPayUid: String
-)
-
+@Serializable
 data class LoginResponse(
     val `data`: Data,
     val error: Boolean,
     val message: String
 ) {
+    @Serializable
     data class Data(
         val balanceFormatted: String,
         val totalTransactions: String = "0",
         val dateFormatted: String,
         val name: String,
-        @SerializedName("QrPayUid")
+        @SerialName("QrPayUid")
         val qrPayUid: String
     ) {
         val user: User

@@ -14,7 +14,8 @@ import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.data.model.QrCode
-import dev.logickoder.qrpay.data.model.json
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @Composable
@@ -25,7 +26,12 @@ fun QRCode(
     val size = (maxWidth.value / 1.5).toInt()
     val bitmap = remember {
         try {
-            BarcodeEncoder().encodeBitmap(qrCode.json, BarcodeFormat.QR_CODE, size, size)
+            BarcodeEncoder().encodeBitmap(
+                Json.encodeToString(qrCode),
+                BarcodeFormat.QR_CODE,
+                size,
+                size
+            )
                 .asImageBitmap()
         } catch (e: Exception) {
             null

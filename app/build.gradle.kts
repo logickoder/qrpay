@@ -1,9 +1,10 @@
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 plugins {
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.hilt.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
 
@@ -77,7 +78,6 @@ dependencies {
     implementation(libs.compose.constraintlayout)
 
     // Google Accompanist
-    implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.placeholdermaterial)
 
     // Compose
@@ -88,10 +88,6 @@ dependencies {
     debugImplementation(libs.compose.custom.view)
     debugImplementation(libs.compose.custom.view.pooling)
     debugImplementation(libs.compose.ui.tooling)
-
-    // qrcode scanner
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0") { isTransitive = false }
-    implementation("com.google.zxing:core:3.5.1")
 
     // lifecycle
     implementation(libs.lifecycle.runtime)
@@ -105,20 +101,29 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    // gson
-    implementation("com.google.code.gson:gson:2.10.1")
+    // Kotlinx
+    implementation(libs.kotlin.immutable)
+    implementation(libs.kotlin.serialization)
 
-    // retrofit
-    val retrofit_version = "2.9.0"
-    implementation(libs.retrofit)
-    implementation("com.squareup.retrofit2:retrofit-converters:2.8.1")
-    implementation("com.squareup.retrofit2:converter-gson:${retrofit_version}")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    // Ktor - for network calls
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.contentnegotiation)
+    implementation(libs.ktor.serialization)
+
+    // Napier
+    implementation(libs.napier)
 
     // Room
     ksp(libs.room.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+
+    // qrcode scanner
+    implementation(libs.zxing.android) { isTransitive = false }
+    implementation(libs.zxing.core)
 
     testImplementation(libs.junit4)
     androidTestImplementation(libs.expresso)

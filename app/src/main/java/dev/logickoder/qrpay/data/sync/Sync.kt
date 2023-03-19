@@ -1,12 +1,12 @@
 package dev.logickoder.qrpay.data.sync
 
-import dev.logickoder.qrpay.data.repository.UserRepo
+import dev.logickoder.qrpay.data.repository.UserRepository
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(DelicateCoroutinesApi::class)
 abstract class Sync(
-    protected val userRepo: UserRepo,
+    protected val userRepository: UserRepository,
 ) {
     private var id: String? = null
 
@@ -20,7 +20,7 @@ abstract class Sync(
      */
     suspend fun sync() = withContext(Dispatchers.IO) {
         launch {
-            userRepo.currentUser.collect { user -> id = user?.id }
+            userRepository.currentUser.collect { user -> id = user?.id }
         }
         while (true) {
             id?.let { id -> work(id) }

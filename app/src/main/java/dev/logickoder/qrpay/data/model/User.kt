@@ -1,7 +1,9 @@
 package dev.logickoder.qrpay.data.model
 
 import dev.logickoder.qrpay.utils.Amount
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class User(
     val name: String,
     val id: String,

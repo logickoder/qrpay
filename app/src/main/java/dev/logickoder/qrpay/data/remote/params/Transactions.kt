@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.data.api.params
+package dev.logickoder.qrpay.data.remote.params
 
 import dev.logickoder.qrpay.data.model.Transaction
 

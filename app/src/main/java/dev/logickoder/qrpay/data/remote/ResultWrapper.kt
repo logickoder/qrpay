@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.utils
+package dev.logickoder.qrpay.data.remote
 
 /**
  * Represents the result of an api call

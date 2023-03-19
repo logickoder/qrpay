@@ -1,12 +1,12 @@
-package dev.logickoder.qrpay.data.api.params
+package dev.logickoder.qrpay.data.remote.params
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 data class SendMoney(
     val amount: String,
     val narration: String,
-    @SerializedName("QrPayUid")
+    @SerialName("QrPayUid")
     val qrPayUid: String,
     val recipientUid: String
 )

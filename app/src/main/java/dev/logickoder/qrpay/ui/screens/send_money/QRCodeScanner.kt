@@ -17,8 +17,10 @@ import androidx.compose.ui.res.stringResource
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.data.model.qrCode
+import dev.logickoder.qrpay.data.model.QrCode
 import dev.logickoder.qrpay.ui.theme.Theme
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 
 @Composable
@@ -28,7 +30,7 @@ fun QRCodeScanner(
 ) = Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
     val barcodeLauncher = rememberLauncherForActivityResult(ScanContract()) { result ->
         if (!result.contents.isNullOrBlank()) {
-            onCodeCaptured(result.contents.qrCode.qrPayUid)
+            onCodeCaptured(Json.decodeFromString<QrCode>(result.contents).qrPayUid)
         }
     }
     val scanMessage = stringResource(id = R.string.qr_code_scan_prompt)

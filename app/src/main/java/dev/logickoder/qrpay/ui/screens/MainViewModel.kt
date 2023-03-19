@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.logickoder.qrpay.data.model.Transaction
 import dev.logickoder.qrpay.data.model.User
-import dev.logickoder.qrpay.data.repository.TransactionsRepo
-import dev.logickoder.qrpay.data.repository.UserRepo
+import dev.logickoder.qrpay.data.repository.TransactionsRepository
+import dev.logickoder.qrpay.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.flowOn
@@ -19,8 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val transactionsRepo: TransactionsRepo,
-    private val userRepo: UserRepo,
+    private val transactionsRepository: TransactionsRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     val transactions = mutableStateListOf<Transaction>()
@@ -34,12 +34,12 @@ class MainViewModel @Inject constructor(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch {
-                userRepo.currentUser.flowOn(Dispatchers.Main).collect {
+                userRepository.currentUser.flowOn(Dispatchers.Main).collect {
                     user = it
                 }
             }
             launch {
-                transactionsRepo.transactions.flowOn(Dispatchers.Main).collect { data ->
+                transactionsRepository.transactions.flowOn(Dispatchers.Main).collect { data ->
                     transactions.removeAll { true }
                     transactions.addAll(data)
                 }
@@ -52,10 +52,10 @@ class MainViewModel @Inject constructor(
         user?.run {
             coroutineScope {
                 launch(Dispatchers.IO) {
-                    userRepo.login(id)
+                    userRepository.login(id)
                 }
                 launch(Dispatchers.IO) {
-                    transactionsRepo.fetchTransactions(id)
+                    transactionsRepository.fetchTransactions(id)
                 }
             }
         }
@@ -63,7 +63,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun logout() = viewModelScope.launch {
-        userRepo.clear()
-        transactionsRepo.clear()
+        userRepository.clear()
+        transactionsRepository.clear()
     }
 }

@@ -7,9 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.logickoder.qrpay.data.repository.TransactionsRepo
-import dev.logickoder.qrpay.data.repository.UserRepo
-import dev.logickoder.qrpay.utils.ResultWrapper
+import dev.logickoder.qrpay.data.remote.ResultWrapper
+import dev.logickoder.qrpay.data.repository.TransactionsRepository
+import dev.logickoder.qrpay.data.repository.UserRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,8 +35,8 @@ val LoginScreenState.isLogin: Boolean
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userRepo: UserRepo,
-    private val transactionsRepo: TransactionsRepo,
+    private val userRepository: UserRepository,
+    private val transactionsRepository: TransactionsRepository,
 ) : ViewModel() {
     private var lastScreen = LoginScreenState.Login
 
@@ -54,12 +54,13 @@ class LoginViewModel @Inject constructor(
     fun buttonClick() = viewModelScope.launch {
         working = true
         when (uiState) {
-            LoginScreenState.Login -> userRepo.login(uiState.value).also {
+            LoginScreenState.Login -> userRepository.login(uiState.value).also {
                 // fetch the new batch of transactions
                 if (it is ResultWrapper.Success)
-                    transactionsRepo.fetchTransactions(it.data.id)
+                    transactionsRepository.fetchTransactions(it.data.id)
             }
-            LoginScreenState.Register -> userRepo.register(uiState.value)
+
+            LoginScreenState.Register -> userRepository.register(uiState.value)
             LoginScreenState.Error -> {
                 switchScreen(lastScreen)
                 ResultWrapper.Loading

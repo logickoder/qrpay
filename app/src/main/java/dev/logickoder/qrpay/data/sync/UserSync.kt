@@ -1,21 +1,23 @@
 package dev.logickoder.qrpay.data.sync
 
 import android.util.Log
-import dev.logickoder.qrpay.data.repository.UserRepo
-import dev.logickoder.qrpay.utils.ResultWrapper
+import dev.logickoder.qrpay.data.remote.ResultWrapper
+import dev.logickoder.qrpay.data.repository.UserRepository
 import javax.inject.Inject
 
 
 class UserSync @Inject constructor(
-    userRepo: UserRepo
-) : Sync(userRepo) {
+    userRepository: UserRepository
+) : Sync(userRepository) {
 
     override suspend fun work(id: String) {
-        when (val result = userRepo.login(id)) {
+        when (val result = userRepository.login(id)) {
             is ResultWrapper.Success ->
                 Log.d(TAG, "Refreshed User: ${result.data.id} from server")
+
             is ResultWrapper.Failure ->
                 Log.e(TAG, "Failed to refresh user from server")
+
             ResultWrapper.Loading -> {
                 // Do nothing
             }
