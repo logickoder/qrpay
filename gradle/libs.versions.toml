@@ -30,7 +30,7 @@ core-material = "com.google.android.material:material:1.8.0"
 core-splashscreen = "androidx.core:core-splashscreen:1.0.0"
 core-swiperefresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 # Coil
-coil = "io.coil-kt:coil-compose:2.2.2"
+coil = "io.coil-kt:coil-compose:2.3.0"
 # Compose
 compose-activity = "androidx.activity:activity-compose:1.6.1"
 compose-constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
