@@ -2,7 +2,7 @@ package dev.logickoder.qrpay
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import dev.logickoder.qrpay.data.sync.SyncLauncher
+import dev.logickoder.qrpay.app.data.sync.SyncLauncher
 import javax.inject.Inject
 
 @HiltAndroidApp
