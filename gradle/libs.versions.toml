@@ -19,7 +19,7 @@ worker = "2.8.0"
 # Accompanist
 accompanist-placeholdermaterial = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanist" }
 # Appyx Navigation
-appyx = "com.bumble.appyx:core:1.0.5"
+appyx = "com.bumble.appyx:core:1.1.1"
 # Core
 core = "androidx.core:core-ktx:1.9.0"
 core-appcompat = "androidx.appcompat:appcompat:1.6.1"
