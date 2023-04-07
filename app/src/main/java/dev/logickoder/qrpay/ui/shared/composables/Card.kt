@@ -2,6 +2,7 @@ package dev.logickoder.qrpay.ui.shared.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -15,10 +16,12 @@ val CardElevation = 4.dp
 fun Card(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
-) = androidx.compose.material.Card(
+) = androidx.compose.material3.Card(
     modifier = modifier,
     shape = Theme.shapes.large,
-    elevation = CardElevation,
+    elevation = CardDefaults.cardElevation(
+        defaultElevation = CardElevation,
+    ),
 ) {
     Box(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.primary_padding))

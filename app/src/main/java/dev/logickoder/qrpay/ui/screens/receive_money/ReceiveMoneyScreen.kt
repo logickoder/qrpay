@@ -3,7 +3,7 @@ package dev.logickoder.qrpay.ui.screens.receive_money
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -36,7 +36,7 @@ fun ReceiveMoney(
                 .fillMaxWidth()
                 .padding(horizontal = padding),
             text = stringResource(id = R.string.use_user_id, userId),
-            style = Theme.typography.body2,
+            style = Theme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
     }

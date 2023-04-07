@@ -2,11 +2,17 @@ package dev.logickoder.qrpay.ui.shared.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Error
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,10 +38,10 @@ fun Error(
         Image(
             modifier = Modifier
                 .clip(CircleShape)
-                .background(Theme.colors.error)
+                .background(Theme.colorScheme.error)
                 .size(size),
             imageVector = Icons.Outlined.Error,
-            colorFilter = ColorFilter.tint(color = Theme.colors.onError),
+            colorFilter = ColorFilter.tint(color = Theme.colorScheme.onError),
             contentDescription = null
         )
         Spacer(
@@ -45,7 +51,7 @@ fun Error(
         )
         Text(
             text = error,
-            style = Theme.typography.body2,
+            style = Theme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
     }

@@ -1,19 +1,18 @@
+@file:Suppress("UnstableApiUsage")
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
-@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        gradlePluginPortal()
-        maven(url = "https://maven.google.com")
-        maven(url = "https://jitpack.io")
+        mavenLocal()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 include(":app")

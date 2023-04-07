@@ -15,12 +15,12 @@ val IconPadding = 8.dp
 fun Icon(
     icon: ImageVector,
     modifier: Modifier = Modifier
-) = androidx.compose.material.Icon(
+) = androidx.compose.material3.Icon(
     modifier = modifier
         .clip(Theme.shapes.medium)
-        .background(Theme.colors.primaryVariant)
+        .background(Theme.colorScheme.primaryContainer)
         .padding(IconPadding),
     imageVector = icon,
-    tint = Theme.colors.primary,
+    tint = Theme.colorScheme.primary,
     contentDescription = null
 )

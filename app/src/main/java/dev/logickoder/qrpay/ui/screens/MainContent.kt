@@ -2,7 +2,7 @@ package dev.logickoder.qrpay.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -13,7 +13,7 @@ import dev.logickoder.qrpay.ui.screens.home.HomeScreen
 import dev.logickoder.qrpay.ui.screens.login.LoginScreen
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
@@ -21,55 +21,61 @@ fun MainContent(
 ) = with(viewModel) {
 
     val coroutineScope = rememberCoroutineScope()
-    val modalState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden
-    )
+    val modalState = rememberModalBottomSheetState()
     var modal by remember { mutableStateOf(HomeModal.SendMoney) }
 
-    ModalBottomSheetLayout(
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.app_name)
+                    )
+                }
+            )
+        },
+        content = {
+            if (user == null) LoginScreen()
+            HomeScreen(
+                user = user,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it),
+                isRefreshing = isRefreshing,
+                refresh = ::refresh,
+                showSheet = { screen ->
+                    coroutineScope.launch {
+                        modal = screen
+                        modalState.show()
+                    }
+                },
+                logout = ::logout
+            )
+        }
+    )
+
+    ModalBottomSheet(
         sheetState = modalState,
-        sheetContent = {
+        content = {
             HomeModal(
                 modal = modal,
                 modalState = modalState.currentValue,
                 user = user,
                 transactions = transactions,
                 onStateChanged = { state ->
-                    coroutineScope.launch { modalState.animateTo(state) }
+                    coroutineScope.launch {
+                        when (state) {
+                            SheetValue.Hidden -> modalState.hide()
+                            SheetValue.Expanded -> modalState.expand()
+                            SheetValue.PartiallyExpanded -> modalState.partialExpand()
+                        }
+                    }
                 },
             )
         },
-        content = {
-            Scaffold(
-                modifier = modifier,
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = stringResource(id = R.string.app_name)
-                            )
-                        }
-                    )
-                },
-                content = {
-                    if (user == null) LoginScreen()
-                    HomeScreen(
-                        user = user,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(it),
-                        isRefreshing = isRefreshing,
-                        refresh = ::refresh,
-                        showSheet = { screen ->
-                            coroutineScope.launch {
-                                modal = screen
-                                modalState.show()
-                            }
-                        },
-                        logout = ::logout
-                    )
-                }
-            )
+        onDismissRequest = {
+
         }
     )
 }

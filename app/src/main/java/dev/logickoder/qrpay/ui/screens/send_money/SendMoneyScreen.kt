@@ -9,11 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,8 +58,8 @@ fun SendMoney(
         @Composable
         fun SMText(text: String) = Text(
             text = text.uppercase(),
-            style = Theme.typography.caption.copy(fontWeight = FontWeight.Medium),
-            color = Theme.colors.secondaryVariant,
+            style = Theme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+            color = Theme.colorScheme.secondaryContainer,
             modifier = Modifier.padding(
                 top = padding,
                 bottom = dimensionResource(R.dimen.secondary_padding) / 2
@@ -91,7 +90,7 @@ fun SendMoney(
             onValueChange = { id -> viewModel.recipientsId = id },
             placeholder = { Text(text = stringResource(id = R.string.recipients_user_id)) },
             singleLine = true,
-            textStyle = Theme.typography.body2,
+            textStyle = Theme.typography.bodyMedium,
             enabled = sendMethod == SendMethod.UserID,
             trailingIcon = {
                 Text(
@@ -102,8 +101,8 @@ fun SendMoney(
         )
         Text(
             text = stringResource(id = R.string.userid_of_receiver),
-            style = Theme.typography.caption,
-            color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
+            style = Theme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurface.copy(Theme.colorScheme.onSurfaceVariant.alpha),
             modifier = Modifier.padding(top = padding / 4),
         )
 
@@ -122,7 +121,7 @@ fun SendMoney(
             modifier = Modifier.fillMaxWidth(),
             shape = Theme.shapes.medium,
             value = viewModel.amount.formatted,
-            textStyle = Theme.typography.body2,
+            textStyle = Theme.typography.bodyMedium,
             onValueChange = { amount ->
                 amount.replace(",", "").toDoubleOrNull()?.let {
                     viewModel.amount = it.absoluteValue
@@ -142,21 +141,21 @@ fun SendMoney(
             value = viewModel.note,
             placeholder = { Text(text = stringResource(id = R.string.optional_note)) },
             onValueChange = { viewModel.note = it },
-            textStyle = Theme.typography.body2,
+            textStyle = Theme.typography.bodyMedium,
         )
 
         viewModel.uiState?.let { state ->
             when (state) {
                 is ResultWrapper.Success -> Text(
                     text = stringResource(id = R.string.transaction_successful),
-                    style = Theme.typography.caption,
-                    color = Theme.colors.secondary,
+                    style = Theme.typography.labelMedium,
+                    color = Theme.colorScheme.secondary,
                     modifier = Modifier.padding(top = padding / 2),
                 )
                 is ResultWrapper.Failure -> if (state.error.message.toString().isNotBlank()) Text(
                     text = state.error.message.toString(),
-                    style = Theme.typography.caption,
-                    color = Theme.colors.error,
+                    style = Theme.typography.labelMedium,
+                    color = Theme.colorScheme.error,
                     modifier = Modifier.padding(top = padding / 2),
                 )
                 else -> Unit
@@ -175,7 +174,7 @@ fun SendMoney(
             content = {
                 Text(
                     text = stringResource(id = R.string.send),
-                    style = Theme.typography.body1,
+                    style = Theme.typography.bodyLarge,
                 )
             }
         )

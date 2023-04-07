@@ -1,10 +1,10 @@
 package dev.logickoder.qrpay.ui.shared.composables
 
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DropdownField(
     suggested: T,
@@ -34,10 +34,11 @@ fun <T> DropdownField(
                     onClick = {
                         expanded = false
                         onSuggestionSelected(suggestion)
+                    },
+                    text = {
+                        Text(text = suggestion.toString())
                     }
-                ) {
-                    Text(text = suggestion.toString())
-                }
+                )
             }
         }
     }

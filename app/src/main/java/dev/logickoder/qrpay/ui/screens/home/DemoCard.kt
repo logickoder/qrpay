@@ -4,9 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -43,20 +43,20 @@ fun DemoCard(
         Text(
             modifier = Modifier.nonExistent(userName),
             text = stringResource(id = R.string.demo_title, userName.toString()),
-            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Medium),
-            color = MaterialTheme.colors.secondaryVariant,
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
+            color = MaterialTheme.colorScheme.secondaryContainer,
         )
         Text(
             text = stringResource(id = R.string.demo_subtitle),
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.labelMedium,
         )
         Text(
             modifier = Modifier
                 .padding(vertical = verticalPadding / 2)
                 .nonExistent(demoBalance),
             text = demoBalance?.formattedWith(currency.toString()).toString(),
-            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Medium),
-            color = MaterialTheme.colors.primary,
+            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Medium),
+            color = MaterialTheme.colorScheme.primary,
         )
         Button(shape = MaterialTheme.shapes.medium, onClick = {}) {
             Text(text = stringResource(id = R.string.view_history))

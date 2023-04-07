@@ -4,15 +4,21 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.Login
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,7 +70,7 @@ fun Footer(
     val context = LocalContext.current
     ClickableText(
         text = text,
-        style = Theme.typography.body2.copy(color = Theme.colors.onSurface),
+        style = Theme.typography.bodyMedium.copy(color = Theme.colorScheme.onSurface),
         onClick = { offset ->
             text.getStringAnnotations(tag = "me", start = offset, end = offset).firstOrNull()?.let {
                 startActivity(context, Intent(Intent.ACTION_VIEW, Uri.parse(it.item)), null)
@@ -83,12 +89,12 @@ fun Footer(
             TextButton(
                 onClick = {},
                 shape = Theme.shapes.medium,
-                border = BorderStroke(1.dp, Theme.colors.onBackground),
-                colors = ButtonDefaults.textButtonColors(contentColor = Theme.colors.onBackground)
+                border = BorderStroke(1.dp, Theme.colorScheme.onBackground),
+                colors = ButtonDefaults.textButtonColors(contentColor = Theme.colorScheme.onBackground)
             ) {
                 Text(
                     text = suggested,
-                    style = Theme.typography.caption,
+                    style = Theme.typography.labelMedium,
                 )
                 Icon(
                     Icons.Outlined.ArrowDropDown,
@@ -101,8 +107,8 @@ fun Footer(
         TextButton(
             onClick = logout,
             shape = Theme.shapes.medium,
-            border = BorderStroke(1.dp, Theme.colors.error),
-            colors = ButtonDefaults.textButtonColors(contentColor = Theme.colors.error)
+            border = BorderStroke(1.dp, Theme.colorScheme.error),
+            colors = ButtonDefaults.textButtonColors(contentColor = Theme.colorScheme.error)
         ) {
             Icon(
                 imageVector = Icons.Outlined.Login,
@@ -111,7 +117,7 @@ fun Footer(
             )
             Text(
                 text = stringResource(id = R.string.logout),
-                style = Theme.typography.caption,
+                style = Theme.typography.labelMedium,
             )
         }
     }

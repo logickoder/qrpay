@@ -7,17 +7,24 @@ on:
     branches: [ dev ]
 
 jobs:
-  test:
-    name: Run Unit Tests
+  analyze:
+    name: Run detekt
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: natiginfo/action-detekt-all@1.22.0
+
+  build:
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3.5.0
 
-      - name: set up JDK 11
+      - name: set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
@@ -26,30 +33,6 @@ jobs:
 
       - name: Unit tests
         run: ./gradlew test --stacktrace
-
-  analyze:
-    name: Run detekt
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: natiginfo/action-detekt-all@1.22.0
-
-  apk:
-    name: Build APK
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3.5.0
-
-      - name: set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
 
       - name: Build apk
         run: ./gradlew assembleDebug --stacktrace

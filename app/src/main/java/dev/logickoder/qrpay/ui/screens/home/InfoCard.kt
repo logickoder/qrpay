@@ -1,8 +1,8 @@
 package dev.logickoder.qrpay.ui.screens.home
 
 import androidx.annotation.StringRes
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -33,7 +33,7 @@ fun <T> InfoCard(
             start.linkTo(parent.start)
         },
         text = stringResource(id = title),
-        style = MaterialTheme.typography.body2,
+        style = MaterialTheme.typography.bodyMedium,
     )
     Icon(
         modifier = Modifier.constrainAs(iconView) {
@@ -50,8 +50,8 @@ fun <T> InfoCard(
             }
             .nonExistent(content),
         text = content.toString(),
-        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Medium),
-        color = MaterialTheme.colors.secondaryVariant,
+        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Medium),
+        color = MaterialTheme.colorScheme.secondaryContainer,
     )
     Text(
         modifier = Modifier.constrainAs(captionView) {
@@ -59,6 +59,6 @@ fun <T> InfoCard(
             start.linkTo(parent.start)
         },
         text = stringResource(id = caption),
-        style = MaterialTheme.typography.caption,
+        style = MaterialTheme.typography.labelMedium,
     )
 }

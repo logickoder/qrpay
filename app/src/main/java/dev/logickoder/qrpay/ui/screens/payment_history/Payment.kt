@@ -1,9 +1,13 @@
 package dev.logickoder.qrpay.ui.screens.payment_history
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -29,7 +33,7 @@ fun Payment(
         with(transaction) {
             Text(
                 "${type.uppercase()} ($date)",
-                style = Theme.typography.caption,
+                style = Theme.typography.labelMedium,
                 color = TintedText,
             )
         }
@@ -38,14 +42,14 @@ fun Payment(
                 modifier = Modifier
                     .padding(vertical = dimensionResource(id = R.dimen.secondary_padding) / 2),
                 text = comment,
-                style = Theme.typography.caption,
+                style = Theme.typography.labelMedium,
             )
         }
         with(transaction) {
             Text(
                 amount.formattedTransactionWith(currency),
-                color = if (amount.isDebit) Theme.colors.error else Theme.colors.secondary,
-                style = Theme.typography.body2.copy(fontWeight = FontWeight.Medium),
+                color = if (amount.isDebit) Theme.colorScheme.error else Theme.colorScheme.secondary,
+                style = Theme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
             )
         }
     }

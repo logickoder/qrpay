@@ -32,6 +32,7 @@ android {
     buildTypes.apply {
         maybeCreate("release").apply {
             isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -81,13 +82,15 @@ dependencies {
     implementation(libs.accompanist.placeholdermaterial)
 
     // Compose
+    implementation(platform(libs.compose))
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
-    // Compose tooling support (Previews, etc.)
     debugImplementation(libs.compose.custom.view)
     debugImplementation(libs.compose.custom.view.pooling)
     debugImplementation(libs.compose.ui.tooling)
+    androidTestImplementation(platform(libs.compose))
+    androidTestImplementation(libs.compose.ui.test.junit)
 
     // lifecycle
     implementation(libs.lifecycle.runtime)
@@ -128,5 +131,4 @@ dependencies {
     testImplementation(libs.junit4)
     androidTestImplementation(libs.expresso)
     androidTestImplementation(libs.junit4.androidx)
-    androidTestImplementation(libs.compose.ui.test.junit)
 }

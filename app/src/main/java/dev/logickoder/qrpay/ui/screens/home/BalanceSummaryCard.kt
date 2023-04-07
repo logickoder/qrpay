@@ -1,8 +1,8 @@
 package dev.logickoder.qrpay.ui.screens.home
 
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -33,8 +33,8 @@ fun BalanceSummaryCard(
             start.linkTo(parent.start)
         },
         text = stringResource(id = R.string.balance_summary),
-        style = Theme.typography.h5.copy(fontWeight = FontWeight.Medium),
-        color = Theme.colors.secondaryVariant,
+        style = Theme.typography.headlineMedium.copy(fontWeight = FontWeight.Medium),
+        color = Theme.colorScheme.secondaryContainer,
     )
     Icon(
         modifier = Modifier.constrainAs(icon) {
@@ -49,7 +49,7 @@ fun BalanceSummaryCard(
             start.linkTo(icon.end, padding)
         },
         text = stringResource(id = R.string.total_balance),
-        style = Theme.typography.caption,
+        style = Theme.typography.labelMedium,
         color = TintedText,
     )
     Text(
@@ -60,6 +60,6 @@ fun BalanceSummaryCard(
             }
             .nonExistent(balance),
         text = balance?.formattedWith(currency.toString()).toString(),
-        style = Theme.typography.h6.copy(fontWeight = FontWeight.Medium),
+        style = Theme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
     )
 }

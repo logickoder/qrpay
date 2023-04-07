@@ -4,10 +4,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,7 +49,7 @@ fun QRCodeScanner(
         onClick = { barcodeLauncher.launch(scanOptions) },
         shape = Theme.shapes.medium,
         content = {
-            androidx.compose.material.Icon(
+            androidx.compose.material3.Icon(
                 imageVector = Icons.Outlined.CameraAlt,
                 contentDescription = null,
             )

@@ -11,20 +11,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Contacts
 import androidx.compose.material.icons.outlined.TrendingUp
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import dev.logickoder.qrpay.R
+import dev.logickoder.qrpay.common.widgets.pullrefresh.PullRefreshIndicator
+import dev.logickoder.qrpay.common.widgets.pullrefresh.pullRefresh
+import dev.logickoder.qrpay.common.widgets.pullrefresh.rememberPullRefreshState
 import dev.logickoder.qrpay.data.model.Transaction
 import dev.logickoder.qrpay.data.model.User
 import dev.logickoder.qrpay.ui.screens.payment_history.PaymentHistory
@@ -38,29 +38,28 @@ enum class HomeModal {
     PaymentHistory
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeModal(
     modal: HomeModal,
-    modalState: ModalBottomSheetValue,
+    modalState: SheetValue,
     user: User?,
     transactions: List<Transaction>,
     modifier: Modifier = Modifier,
-    onStateChanged: (ModalBottomSheetValue) -> Unit,
+    onStateChanged: (SheetValue) -> Unit,
 ) {
     BackHandler(
-        enabled = modalState != ModalBottomSheetValue.Hidden
+        enabled = modalState != SheetValue.Hidden
     ) {
-        onStateChanged(
-            when (modalState) {
-                ModalBottomSheetValue.Expanded -> ModalBottomSheetValue.HalfExpanded
-                else -> ModalBottomSheetValue.Hidden
-            }
-        )
+        val state = when (modalState) {
+            SheetValue.Expanded -> SheetValue.PartiallyExpanded
+            else -> SheetValue.Hidden
+        }
+        onStateChanged(state)
     }
 
-    val id = user?.id ?: ""
-    val currency = user?.currency ?: ""
+    val id = user?.id.orEmpty()
+    val currency = user?.currency.orEmpty()
 
     when (modal) {
         HomeModal.PaymentHistory -> PaymentHistory(
@@ -80,7 +79,6 @@ fun HomeModal(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     user: User?,

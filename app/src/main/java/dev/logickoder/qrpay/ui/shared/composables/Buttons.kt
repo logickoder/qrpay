@@ -1,8 +1,8 @@
 package dev.logickoder.qrpay.ui.shared.composables
 
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +23,7 @@ fun LoadingButton(
     modifier = modifier,
     enabled = enabled && !isLoading,
     shape = Theme.shapes.medium,
-    colors = ButtonDefaults.buttonColors(backgroundColor = color ?: Theme.colors.primary),
+    colors = ButtonDefaults.buttonColors(containerColor = color ?: Theme.colorScheme.primary),
     content = {
         if (isLoading) Text(stringResource(id = R.string.please_wait)) else content()
     }

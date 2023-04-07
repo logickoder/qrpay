@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +32,6 @@ fun ActionCard(
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.secondary_padding)))
     Text(
         text = stringResource(id = textId),
-        style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.Bold),
+        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
     )
 }

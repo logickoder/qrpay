@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +22,8 @@ fun RadioBox(
     selected: Boolean,
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Theme.colors.primary,
-    unselectedColor: Color = Theme.colors.onSurface.copy(alpha = 0.6f),
+    color: Color = Theme.colorScheme.primary,
+    unselectedColor: Color = Theme.colorScheme.onSurface.copy(alpha = 0.6f),
     padding: Dp = 8.dp,
     onClick: () -> Unit,
 ) = Row(
@@ -48,7 +48,7 @@ fun RadioBox(
     Spacer(modifier = Modifier.width(padding))
     Text(
         text = text,
-        style = Theme.typography.body2,
-        color = Theme.colors.onBackground,
+        style = Theme.typography.bodyMedium,
+        color = Theme.colorScheme.onBackground,
     )
 }
