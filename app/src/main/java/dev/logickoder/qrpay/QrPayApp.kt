@@ -2,8 +2,11 @@ package dev.logickoder.qrpay
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import dev.logickoder.qrpay.data.sync.SyncLauncher
+import dev.logickoder.qrpay.app.data.sync.SyncLauncher
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import javax.inject.Inject
+
 
 @HiltAndroidApp
 class QrPayApp : Application() {
@@ -14,5 +17,6 @@ class QrPayApp : Application() {
     override fun onCreate() {
         super.onCreate()
         syncLauncher.launch()
+        Napier.base(DebugAntilog())
     }
 }
