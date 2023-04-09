@@ -14,9 +14,7 @@ import javax.inject.Inject
 /**
  * Handles operations regarding to transactions
  */
-class TransactionsRepository @Inject constructor(
-    private val local: TransactionStore,
-) {
+class TransactionsRepository @Inject constructor(private val local: TransactionStore) {
 
     private val remote: QrPayApi get() = QrPayApi
 
@@ -52,8 +50,9 @@ class TransactionsRepository @Inject constructor(
                 }
             } else ResultWrapper.Failure(result.data.message)
 
-            is ResultWrapper.Failure -> ResultWrapper.Failure(result.error)
             is ResultWrapper.Loading -> result
+
+            is ResultWrapper.Failure -> ResultWrapper.Failure(result.error)
         }
     }
 

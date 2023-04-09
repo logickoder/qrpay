@@ -1,30 +1,30 @@
 package dev.logickoder.qrpay.app.data.sync
 
-import android.util.Log
 import dev.logickoder.qrpay.app.data.remote.ResultWrapper
 import dev.logickoder.qrpay.app.data.repository.UserRepository
+import io.github.aakira.napier.Napier
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 
 class UserSync @Inject constructor(
-    userRepository: UserRepository
-) : Sync(userRepository) {
+    private val users: UserRepository
+) : Sync {
 
-    override suspend fun work(id: String) {
-        when (val result = userRepository.login(id)) {
-            is ResultWrapper.Success ->
-                Log.d(TAG, "Refreshed User: ${result.data.id} from server")
+    override suspend fun sync() {
+        val id = users.currentUser.first()?.id ?: return
+        when (val result = users.login(id)) {
+            is ResultWrapper.Success -> Napier.d(
+                "Refreshed User: ${result.data.id} from server"
+            )
 
-            is ResultWrapper.Failure ->
-                Log.e(TAG, "Failed to refresh user from server")
+            is ResultWrapper.Failure -> Napier.e(
+                "Failed to refresh user from server", result.error
+            )
 
             ResultWrapper.Loading -> {
                 // Do nothing
             }
         }
-    }
-
-    companion object {
-        val TAG = UserSync::class.simpleName
     }
 }

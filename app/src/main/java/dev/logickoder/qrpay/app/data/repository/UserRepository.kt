@@ -12,9 +12,7 @@ import javax.inject.Inject
 /**
  * Handles operations relating to the user
  */
-class UserRepository @Inject constructor(
-    private val local: UserStore,
-) {
+class UserRepository @Inject constructor(private val local: UserStore) {
     private val remote: QrPayApi get() = QrPayApi
 
     /**
@@ -34,7 +32,9 @@ class UserRepository @Inject constructor(
                 ResultWrapper.Success(user)
             } else ResultWrapper.Failure(result.data.message)
 
-            else -> result as ResultWrapper<User>
+            ResultWrapper.Loading -> ResultWrapper.Loading
+
+            is ResultWrapper.Failure -> result
         }
     }
 
@@ -48,7 +48,9 @@ class UserRepository @Inject constructor(
                 login(result.data.data.qrPayUid)
             } else ResultWrapper.Failure(result.data.message)
             // retrieve the user from the local source
-            else -> result as ResultWrapper<User>
+            ResultWrapper.Loading -> ResultWrapper.Loading
+
+            is ResultWrapper.Failure -> result
         }
     }
 

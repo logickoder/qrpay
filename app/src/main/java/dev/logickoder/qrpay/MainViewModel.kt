@@ -11,7 +11,6 @@ import dev.logickoder.qrpay.app.data.repository.TransactionsRepository
 import dev.logickoder.qrpay.app.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,15 +27,15 @@ class MainViewModel @Inject constructor(
     val isRefreshing = mutableStateOf(false)
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             launch {
-                userRepository.currentUser.flowOn(Dispatchers.Main).collect {
+                userRepository.currentUser.collect {
                     user.value = it
                 }
             }
             launch {
-                transactionsRepository.transactions.flowOn(Dispatchers.Main).collect { data ->
-                    transactions.removeAll { true }
+                transactionsRepository.transactions.collect { data ->
+                    transactions.clear()
                     transactions.addAll(data)
                 }
             }
@@ -45,7 +44,7 @@ class MainViewModel @Inject constructor(
 
     fun refresh() {
         val userId = user.value?.id
-        if (userId != null) viewModelScope.launch {
+        if (userId != null) viewModelScope.launch(Dispatchers.Default) {
             isRefreshing.value = true
             coroutineScope {
                 launch {

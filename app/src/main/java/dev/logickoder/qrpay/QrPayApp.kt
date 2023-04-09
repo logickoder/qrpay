@@ -7,6 +7,7 @@ import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import javax.inject.Inject
 
+
 @HiltAndroidApp
 class QrPayApp : Application() {
 
