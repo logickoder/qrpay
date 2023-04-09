@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.theme.Theme
-import dev.logickoder.qrpay.app.theme.TintedText
 import dev.logickoder.qrpay.app.theme.paddingPrimary
 import dev.logickoder.qrpay.app.theme.paddingSecondary
 import dev.logickoder.qrpay.app.widgets.DropdownField
@@ -60,7 +59,7 @@ fun Footer(
         withStyle(style = SpanStyle(fontWeight = FontWeight.Black)) {
             append(stringResource(id = R.string.app_name))
         }
-        withStyle(style = SpanStyle(color = TintedText)) {
+        withStyle(style = SpanStyle(color = Theme.colorScheme.onTertiary)) {
             append(" ${stringResource(id = R.string.made_by)} ")
         }
         val me = stringResource(id = R.string.me)

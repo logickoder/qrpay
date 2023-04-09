@@ -43,18 +43,20 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun refresh() = viewModelScope.launch(Dispatchers.IO) {
-        isRefreshing.value = true
+    fun refresh() {
         val userId = user.value?.id
-        if (userId != null) coroutineScope {
-            launch {
-                userRepository.login(userId)
+        if (userId != null) viewModelScope.launch {
+            isRefreshing.value = true
+            coroutineScope {
+                launch {
+                    userRepository.login(userId)
+                }
+                launch {
+                    transactionsRepository.fetchTransactions(userId)
+                }
             }
-            launch {
-                transactionsRepository.fetchTransactions(userId)
-            }
+            isRefreshing.value = false
         }
-        isRefreshing.value = false
     }
 
     fun logout() = viewModelScope.launch {

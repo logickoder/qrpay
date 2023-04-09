@@ -1,11 +1,11 @@
 package dev.logickoder.qrpay.app.data.remote
 
-import dev.logickoder.qrpay.app.data.remote.params.LoginResponse
-import dev.logickoder.qrpay.app.data.remote.params.RegisterRequest
-import dev.logickoder.qrpay.app.data.remote.params.RegisterResponse
-import dev.logickoder.qrpay.app.data.remote.params.SendMoney
-import dev.logickoder.qrpay.app.data.remote.params.Transactions
-import dev.logickoder.qrpay.app.data.remote.params.UserInfo
+import dev.logickoder.qrpay.app.data.remote.dto.LoginResponse
+import dev.logickoder.qrpay.app.data.remote.dto.RegisterRequest
+import dev.logickoder.qrpay.app.data.remote.dto.RegisterResponse
+import dev.logickoder.qrpay.app.data.remote.dto.SendMoney
+import dev.logickoder.qrpay.app.data.remote.dto.Transactions
+import dev.logickoder.qrpay.app.data.remote.dto.UserInfo
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

@@ -4,8 +4,8 @@ import dev.logickoder.qrpay.app.data.local.UserStore
 import dev.logickoder.qrpay.app.data.model.User
 import dev.logickoder.qrpay.app.data.remote.QrPayApi
 import dev.logickoder.qrpay.app.data.remote.ResultWrapper
-import dev.logickoder.qrpay.app.data.remote.params.RegisterRequest
-import dev.logickoder.qrpay.app.data.remote.params.UserInfo
+import dev.logickoder.qrpay.app.data.remote.dto.RegisterRequest
+import dev.logickoder.qrpay.app.data.remote.dto.UserInfo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

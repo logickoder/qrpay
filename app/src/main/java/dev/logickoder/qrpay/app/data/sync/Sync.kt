@@ -1,10 +1,12 @@
 package dev.logickoder.qrpay.app.data.sync
 
 import dev.logickoder.qrpay.app.data.repository.UserRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(DelicateCoroutinesApi::class)
 abstract class Sync(
     protected val userRepository: UserRepository,
 ) {

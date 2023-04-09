@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.data.model.Transaction
 import dev.logickoder.qrpay.app.theme.Theme
-import dev.logickoder.qrpay.app.theme.TintedText
 import dev.logickoder.qrpay.app.utils.formattedTransactionWith
 import dev.logickoder.qrpay.app.utils.isDebit
 import dev.logickoder.qrpay.app.widgets.Icon
@@ -34,7 +33,7 @@ fun Payment(
             Text(
                 "${type.uppercase()} ($date)",
                 style = Theme.typography.labelMedium,
-                color = TintedText,
+                color = Theme.colorScheme.onTertiary,
             )
         }
         with(transaction) {

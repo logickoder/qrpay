@@ -4,8 +4,8 @@ import dev.logickoder.qrpay.app.data.local.TransactionStore
 import dev.logickoder.qrpay.app.data.model.Transaction
 import dev.logickoder.qrpay.app.data.remote.QrPayApi
 import dev.logickoder.qrpay.app.data.remote.ResultWrapper
-import dev.logickoder.qrpay.app.data.remote.params.SendMoney
-import dev.logickoder.qrpay.app.data.remote.params.UserInfo
+import dev.logickoder.qrpay.app.data.remote.dto.SendMoney
+import dev.logickoder.qrpay.app.data.remote.dto.UserInfo
 import dev.logickoder.qrpay.app.utils.Amount
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

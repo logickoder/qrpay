@@ -17,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.theme.QRPayTheme
 import dev.logickoder.qrpay.app.theme.Theme
-import dev.logickoder.qrpay.app.theme.TintedText
 import dev.logickoder.qrpay.app.theme.paddingSecondary
 import dev.logickoder.qrpay.app.utils.Amount
 import dev.logickoder.qrpay.app.utils.formattedWith
@@ -51,7 +50,7 @@ fun BalanceSummaryCard(
                             Text(
                                 text = stringResource(id = R.string.total_balance),
                                 style = Theme.typography.labelMedium,
-                                color = TintedText,
+                                color = Theme.colorScheme.onTertiary,
                             )
                             Text(
                                 modifier = Modifier.nonExistent(balance),

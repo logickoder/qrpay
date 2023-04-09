@@ -1,9 +1,9 @@
 package dev.logickoder.qrpay.app.data.sync
 
-import android.util.Log
 import dev.logickoder.qrpay.app.data.remote.ResultWrapper
 import dev.logickoder.qrpay.app.data.repository.TransactionsRepository
 import dev.logickoder.qrpay.app.data.repository.UserRepository
+import io.github.aakira.napier.Napier
 import javax.inject.Inject
 
 
@@ -13,20 +13,17 @@ class TransactionsSync @Inject constructor(
 ) : Sync(userRepository) {
 
     override suspend fun work(id: String) {
-        when (transactionsRepository.fetchTransactions(id)) {
-            is ResultWrapper.Success ->
-                Log.d(TAG, "Refreshed transactions from server")
+        when (val result = transactionsRepository.fetchTransactions(id)) {
+            is ResultWrapper.Success -> Napier.d("Refreshed transactions from server")
 
-            is ResultWrapper.Failure ->
-                Log.e(TAG, "Failed to refresh transactions from server")
+            is ResultWrapper.Failure -> Napier.e(
+                "Failed to refresh transactions from server",
+                result.error
+            )
 
             ResultWrapper.Loading -> {
                 // Do nothing
             }
         }
-    }
-
-    companion object {
-        val TAG = TransactionsSync::class.simpleName
     }
 }

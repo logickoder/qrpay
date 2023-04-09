@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.app.data.remote.params
+package dev.logickoder.qrpay.app.data.remote.dto
 
 import dev.logickoder.qrpay.app.data.model.User
 import kotlinx.serialization.SerialName
