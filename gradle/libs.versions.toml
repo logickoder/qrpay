@@ -10,7 +10,6 @@ lifecycle = "2.6.1"
 navigation = "2.5.3"
 okhttp = "5.0.0-alpha.11"
 permissions = "4.9.2"
-retrofit = "2.9.0"
 room = "2.5.1"
 worker = "2.8.1"
 
@@ -49,6 +48,8 @@ compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling
 datastore = "androidx.datastore:datastore-preferences:1.1.0-alpha04"
 # Expresso
 expresso = "androidx.test.espresso:espresso-core:3.5.1"
+# H2
+h2 = { module = "com.h2database:h2" }
 # Hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
@@ -57,7 +58,9 @@ junit4 = "junit:junit:4.13.2"
 junit4-androidx = "androidx.test.ext:junit:1.1.5"
 # Kotlinx
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
 kotlin-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -72,10 +75,19 @@ lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", v
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 # Napier
 napier = "io.github.aakira:napier:2.6.1"
+# Project Reactor
+projectreactor = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions" }
+projectreactor-test = { module = "io.projectreactor:reactor-test" }
 # Room
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+# Spring
+spring-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-restdocs = { module = "org.springframework.restdocs:spring-restdocs-webtestclient" }
+spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 # Worker
 worker = { module = "androidx.work:work-runtime-ktx", version.ref = "worker" }
 worker-hilt = "androidx.hilt:hilt-work:1.0.0"
@@ -88,10 +100,16 @@ zxing-android = "com.journeyapps:zxing-android-embedded:4.3.0"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "gradlePlugin" }
+asciidoctor = { id = "org.asciidoctor.convert", version = "2.4.0" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.20" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "1.8.10-1.0.9" }
+spring = { id = "org.springframework.boot", version = "3.0.4" }
+spring-dependency = { id = "io.spring.dependency-management", version = "1.1.0" }
