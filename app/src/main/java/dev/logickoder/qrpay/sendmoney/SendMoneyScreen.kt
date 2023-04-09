@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.send_money
+package dev.logickoder.qrpay.sendmoney
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

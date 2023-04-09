@@ -8,7 +8,7 @@ import dev.logickoder.qrpay.app.data.model.Transaction
 import dev.logickoder.qrpay.app.data.model.User
 import dev.logickoder.qrpay.payment_history.PaymentHistory
 import dev.logickoder.qrpay.receive_money.ReceiveMoney
-import dev.logickoder.qrpay.send_money.SendMoney
+import dev.logickoder.qrpay.sendmoney.SendMoney
 
 enum class HomeModal {
     SendMoney,

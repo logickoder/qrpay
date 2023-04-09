@@ -1,5 +1,6 @@
 package dev.logickoder.qrpay.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.theme.Theme
+import dev.logickoder.qrpay.app.theme.paddingPrimary
 import dev.logickoder.qrpay.app.widgets.Error
 import dev.logickoder.qrpay.app.widgets.LoadingButton
 
@@ -33,7 +35,8 @@ fun LoginScreen(
 ) = with(viewModel) {
     AlertDialog(
         modifier = modifier
-            .padding(dimensionResource(id = R.dimen.primary_padding))
+            .background(Theme.colorScheme.background)
+            .padding(paddingPrimary())
             .clip(Theme.shapes.large),
         properties = DialogProperties(
             dismissOnBackPress = false,

@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.send_money
+package dev.logickoder.qrpay.sendmoney
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
