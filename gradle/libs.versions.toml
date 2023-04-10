@@ -4,6 +4,7 @@ compose = "2023.03.00"
 compose-compiler = "1.4.4"
 gradlePlugin = "7.4.2"
 hilt = "2.45"
+junit = "5.9.2"
 kotlin = "1.8.10"
 ktor = "2.2.4"
 lifecycle = "2.6.1"
@@ -54,8 +55,9 @@ h2 = { module = "com.h2database:h2" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 # JUnit
-junit4 = "junit:junit:4.13.2"
-junit4-androidx = "androidx.test.ext:junit:1.1.5"
+junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-android = "androidx.test.ext:junit:1.1.5"
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 # Kotlinx
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
@@ -73,6 +75,8 @@ ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", versi
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+# MockK
+mockk = "io.mockk:mockk:1.13.4"
 # Napier
 napier = "io.github.aakira:napier:2.6.1"
 # Project Reactor
@@ -86,6 +90,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 spring-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-restdocs = { module = "org.springframework.restdocs:spring-restdocs-webtestclient" }
+spring-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 # Worker

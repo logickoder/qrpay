@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:~/qrpay
+    username: qrpay
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true

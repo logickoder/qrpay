@@ -30,10 +30,15 @@ dependencies {
 
     // Spring
     implementation(libs.spring.data)
+    implementation(libs.spring.security)
     implementation(libs.spring.webflux)
     developmentOnly(libs.spring.devtools)
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.restdocs)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.junit.engine)
+    testImplementation(libs.mockk)
 }
 
 tasks.withType<Test> {

@@ -128,7 +128,8 @@ dependencies {
     implementation(libs.zxing.android) { isTransitive = false }
     implementation(libs.zxing.core)
 
-    testImplementation(libs.junit4)
+    testImplementation(libs.junit)
+    testImplementation(libs.junit.engine)
     androidTestImplementation(libs.expresso)
-    androidTestImplementation(libs.junit4.androidx)
+    androidTestImplementation(libs.junit.android)
 }
