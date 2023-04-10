@@ -33,7 +33,7 @@ class UserController(
      * @param body The [User] object representing the new user to create.
      * @return The created [User] object.
      */
-    @PostMapping("/register", consumes = ["application/json"])
+    @PostMapping("/register")
     fun createUser(@RequestBody body: User) = service.createUser(body)
 
     /**

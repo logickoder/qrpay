@@ -19,6 +19,11 @@ dependencies {
     // H2 Database
     runtimeOnly(libs.h2)
 
+    // JWT
+    implementation(libs.jwt.api)
+    runtimeOnly(libs.jwt.impl)
+    runtimeOnly(libs.jwt.jackson)
+
     // Kotlin
     implementation(libs.kotlin.coroutines.reactor)
     implementation(libs.kotlin.reflect)

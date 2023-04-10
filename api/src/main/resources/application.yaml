@@ -12,3 +12,7 @@ spring:
   h2:
     console:
       enabled: true
+qrpay:
+  jwt:
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
+    expiration: 28800

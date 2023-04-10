@@ -1,6 +1,7 @@
 package dev.logickoder.qrpay.user
 
 
+import dev.logickoder.qrpay.app.utils.JwtUtil
 import dev.logickoder.qrpay.user.dto.LoginRequest
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -19,6 +20,9 @@ class UserServiceTest {
     private lateinit var userService: UserService
 
     @MockK
+    private lateinit var jwtUtil: JwtUtil
+
+    @MockK
     private lateinit var userRepository: UserRepository
 
     private val passwordEncoder = BCryptPasswordEncoder()
@@ -26,7 +30,7 @@ class UserServiceTest {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        userService = UserService(userRepository, passwordEncoder)
+        userService = UserService(userRepository, passwordEncoder, jwtUtil)
     }
 
     @Test
@@ -118,6 +122,9 @@ class UserServiceTest {
         } returns User(
             password = passwordEncoder.encode("password")
         )
+        every {
+            jwtUtil.generateToken(any())
+        } returns ""
 
         // when
         val responseEntity = userService.validateUser(LoginRequest("test", "password"))

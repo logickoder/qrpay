@@ -5,6 +5,7 @@ compose-compiler = "1.4.4"
 gradlePlugin = "7.4.2"
 hilt = "2.45"
 junit = "5.9.2"
+jwt = "0.11.5"
 kotlin = "1.8.10"
 ktor = "2.2.4"
 lifecycle = "2.6.1"
@@ -58,6 +59,10 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-android = "androidx.test.ext:junit:1.1.5"
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+# JWT
+jwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jwt" }
+jwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jwt" }
+jwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jwt" }
 # Kotlinx
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }

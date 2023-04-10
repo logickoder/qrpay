@@ -6,9 +6,13 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.http.codec.json.KotlinSerializationJsonDecoder
 import org.springframework.http.codec.json.KotlinSerializationJsonEncoder
+import org.springframework.web.reactive.config.CorsRegistry
+import org.springframework.web.reactive.config.EnableWebFlux
 import org.springframework.web.reactive.config.WebFluxConfigurer
 
+
 @Configuration
+@EnableWebFlux
 class WebFluxConfig : WebFluxConfigurer {
     @Bean
     fun json(): Json = Json {
@@ -20,5 +24,13 @@ class WebFluxConfig : WebFluxConfigurer {
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {
         configurer.customCodecs().register(KotlinSerializationJsonEncoder(json()))
         configurer.customCodecs().register(KotlinSerializationJsonDecoder(json()))
+    }
+
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry
+            .addMapping("/**")
+            .allowedOrigins("*")
+            .allowedMethods("*")
+            .allowedHeaders("*")
     }
 }

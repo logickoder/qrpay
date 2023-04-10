@@ -2,17 +2,16 @@ package dev.logickoder.qrpay.user
 
 
 import dev.logickoder.qrpay.app.data.model.Response
+import dev.logickoder.qrpay.app.utils.JwtUtil
+import dev.logickoder.qrpay.user.dto.AuthResponse
 import dev.logickoder.qrpay.user.dto.LoginRequest
-import dev.logickoder.qrpay.user.dto.LoginResponse
-import dev.logickoder.qrpay.user.dto.toLoginResponse
+import dev.logickoder.qrpay.user.dto.UserResponse
+import dev.logickoder.qrpay.user.dto.toUserResponse
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Mono
 
 
 /**
@@ -24,7 +23,8 @@ import reactor.core.publisher.Mono
 class UserService(
     private val repository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-) : ReactiveUserDetailsService {
+    private val jwtUtil: JwtUtil,
+) {
 
     /**
      * Retrieves a user with the given username from the repository.
@@ -32,7 +32,7 @@ class UserService(
      * @return a Response object containing the retrieved user,
      * or an error message if the user doesn't exist
      */
-    fun getUser(username: String): ResponseEntity<Response<LoginResponse?>> {
+    fun getUser(username: String): ResponseEntity<Response<UserResponse?>> {
         return when (val user = repository.findByIdOrNull(username)) {
             null -> ResponseEntity(
                 Response(null, "User does not exist", false),
@@ -40,7 +40,7 @@ class UserService(
             )
 
             else -> ResponseEntity.ok(
-                Response(user.toLoginResponse(), "User retrieved successfully")
+                Response(user.toUserResponse(), "User retrieved successfully")
             )
         }
     }
@@ -52,7 +52,7 @@ class UserService(
      * @return a Response object containing the created user,
      * or an error message if the user already exists
      */
-    fun createUser(user: User): ResponseEntity<Response<LoginResponse?>> {
+    fun createUser(user: User): ResponseEntity<Response<UserResponse?>> {
         return when (repository.findByIdOrNull(user.username)) {
             // user does not exist
             null -> {
@@ -60,7 +60,7 @@ class UserService(
                 val password = passwordEncoder.encode(user.password)
                 repository.save(user.copy(password = password))
                 ResponseEntity(
-                    Response(user.toLoginResponse(), "User created successfully"),
+                    Response(user.toUserResponse(), "User created successfully"),
                     HttpStatus.CREATED,
                 )
             }
@@ -79,7 +79,7 @@ class UserService(
      * or an error message if the user doesn't exist
      * or the password is incorrect
      */
-    fun validateUser(request: LoginRequest): ResponseEntity<Response<LoginResponse?>> {
+    fun validateUser(request: LoginRequest): ResponseEntity<Response<AuthResponse?>> {
         // Retrieve the user from the repository
         return when (val user = repository.findByIdOrNull(request.username)) {
             null -> ResponseEntity(
@@ -91,7 +91,7 @@ class UserService(
                 // Check if the passwords match
                 passwordEncoder.matches(request.password, user.password) -> ResponseEntity.ok(
                     Response(
-                        user.toLoginResponse(),
+                        AuthResponse(jwtUtil.generateToken(user)),
                         "User validated successfully"
                     )
                 )
@@ -100,23 +100,6 @@ class UserService(
                     Response(null, "Passwords don't match", false),
                     HttpStatus.UNAUTHORIZED,
                 )
-            }
-        }
-    }
-
-    override fun findByUsername(username: String?): Mono<UserDetails> {
-        val default = Mono.just(
-            org.springframework.security.core.userdetails.User.builder()
-                .username("user")
-                .password(passwordEncoder.encode("password"))
-                .roles("USER")
-                .build()
-        )
-        return when (username) {
-            null -> default
-            else -> when (val user = repository.findByIdOrNull(username)) {
-                null -> default
-                else -> Mono.just(user.toUserDetails())
             }
         }
     }

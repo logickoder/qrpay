@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LoginResponse(
+data class UserResponse(
     @SerialName("first_name")
     val firstName: String,
     @SerialName("last_name")
@@ -13,4 +13,4 @@ data class LoginResponse(
     val username: String,
 )
 
-fun User.toLoginResponse() = LoginResponse(firstName, lastName, username)
+fun User.toUserResponse() = UserResponse(firstName, lastName, username)

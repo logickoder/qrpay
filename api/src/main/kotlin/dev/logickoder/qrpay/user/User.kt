@@ -1,12 +1,11 @@
 package dev.logickoder.qrpay.user
 
-import dev.logickoder.qrpay.app.data.converter.SimpleGrantedAuthoritiesConverter
+import dev.logickoder.qrpay.app.data.converter.RolesConverter
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -19,14 +18,16 @@ data class User(
     val lastName: String = "",
     @Id val username: String = "",
     val password: String = "",
-    @Convert(converter = SimpleGrantedAuthoritiesConverter::class)
-    @Transient val roles: List<SimpleGrantedAuthority> = emptyList(),
+    @Convert(converter = RolesConverter::class)
+    val roles: List<Role> = emptyList(),
 )
 
 fun User.toUserDetails(): UserDetails {
     val user = this
     return object : UserDetails {
-        override fun getAuthorities() = user.roles
+        override fun getAuthorities() = user.roles.map {
+            SimpleGrantedAuthority(it.name)
+        }
 
         override fun getPassword() = user.password
 
