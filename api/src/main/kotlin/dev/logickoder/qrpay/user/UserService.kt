@@ -1,8 +1,8 @@
 package dev.logickoder.qrpay.user
 
 
+import dev.logickoder.qrpay.app.configuration.JwtToken
 import dev.logickoder.qrpay.app.data.model.Response
-import dev.logickoder.qrpay.app.utils.JwtUtil
 import dev.logickoder.qrpay.user.dto.AuthResponse
 import dev.logickoder.qrpay.user.dto.LoginRequest
 import dev.logickoder.qrpay.user.dto.UserResponse
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service
 class UserService(
     private val repository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtUtil: JwtUtil,
+    private val jwtToken: JwtToken,
 ) {
 
     /**
@@ -91,7 +91,7 @@ class UserService(
                 // Check if the passwords match
                 passwordEncoder.matches(request.password, user.password) -> ResponseEntity.ok(
                     Response(
-                        AuthResponse(jwtUtil.generateToken(user)),
+                        AuthResponse(jwtToken.generateToken(user)),
                         "User validated successfully"
                     )
                 )
@@ -103,4 +103,46 @@ class UserService(
             }
         }
     }
+
+    /**
+     * Refreshes an access token using a refresh token.
+     *
+     * @param token The refresh token to use for token refresh.
+     * @return A ResponseEntity containing a Response object with the refreshed access token and response status.
+     */
+    fun refreshToken(token: String): ResponseEntity<Response<AuthResponse?>> {
+        return try {
+            // Extract username from the provided token
+            val username = jwtToken.getUsernameFromToken(token)
+
+            // Retrieve user from the repository based on the extracted username
+            val user = repository.findByIdOrNull(username)
+
+            // If user does not exist, return a NOT_FOUND response
+            if (user == null) {
+                ResponseEntity(
+                    Response(null, "User does not exist", false),
+                    HttpStatus.NOT_FOUND,
+                )
+            } else {
+                // Generate a new access token for the user
+                val refreshedToken = jwtToken.generateToken(user)
+
+                // Return an OK response with the refreshed access token
+                ResponseEntity.ok(
+                    Response(
+                        AuthResponse(refreshedToken),
+                        "Token refreshed successfully"
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            // If an exception occurs, return a FORBIDDEN response with the error message
+            ResponseEntity(
+                Response(null, e.localizedMessage, false),
+                HttpStatus.FORBIDDEN,
+            )
+        }
+    }
+
 }

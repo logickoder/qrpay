@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.app.utils
+package dev.logickoder.qrpay.app.configuration
 
 import dev.logickoder.qrpay.user.User
 import io.jsonwebtoken.Claims
@@ -12,7 +12,7 @@ import java.util.Date
 
 
 @Component
-class JwtUtil {
+class JwtToken {
     @Value("\${jwt.secret}")
     private lateinit var secret: String
 

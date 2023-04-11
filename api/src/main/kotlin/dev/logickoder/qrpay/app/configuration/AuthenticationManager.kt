@@ -1,6 +1,5 @@
 package dev.logickoder.qrpay.app.configuration
 
-import dev.logickoder.qrpay.app.utils.JwtUtil
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -11,17 +10,17 @@ import reactor.core.publisher.Mono
 
 @Component
 class AuthenticationManager(
-    private val jwtUtil: JwtUtil,
+    private val jwtToken: JwtToken,
 ) : ReactiveAuthenticationManager {
     override fun authenticate(authentication: Authentication): Mono<Authentication> {
         val authToken = authentication.credentials.toString()
-        val username = jwtUtil.getUsernameFromToken(authToken)
+        val username = jwtToken.getUsernameFromToken(authToken)
 
-        return Mono.just(jwtUtil.validateToken(authToken))
+        return Mono.just(jwtToken.validateToken(authToken))
             .filter { it }
             .switchIfEmpty(Mono.empty())
             .map {
-                val roles = (jwtUtil.getAllClaimsFromToken(authToken).get(
+                val roles = (jwtToken.getAllClaimsFromToken(authToken).get(
                     "role",
                     MutableList::class.java
                 ) ?: emptyList()).asSequence().map {

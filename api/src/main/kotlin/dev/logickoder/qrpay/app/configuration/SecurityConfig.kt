@@ -43,7 +43,7 @@ class SecurityConfig(
             .securityContextRepository(securityContextRepository)
             .authorizeExchange()
             .pathMatchers(HttpMethod.OPTIONS).permitAll()
-            .pathMatchers("/api/users/login**", "/api/users/register**").permitAll()
+            .pathMatchers("/api/login**", "/api/register**", "/api/refresh-token**").permitAll()
             .anyExchange().authenticated()
             .and()
             .build()
