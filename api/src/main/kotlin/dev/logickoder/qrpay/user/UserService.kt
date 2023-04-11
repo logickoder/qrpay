@@ -1,12 +1,15 @@
 package dev.logickoder.qrpay.user
 
 
-import dev.logickoder.qrpay.app.configuration.JwtToken
+import dev.logickoder.qrpay.app.configuration.Authorization
 import dev.logickoder.qrpay.app.data.model.Response
+import dev.logickoder.qrpay.app.data.model.ResponseData
+import dev.logickoder.qrpay.app.utils.toMap
 import dev.logickoder.qrpay.user.dto.AuthResponse
 import dev.logickoder.qrpay.user.dto.LoginRequest
-import dev.logickoder.qrpay.user.dto.UserResponse
-import dev.logickoder.qrpay.user.dto.toUserResponse
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.jsonObject
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,8 +26,15 @@ import org.springframework.stereotype.Service
 class UserService(
     private val repository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtToken: JwtToken,
+    private val authorization: Authorization,
+    private val json: Json,
 ) {
+
+    private fun User.toResponse() = json.encodeToJsonElement(this).jsonObject.toMap().apply {
+        User.privateFields.forEach { field ->
+            remove(field)
+        }
+    }
 
     /**
      * Retrieves a user with the given username from the repository.
@@ -32,15 +42,15 @@ class UserService(
      * @return a Response object containing the retrieved user,
      * or an error message if the user doesn't exist
      */
-    fun getUser(username: String): ResponseEntity<Response<UserResponse?>> {
-        return when (val user = repository.findByIdOrNull(username)) {
+    fun getUser(username: String): ResponseEntity<Response<ResponseData?>> {
+        return when (val user = repository.findByUsernameOrNull(username)) {
             null -> ResponseEntity(
                 Response(null, "User does not exist", false),
                 HttpStatus.NOT_FOUND,
             )
 
             else -> ResponseEntity.ok(
-                Response(user.toUserResponse(), "User retrieved successfully")
+                Response(user.toResponse(), "User retrieved successfully")
             )
         }
     }
@@ -52,15 +62,15 @@ class UserService(
      * @return a Response object containing the created user,
      * or an error message if the user already exists
      */
-    fun createUser(user: User): ResponseEntity<Response<UserResponse?>> {
-        return when (repository.findByIdOrNull(user.username)) {
+    fun createUser(user: User): ResponseEntity<Response<ResponseData?>> {
+        return when (repository.findByUsernameOrNull(user.username)) {
             // user does not exist
             null -> {
                 // Hash the password before saving to the database
                 val password = passwordEncoder.encode(user.password)
                 repository.save(user.copy(password = password))
                 ResponseEntity(
-                    Response(user.toUserResponse(), "User created successfully"),
+                    Response(user.toResponse(), "User created successfully"),
                     HttpStatus.CREATED,
                 )
             }
@@ -81,7 +91,7 @@ class UserService(
      */
     fun validateUser(request: LoginRequest): ResponseEntity<Response<AuthResponse?>> {
         // Retrieve the user from the repository
-        return when (val user = repository.findByIdOrNull(request.username)) {
+        return when (val user = repository.findByUsernameOrNull(request.username)) {
             null -> ResponseEntity(
                 Response(null, "User does not exist", false),
                 HttpStatus.NOT_FOUND
@@ -91,7 +101,7 @@ class UserService(
                 // Check if the passwords match
                 passwordEncoder.matches(request.password, user.password) -> ResponseEntity.ok(
                     Response(
-                        AuthResponse(jwtToken.generateToken(user)),
+                        AuthResponse(authorization.generateToken(user)),
                         "User validated successfully"
                     )
                 )
@@ -112,11 +122,11 @@ class UserService(
      */
     fun refreshToken(body: AuthResponse): ResponseEntity<Response<AuthResponse?>> {
         return try {
-            // Extract username from the provided token
-            val username = jwtToken.getUsernameFromToken(body.token)
+            // Extract user id from the provided token
+            val userId = authorization.getUserIdFromToken(body.token)
 
-            // Retrieve user from the repository based on the extracted username
-            val user = repository.findByIdOrNull(username)
+            // Retrieve user from the repository based on the extracted user id
+            val user = repository.findByIdOrNull(userId)
 
             // If user does not exist, return a NOT_FOUND response
             if (user == null) {
@@ -126,7 +136,7 @@ class UserService(
                 )
             } else {
                 // Generate a new access token for the user
-                val refreshedToken = jwtToken.generateToken(user)
+                val refreshedToken = authorization.generateToken(user)
 
                 // Return an OK response with the refreshed access token
                 ResponseEntity.ok(
@@ -144,5 +154,4 @@ class UserService(
             )
         }
     }
-
 }

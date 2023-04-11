@@ -12,6 +12,6 @@ spring:
   h2:
     console:
       enabled: true
-jwt:
+authorization:
   secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
   expiration: 28800

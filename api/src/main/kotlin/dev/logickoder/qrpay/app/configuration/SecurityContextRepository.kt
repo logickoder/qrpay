@@ -25,7 +25,7 @@ class SecurityContextRepository(
                 authHeader.startsWith("Bearer ")
             }
             .flatMap { authHeader: String ->
-                val authToken = authHeader.substring(7)
+                val authToken = Authorization.tokenFromAuth(authHeader)
                 val auth = UsernamePasswordAuthenticationToken(authToken, authToken)
                 authenticationManager.authenticate(auth).map { authentication ->
                     SecurityContextImpl(authentication)

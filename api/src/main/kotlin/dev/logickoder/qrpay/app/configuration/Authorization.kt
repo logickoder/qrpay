@@ -12,11 +12,11 @@ import java.util.Date
 
 
 @Component
-class JwtToken {
-    @Value("\${jwt.secret}")
+class Authorization {
+    @Value("\${authorization.secret}")
     private lateinit var secret: String
 
-    @Value("\${jwt.expiration}")
+    @Value("\${authorization.expiration}")
     private lateinit var expirationTime: String
 
     private lateinit var key: Key
@@ -30,7 +30,7 @@ class JwtToken {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
     }
 
-    fun getUsernameFromToken(token: String?): String {
+    fun getUserIdFromToken(token: String?): String {
         return getAllClaimsFromToken(token).subject
     }
 
@@ -45,16 +45,12 @@ class JwtToken {
     fun generateToken(user: User): String {
         val claims: MutableMap<String, Any?> = HashMap()
         claims["role"] = user.roles
-        return doGenerateToken(claims, user.username)
-    }
-
-    private fun doGenerateToken(claims: Map<String, Any?>, username: String): String {
         val expirationTimeLong = expirationTime.toLong() //in second
         val createdDate = Date()
         val expirationDate = Date(createdDate.time + expirationTimeLong * 1000)
         return Jwts.builder()
             .setClaims(claims)
-            .setSubject(username)
+            .setSubject(user.id)
             .setIssuedAt(createdDate)
             .setExpiration(expirationDate)
             .signWith(key)
@@ -63,5 +59,9 @@ class JwtToken {
 
     fun validateToken(token: String): Boolean {
         return !isTokenExpired(token)
+    }
+
+    companion object {
+        fun tokenFromAuth(auth: String) = auth.substring(7)
     }
 }
