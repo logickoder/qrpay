@@ -19,7 +19,7 @@ data class User(
     @Id val username: String = "",
     val password: String = "",
     @Convert(converter = RolesConverter::class)
-    val roles: List<Role> = emptyList(),
+    val roles: List<Role> = listOf(Role.User),
 )
 
 fun User.toUserDetails(): UserDetails {

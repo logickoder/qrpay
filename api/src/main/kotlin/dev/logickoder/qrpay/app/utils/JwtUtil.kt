@@ -13,10 +13,10 @@ import java.util.Date
 
 @Component
 class JwtUtil {
-    @Value("\${qrpay.jwt.secret}")
+    @Value("\${jwt.secret}")
     private lateinit var secret: String
 
-    @Value("\${qrpay.jwt.expiration}")
+    @Value("\${jwt.expiration}")
     private lateinit var expirationTime: String
 
     private lateinit var key: Key

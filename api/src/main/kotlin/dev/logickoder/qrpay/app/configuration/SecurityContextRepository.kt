@@ -15,16 +15,14 @@ class SecurityContextRepository(
     private val authenticationManager: AuthenticationManager,
 ) : ServerSecurityContextRepository {
 
-    override fun save(swe: ServerWebExchange, sc: SecurityContext): Mono<Void> {
+    override fun save(exchange: ServerWebExchange, sc: SecurityContext): Mono<Void> {
         throw UnsupportedOperationException("Not supported yet.")
     }
 
-    override fun load(swe: ServerWebExchange): Mono<SecurityContext> {
-        return Mono.justOrEmpty(swe.request.headers.getFirst(HttpHeaders.AUTHORIZATION))
+    override fun load(exchange: ServerWebExchange): Mono<SecurityContext> {
+        return Mono.justOrEmpty(exchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION))
             .filter { authHeader: String ->
-                authHeader.startsWith(
-                    "Bearer "
-                )
+                authHeader.startsWith("Bearer ")
             }
             .flatMap { authHeader: String ->
                 val authToken = authHeader.substring(7)

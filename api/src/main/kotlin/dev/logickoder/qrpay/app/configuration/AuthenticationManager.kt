@@ -21,10 +21,10 @@ class AuthenticationManager(
             .filter { it }
             .switchIfEmpty(Mono.empty())
             .map {
-                val roles = jwtUtil.getAllClaimsFromToken(authToken).get(
+                val roles = (jwtUtil.getAllClaimsFromToken(authToken).get(
                     "role",
                     MutableList::class.java
-                ).asSequence().map {
+                ) ?: emptyList()).asSequence().map {
                     it as? String
                 }.filterNot {
                     it.isNullOrBlank()

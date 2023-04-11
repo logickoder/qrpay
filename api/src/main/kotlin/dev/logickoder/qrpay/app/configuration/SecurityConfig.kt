@@ -1,6 +1,5 @@
 package dev.logickoder.qrpay.app.configuration
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -28,17 +27,14 @@ class SecurityConfig(
     }
 
     @Bean
-    @Autowired
-    fun securityWebFilterChain(
-        http: ServerHttpSecurity,
-    ): SecurityWebFilterChain {
+    fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http
             .exceptionHandling()
-            .authenticationEntryPoint { swe, _ ->
-                Mono.fromRunnable { swe.response.statusCode = HttpStatus.UNAUTHORIZED }
+            .authenticationEntryPoint { exchange, _ ->
+                Mono.fromRunnable { exchange.response.statusCode = HttpStatus.UNAUTHORIZED }
             }
-            .accessDeniedHandler { swe, _ ->
-                Mono.fromRunnable { swe.response.statusCode = HttpStatus.FORBIDDEN }
+            .accessDeniedHandler { exchange, _ ->
+                Mono.fromRunnable { exchange.response.statusCode = HttpStatus.FORBIDDEN }
             }.and()
             .csrf().disable()
             .formLogin().disable()
