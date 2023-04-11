@@ -1,5 +1,6 @@
 package dev.logickoder.qrpay.user
 
+import dev.logickoder.qrpay.user.dto.AuthResponse
 import dev.logickoder.qrpay.user.dto.LoginRequest
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -37,9 +38,9 @@ class AuthController(
     /**
      * Generates a refresh token
      *
-     * @param token The expired refresh token
+     * @param body The expired refresh token
      * @return The refreshed token.
      */
     @PostMapping("/refresh-token")
-    fun refreshToken(@RequestBody token: String) = service.refreshToken(token)
+    fun refreshToken(@RequestBody body: AuthResponse) = service.refreshToken(body)
 }

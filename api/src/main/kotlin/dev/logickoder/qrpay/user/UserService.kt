@@ -107,13 +107,13 @@ class UserService(
     /**
      * Refreshes an access token using a refresh token.
      *
-     * @param token The refresh token to use for token refresh.
+     * @param body The refresh token to use for token refresh.
      * @return A ResponseEntity containing a Response object with the refreshed access token and response status.
      */
-    fun refreshToken(token: String): ResponseEntity<Response<AuthResponse?>> {
+    fun refreshToken(body: AuthResponse): ResponseEntity<Response<AuthResponse?>> {
         return try {
             // Extract username from the provided token
-            val username = jwtToken.getUsernameFromToken(token)
+            val username = jwtToken.getUsernameFromToken(body.token)
 
             // Retrieve user from the repository based on the extracted username
             val user = repository.findByIdOrNull(username)
