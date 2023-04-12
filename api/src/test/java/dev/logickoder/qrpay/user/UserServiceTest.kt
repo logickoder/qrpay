@@ -91,12 +91,13 @@ class UserServiceTest {
 
     @Test
     fun `should create user and return success`() {
+        val user = User(username = "test", password = "password")
         // given
         every { repository.findByUsernameOrNull(any()) } returns null
-        every { repository.save(any()) } returns User("test", "password")
+        every { repository.save(any()) } returns user
 
         // when
-        val responseEntity = service.createUser(User("test", "password"))
+        val responseEntity = service.createUser(user)
         val response = responseEntity.body!!
 
         // then
