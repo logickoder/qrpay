@@ -6,7 +6,7 @@ typealias ResponseData = Map<String, Any?>
 
 @Serializable
 class Response<T>(
-    val data: T,
-    val message: String,
     val success: Boolean = true,
+    val message: String,
+    val data: T,
 )

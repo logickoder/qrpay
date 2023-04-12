@@ -6,8 +6,7 @@ import jakarta.persistence.Converter
 
 
 @Converter
-object RolesConverter :
-    AttributeConverter<List<Role>?, String?> {
+object RolesConverter : AttributeConverter<List<Role>?, String?> {
 
     override fun convertToDatabaseColumn(attribute: List<Role>?): String? {
         return attribute?.joinToString()

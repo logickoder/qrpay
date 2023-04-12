@@ -30,8 +30,12 @@ class TransactionService(
      * Extension function to convert Transaction object to JSON response.
      * @return JSON response as Map
      */
-    private fun Transaction.toResponse() = json.encodeToJsonElement(this).jsonObject.toMap().apply {
-        Transaction.privateFields.forEach { field -> remove(field) }
+    private fun Transaction.toResponse(): ResponseData {
+        // change all values that are not to be shown to null
+        val transaction = copy(
+            user = null
+        )
+        return json.encodeToJsonElement(transaction).jsonObject.toMap()
     }
 
     /**
@@ -44,12 +48,12 @@ class TransactionService(
     fun sendMoney(token: String, body: SendMoneyRequest): ResponseEntity<Response<ResponseData?>> {
         return when {
             body.amount == 0f -> ResponseEntity(
-                Response(null, "No amount specified", false),
+                Response(false, "No amount specified", null),
                 HttpStatus.BAD_REQUEST,
             )
 
             body.amount < 0f -> ResponseEntity(
-                Response(null, "Invalid amount specified", false),
+                Response(false, "Invalid amount specified", null),
                 HttpStatus.BAD_REQUEST,
             )
 
@@ -59,39 +63,51 @@ class TransactionService(
 
                 var sender = userRepository.findByIdOrNull(userId)
                     ?: return ResponseEntity(
-                        Response(null, "User does not exist", false),
+                        Response(false, "User does not exist", null),
                         HttpStatus.UNAUTHORIZED,
                     )
 
                 var recipient = userRepository.findByUsernameOrNull(body.recipient)
                     ?: return ResponseEntity(
-                        Response(null, "Recipient does not exist", false),
+                        Response(false, "Recipient does not exist", null),
                         HttpStatus.NOT_FOUND,
                     )
+
+                // make sure the recipient is not the same as the sender
+                if (sender.id == recipient.id) return ResponseEntity(
+                    Response(false, "You cannot send money to yourself", null),
+                    HttpStatus.BAD_REQUEST,
+                )
 
                 val amount = body.amount.toBigDecimal()
                 // make sure the sender has enough balance to run this transaction
                 if (amount > sender.balance) {
                     return ResponseEntity(
-                        Response(null, "Insufficient balance", false),
+                        Response(false, "Insufficient balance", null),
                         HttpStatus.PAYMENT_REQUIRED,
                     )
                 }
 
                 // deduct the transaction amount from the sender
                 sender = sender.copy(balance = sender.balance.minus(amount))
-                val senderTransaction = Transaction(
-                    description = body.narration,
+                var senderTransaction = Transaction(
+                    description = TransactionDescription(
+                        value = body.narration,
+                        recipient = recipient.username,
+                    ),
                     amount = amount.negate(),
                     user = sender,
                 )
                 userRepository.save(sender)
-                repository.save(senderTransaction)
+                senderTransaction = repository.save(senderTransaction)
 
                 // add the transaction amount to the recipient
                 recipient = recipient.copy(balance = recipient.balance.plus(amount))
                 val recipientTransaction = Transaction(
-                    description = body.narration,
+                    description = TransactionDescription(
+                        value = body.narration,
+                        sender = sender.username,
+                    ),
                     amount = amount,
                     user = recipient,
                 )
@@ -100,12 +116,37 @@ class TransactionService(
 
                 ResponseEntity.ok(
                     Response(
-                        senderTransaction.toResponse(),
+                        true,
                         "Transaction completed successfully",
-                        true
+                        senderTransaction.toResponse(),
                     )
                 )
             }
         }
+    }
+
+    /**
+     * Retrieves transactions for a user with the given authentication token.
+     *
+     * @param token The authentication token of the user.
+     * @return A [ResponseEntity] with a [Response] containing a list of [ResponseData] representing the transactions,
+     *         along with the status and error messages.
+     */
+    fun getTransactions(token: String): ResponseEntity<Response<List<ResponseData>?>> {
+        // Retrieve the user Id from the auth token
+        val userId = authorization.getUserIdFromToken(Authorization.tokenFromAuth(token))
+
+        val user = userRepository.findByIdOrNull(userId) ?: return ResponseEntity(
+            Response(false, "User does not exist", null),
+            HttpStatus.UNAUTHORIZED,
+        )
+
+        // Retrieve transactions for the user and map them to response objects
+        val transactions = repository.findByUser(user).map { it.toResponse() }
+
+        // Return the response entity with transactions and success status
+        return ResponseEntity.ok(
+            Response(true, "Transactions retrieved successfully", transactions)
+        )
     }
 }

@@ -8,12 +8,12 @@ import java.math.BigDecimal
 
 @OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = BigDecimal::class)
-class BigDecimalSerializer {
+object BigDecimalSerializer {
     override fun serialize(encoder: Encoder, value: BigDecimal) {
-        encoder.encodeDouble(value.toDouble())
+        encoder.encodeString(String.format("%.2f", value.toDouble()))
     }
 
     override fun deserialize(decoder: Decoder): BigDecimal {
-        return decoder.decodeDouble().toBigDecimal()
+        return decoder.decodeString().toBigDecimal()
     }
 }

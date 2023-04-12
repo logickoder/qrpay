@@ -1,5 +1,6 @@
 package dev.logickoder.qrpay.app.configuration
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,11 +15,13 @@ import org.springframework.web.reactive.config.WebFluxConfigurer
 @Configuration
 @EnableWebFlux
 class WebFluxConfig : WebFluxConfigurer {
+    @OptIn(ExperimentalSerializationApi::class)
     @Bean
     fun json(): Json = Json {
         encodeDefaults = true
         ignoreUnknownKeys = true
         isLenient = true
+        explicitNulls = false
     }
 
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {

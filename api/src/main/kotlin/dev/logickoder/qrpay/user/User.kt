@@ -11,6 +11,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 
+/**
+ * User entity representing a user in the system.
+ *
+ * @property id The unique identifier for the user. Generated using UUID strategy.
+ * @property firstName The first name of the user.
+ * @property lastName The last name of the user.
+ * @property username The username of the user.
+ * @property balance The balance of the user. Default value is 50,000.
+ * @property password The password of the user.
+ * @property roles The roles assigned to the user. Default value is a list containing [Role.User].
+ */
 @Serializable
 @Entity(name = "user_")
 data class User(
@@ -24,14 +35,10 @@ data class User(
     val username: String = "",
     @Serializable(with = BigDecimalSerializer::class)
     val balance: BigDecimal = 50_000.toBigDecimal(),
-    val password: String = "",
+    val password: String? = null,
     @Convert(converter = RolesConverter::class)
     val roles: List<Role> = listOf(Role.User),
-) {
-    companion object {
-        val privateFields = arrayOf("id", "password")
-    }
-}
+)
 
 enum class Role {
     User

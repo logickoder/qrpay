@@ -30,10 +30,10 @@ class UserService(
     private val json: Json,
 ) {
 
-    private fun User.toResponse() = json.encodeToJsonElement(this).jsonObject.toMap().apply {
-        User.privateFields.forEach { field ->
-            remove(field)
-        }
+    private fun User.toResponse(): ResponseData {
+        // change all values not be shown to null
+        val user = copy(password = null)
+        return json.encodeToJsonElement(user).jsonObject.toMap()
     }
 
     /**
@@ -45,12 +45,12 @@ class UserService(
     fun getUser(username: String): ResponseEntity<Response<ResponseData?>> {
         return when (val user = repository.findByUsernameOrNull(username)) {
             null -> ResponseEntity(
-                Response(null, "User does not exist", false),
+                Response(false, "User does not exist", null),
                 HttpStatus.NOT_FOUND,
             )
 
             else -> ResponseEntity.ok(
-                Response(user.toResponse(), "User retrieved successfully")
+                Response(true, "User retrieved successfully", user.toResponse())
             )
         }
     }
@@ -68,15 +68,18 @@ class UserService(
             null -> {
                 // Hash the password before saving to the database
                 val password = passwordEncoder.encode(user.password)
-                repository.save(user.copy(password = password))
                 ResponseEntity(
-                    Response(user.toResponse(), "User created successfully"),
+                    Response(
+                        true,
+                        "User created successfully",
+                        repository.save(user.copy(password = password)).toResponse()
+                    ),
                     HttpStatus.CREATED,
                 )
             }
             // user already exists
             else -> ResponseEntity(
-                Response(null, "User already exists", false),
+                Response(false, "User already exists", null),
                 HttpStatus.CONFLICT,
             )
         }
@@ -93,7 +96,7 @@ class UserService(
         // Retrieve the user from the repository
         return when (val user = repository.findByUsernameOrNull(request.username)) {
             null -> ResponseEntity(
-                Response(null, "User does not exist", false),
+                Response(false, "User does not exist", null),
                 HttpStatus.NOT_FOUND
             )
 
@@ -101,13 +104,14 @@ class UserService(
                 // Check if the passwords match
                 passwordEncoder.matches(request.password, user.password) -> ResponseEntity.ok(
                     Response(
+                        true,
+                        "User validated successfully",
                         AuthResponse(authorization.generateToken(user)),
-                        "User validated successfully"
                     )
                 )
 
                 else -> ResponseEntity(
-                    Response(null, "Passwords don't match", false),
+                    Response(false, "Passwords don't match", null),
                     HttpStatus.UNAUTHORIZED,
                 )
             }
@@ -131,7 +135,7 @@ class UserService(
             // If user does not exist, return a NOT_FOUND response
             if (user == null) {
                 ResponseEntity(
-                    Response(null, "User does not exist", false),
+                    Response(false, "User does not exist", null),
                     HttpStatus.NOT_FOUND,
                 )
             } else {
@@ -141,15 +145,16 @@ class UserService(
                 // Return an OK response with the refreshed access token
                 ResponseEntity.ok(
                     Response(
+                        true,
+                        "Token refreshed successfully",
                         AuthResponse(refreshedToken),
-                        "Token refreshed successfully"
                     )
                 )
             }
         } catch (e: Exception) {
             // If an exception occurs, return a FORBIDDEN response with the error message
             ResponseEntity(
-                Response(null, e.localizedMessage, false),
+                Response(false, e.localizedMessage, null),
                 HttpStatus.FORBIDDEN,
             )
         }
