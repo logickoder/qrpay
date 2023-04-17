@@ -3,6 +3,10 @@
 
 name: Build and deploy api to Azure
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [ dev ]
@@ -28,7 +32,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build jar
-        run: .gradlew :api:bootJar
+        run: ./gradlew :api:bootJar
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
