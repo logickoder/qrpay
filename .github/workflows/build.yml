@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew test --stacktrace
 
       - name: Build apk
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew :app:assembleDebug --stacktrace
 
       - name: Create app artifact
         uses: actions/upload-artifact@v1

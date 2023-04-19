@@ -10,9 +10,10 @@ plugins {
 
 android {
     compileSdk = 33
+    namespace = "dev.logickoder.qrpay"
 
     defaultConfig.apply {
-        applicationId = "dev.logickoder.qrpay"
+        applicationId = namespace
         minSdk = 23
         targetSdk = 33
         versionCode = 1
@@ -128,7 +129,8 @@ dependencies {
     implementation(libs.zxing.android) { isTransitive = false }
     implementation(libs.zxing.core)
 
-    testImplementation(libs.junit4)
+    testImplementation(libs.junit)
+    testImplementation(libs.junit.engine)
     androidTestImplementation(libs.expresso)
-    androidTestImplementation(libs.junit4.androidx)
+    androidTestImplementation(libs.junit.android)
 }

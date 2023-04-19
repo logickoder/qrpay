@@ -1,0 +1,29 @@
+azure:
+  application-insights:
+    instrumentation-key: 7bcb7386-6660-48ae-902b-3a6cbc9b1537
+    enabled: true
+    web:
+      enabled: true
+    logger:
+      level: trace
+
+authorization:
+  secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
+  expiration: 28800
+spring:
+  datasource:
+    url: jdbc:h2:file:~/qrpay
+    username: qrpay
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+springdoc:
+  api-docs:
+    version: OPENAPI_3_0
