@@ -2,6 +2,8 @@ package dev.logickoder.qrpay.user
 
 import dev.logickoder.qrpay.user.dto.AuthResponse
 import dev.logickoder.qrpay.user.dto.LoginRequest
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
  * @param service The [UserService] instance to use for processing requests.
  */
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 class AuthController(
     private val service: UserService,
 ) {
@@ -24,6 +26,9 @@ class AuthController(
      * @return The created [User] object.
      */
     @PostMapping("/register")
+    @Operation(summary = "Create user", description = "Creates a new user")
+    @ApiResponse(responseCode = "201", description = "User created successfully")
+    @ApiResponse(responseCode = "409", description = "User already exists")
     fun createUser(@RequestBody body: User) = service.createUser(body)
 
     /**
@@ -33,6 +38,10 @@ class AuthController(
      * @return The validated [User] object.
      */
     @PostMapping("/login")
+    @Operation(summary = "Validate user", description = "Validates an existing user")
+    @ApiResponse(responseCode = "200", description = "User validated successfully")
+    @ApiResponse(responseCode = "401", description = "Provided user credentials don't match")
+    @ApiResponse(responseCode = "404", description = "User does not exist")
     fun validateUser(@RequestBody request: LoginRequest) = service.validateUser(request)
 
     /**
@@ -42,5 +51,9 @@ class AuthController(
      * @return The refreshed token.
      */
     @PostMapping("/refresh-token")
+    @Operation(summary = "Refresh user token", description = "Refreshes the jwt user token")
+    @ApiResponse(responseCode = "200", description = "Token refreshed successfully")
+    @ApiResponse(responseCode = "401", description = "User with specified token does not exist")
+    @ApiResponse(responseCode = "403", description = "Failed to generate new token")
     fun refreshToken(@RequestBody body: AuthResponse) = service.refreshToken(body)
 }

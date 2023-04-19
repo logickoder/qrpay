@@ -4,6 +4,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.codec.ByteArrayDecoder
+import org.springframework.core.codec.ByteArrayEncoder
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.http.codec.json.KotlinSerializationJsonDecoder
 import org.springframework.http.codec.json.KotlinSerializationJsonEncoder
@@ -25,8 +27,14 @@ class WebFluxConfig : WebFluxConfigurer {
     }
 
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {
-        configurer.customCodecs().register(KotlinSerializationJsonEncoder(json()))
-        configurer.customCodecs().register(KotlinSerializationJsonDecoder(json()))
+        configurer.customCodecs().apply {
+            // used to serialize and deserialize the swagger api docs
+            register(ByteArrayEncoder())
+            register(ByteArrayDecoder())
+            // used to serialize and deserialize json with kotlinx
+            register(KotlinSerializationJsonEncoder(json()))
+            register(KotlinSerializationJsonDecoder(json()))
+        }
     }
 
     override fun addCorsMappings(registry: CorsRegistry) {

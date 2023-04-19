@@ -1,5 +1,7 @@
 package dev.logickoder.qrpay.user
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
  * @param service The [UserService] instance to use for processing requests.
  */
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("/api/users")
 class UserController(
     private val service: UserService,
 ) {
@@ -22,5 +24,8 @@ class UserController(
      * @return The retrieved [User] object.
      */
     @GetMapping("/{username}")
+    @Operation(summary = "Get user", description = "Retrieves the specified user")
+    @ApiResponse(responseCode = "200", description = "Successful operation")
+    @ApiResponse(responseCode = "401", description = "Unauthorized/non-existent user")
     fun getUser(@PathVariable username: String) = service.getUser(username)
 }

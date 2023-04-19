@@ -15,3 +15,6 @@ spring:
 authorization:
   secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
   expiration: 28800
+springdoc:
+  api-docs:
+    version: OPENAPI_3_0

@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.30.0"
 compose = "2023.04.00"
-compose-compiler = "1.4.4"
+compose-compiler = "1.4.5"
 gradlePlugin = "8.0.0"
 hilt = "2.45"
 junit = "5.9.2"
@@ -84,6 +84,8 @@ lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel
 mockk = "io.mockk:mockk:1.13.4"
 # Napier
 napier = "io.github.aakira:napier:2.6.1"
+# Open Api
+openapi = "org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0"
 # Project Reactor
 projectreactor = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions" }
 projectreactor-test = { module = "io.projectreactor:reactor-test" }
@@ -92,11 +94,12 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 # Spring
+spring-acutator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
-spring-restdocs = { module = "org.springframework.restdocs:spring-restdocs-webtestclient" }
 spring-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 # Worker
 worker = { module = "androidx.work:work-runtime-ktx", version.ref = "worker" }

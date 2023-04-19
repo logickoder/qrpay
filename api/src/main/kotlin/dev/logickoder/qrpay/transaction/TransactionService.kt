@@ -2,14 +2,10 @@ package dev.logickoder.qrpay.transaction
 
 import dev.logickoder.qrpay.app.configuration.Authorization
 import dev.logickoder.qrpay.app.data.model.Response
-import dev.logickoder.qrpay.app.data.model.ResponseData
-import dev.logickoder.qrpay.app.utils.toMap
 import dev.logickoder.qrpay.transaction.dto.SendMoneyRequest
 import dev.logickoder.qrpay.user.UserRepository
 import dev.logickoder.qrpay.user.findByUsernameOrNull
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.jsonObject
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,12 +26,9 @@ class TransactionService(
      * Extension function to convert Transaction object to JSON response.
      * @return JSON response as Map
      */
-    private fun Transaction.toResponse(): ResponseData {
+    private fun Transaction.toResponse(): Transaction {
         // change all values that are not to be shown to null
-        val transaction = copy(
-            user = null
-        )
-        return json.encodeToJsonElement(transaction).jsonObject.toMap()
+        return copy(user = null)
     }
 
     /**
@@ -45,7 +38,7 @@ class TransactionService(
      * @return ResponseEntity containing the response data
      */
     @Transactional
-    fun sendMoney(token: String, body: SendMoneyRequest): ResponseEntity<Response<ResponseData?>> {
+    fun sendMoney(token: String, body: SendMoneyRequest): ResponseEntity<Response<Transaction?>> {
         return when {
             body.amount == 0f -> ResponseEntity(
                 Response(false, "No amount specified", null),
@@ -129,10 +122,10 @@ class TransactionService(
      * Retrieves transactions for a user with the given authentication token.
      *
      * @param token The authentication token of the user.
-     * @return A [ResponseEntity] with a [Response] containing a list of [ResponseData] representing the transactions,
+     * @return A [ResponseEntity] with a [Response] containing a list of transactions,
      *         along with the status and error messages.
      */
-    fun getTransactions(token: String): ResponseEntity<Response<List<ResponseData>?>> {
+    fun getTransactions(token: String): ResponseEntity<Response<List<Transaction>?>> {
         // Retrieve the user Id from the auth token
         val userId = authorization.getUserIdFromToken(Authorization.tokenFromAuth(token))
 

@@ -29,17 +29,21 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.serialization)
 
+    // Open Api
+    implementation(libs.openapi)
+
     // Project Reactor
     implementation(libs.projectreactor)
     testImplementation(libs.projectreactor.test)
 
     // Spring
+    implementation(libs.spring.acutator)
     implementation(libs.spring.data)
     implementation(libs.spring.security)
+    implementation(libs.spring.validation)
     implementation(libs.spring.webflux)
     developmentOnly(libs.spring.devtools)
     testImplementation(libs.spring.test)
-    testImplementation(libs.spring.restdocs)
 
     testImplementation(libs.junit)
     testImplementation(libs.junit.engine)

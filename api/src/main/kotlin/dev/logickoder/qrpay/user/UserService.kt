@@ -3,13 +3,9 @@ package dev.logickoder.qrpay.user
 
 import dev.logickoder.qrpay.app.configuration.Authorization
 import dev.logickoder.qrpay.app.data.model.Response
-import dev.logickoder.qrpay.app.data.model.ResponseData
-import dev.logickoder.qrpay.app.utils.toMap
 import dev.logickoder.qrpay.user.dto.AuthResponse
 import dev.logickoder.qrpay.user.dto.LoginRequest
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.jsonObject
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,10 +26,9 @@ class UserService(
     private val json: Json,
 ) {
 
-    private fun User.toResponse(): ResponseData {
+    private fun User.toResponse(): User {
         // change all values not be shown to null
-        val user = copy(password = null)
-        return json.encodeToJsonElement(user).jsonObject.toMap()
+        return copy(password = null)
     }
 
     /**
@@ -42,7 +37,7 @@ class UserService(
      * @return a Response object containing the retrieved user,
      * or an error message if the user doesn't exist
      */
-    fun getUser(username: String): ResponseEntity<Response<ResponseData?>> {
+    fun getUser(username: String): ResponseEntity<Response<User?>> {
         return when (val user = repository.findByUsernameOrNull(username)) {
             null -> ResponseEntity(
                 Response(false, "User does not exist", null),
@@ -62,7 +57,7 @@ class UserService(
      * @return a Response object containing the created user,
      * or an error message if the user already exists
      */
-    fun createUser(user: User): ResponseEntity<Response<ResponseData?>> {
+    fun createUser(user: User): ResponseEntity<Response<User?>> {
         return when (repository.findByUsernameOrNull(user.username)) {
             // user does not exist
             null -> {

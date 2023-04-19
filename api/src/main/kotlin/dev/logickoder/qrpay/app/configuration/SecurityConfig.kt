@@ -2,7 +2,6 @@ package dev.logickoder.qrpay.app.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
@@ -42,9 +41,11 @@ class SecurityConfig(
             .authenticationManager(authenticationManager)
             .securityContextRepository(securityContextRepository)
             .authorizeExchange()
-            .pathMatchers(HttpMethod.OPTIONS).permitAll()
-            .pathMatchers("/api/login**", "/api/register**", "/api/refresh-token**").permitAll()
-            .anyExchange().authenticated()
+            .pathMatchers(
+                "/api/users**",
+                "/api/transactions**",
+            ).authenticated()
+            .anyExchange().permitAll()
             .and()
             .build()
     }
