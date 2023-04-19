@@ -1,6 +1,7 @@
 package dev.logickoder.qrpay.transaction
 
 import dev.logickoder.qrpay.app.configuration.Authorization
+import dev.logickoder.qrpay.app.configuration.Authorization.Companion.tokenFromAuth
 import dev.logickoder.qrpay.app.data.model.Response
 import dev.logickoder.qrpay.transaction.dto.SendMoneyRequest
 import dev.logickoder.qrpay.user.UserRepository
@@ -52,7 +53,7 @@ class TransactionService(
 
             else -> {
                 // retrieve the user Id from the auth token
-                val userId = authorization.getUserIdFromToken(Authorization.tokenFromAuth(token))
+                val userId = authorization.getUserIdFromToken(token.tokenFromAuth())
 
                 var sender = userRepository.findByIdOrNull(userId)
                     ?: return ResponseEntity(
@@ -127,7 +128,7 @@ class TransactionService(
      */
     fun getTransactions(token: String): ResponseEntity<Response<List<Transaction>?>> {
         // Retrieve the user Id from the auth token
-        val userId = authorization.getUserIdFromToken(Authorization.tokenFromAuth(token))
+        val userId = authorization.getUserIdFromToken(token.tokenFromAuth())
 
         val user = userRepository.findByIdOrNull(userId) ?: return ResponseEntity(
             Response(false, "User does not exist", null),

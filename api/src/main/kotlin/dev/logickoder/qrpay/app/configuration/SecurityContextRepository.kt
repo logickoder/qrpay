@@ -1,5 +1,6 @@
 package dev.logickoder.qrpay.app.configuration
 
+import dev.logickoder.qrpay.app.configuration.Authorization.Companion.tokenFromAuth
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContext
@@ -25,7 +26,7 @@ class SecurityContextRepository(
                 authHeader.startsWith("Bearer ")
             }
             .flatMap { authHeader: String ->
-                val authToken = Authorization.tokenFromAuth(authHeader)
+                val authToken = authHeader.tokenFromAuth()
                 val auth = UsernamePasswordAuthenticationToken(authToken, authToken)
                 authenticationManager.authenticate(auth).map { authentication ->
                     SecurityContextImpl(authentication)

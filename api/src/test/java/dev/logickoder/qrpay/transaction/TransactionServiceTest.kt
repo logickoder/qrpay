@@ -1,6 +1,7 @@
 package dev.logickoder.qrpay.transaction
 
 import dev.logickoder.qrpay.app.configuration.Authorization
+import dev.logickoder.qrpay.app.configuration.Authorization.Companion.tokenFromAuth
 import dev.logickoder.qrpay.transaction.dto.SendMoneyRequest
 import dev.logickoder.qrpay.user.User
 import dev.logickoder.qrpay.user.UserRepository
@@ -82,14 +83,14 @@ class TransactionServiceTest {
         // Arrange
         val token = "Bearer token"
         val sendMoneyRequest = SendMoneyRequest("recipient", 100f, "narration")
-        every { authorization.getUserIdFromToken(Authorization.tokenFromAuth(token)) } returns token
+        every { authorization.getUserIdFromToken(token.tokenFromAuth()) } returns token
         every { userRepository.findByIdOrNull(any()) } returns null
 
         // Act
         val result = transactionService.sendMoney(token, sendMoneyRequest)
 
         // Assert
-        verify(exactly = 1) { authorization.getUserIdFromToken(Authorization.tokenFromAuth(token)) }
+        verify(exactly = 1) { authorization.getUserIdFromToken(token.tokenFromAuth()) }
         verify(exactly = 1) { userRepository.findByIdOrNull(any()) }
         verify(exactly = 0) { userRepository.findByUsernameOrNull(any()) }
         verify(exactly = 0) { repository.save(any()) }
@@ -105,7 +106,7 @@ class TransactionServiceTest {
         // Arrange
         val token = "Bearer token"
         val sendMoneyRequest = SendMoneyRequest("recipient", 100f, "narration")
-        every { authorization.getUserIdFromToken(Authorization.tokenFromAuth(token)) } returns token
+        every { authorization.getUserIdFromToken(token.tokenFromAuth()) } returns token
         every { userRepository.findByIdOrNull(any()) } returns User()
         every { userRepository.findByUsernameOrNull(any()) } returns null
 
@@ -113,7 +114,7 @@ class TransactionServiceTest {
         val result = transactionService.sendMoney(token, sendMoneyRequest)
 
         // Assert
-        verify(exactly = 1) { authorization.getUserIdFromToken(Authorization.tokenFromAuth(token)) }
+        verify(exactly = 1) { authorization.getUserIdFromToken(token.tokenFromAuth()) }
         verify(exactly = 1) { userRepository.findByIdOrNull(any()) }
         verify(exactly = 1) { userRepository.findByUsernameOrNull(any()) }
         verify(exactly = 0) { repository.save(any()) }
@@ -193,7 +194,7 @@ class TransactionServiceTest {
         val result = transactionService.sendMoney(token, sendMoneyRequest)
 
         // Assert
-        verify(exactly = 1) { authorization.getUserIdFromToken(Authorization.tokenFromAuth(token)) }
+        verify(exactly = 1) { authorization.getUserIdFromToken(token.tokenFromAuth()) }
         verify(exactly = 1) { userRepository.findByIdOrNull("1") }
         verify(exactly = 1) { userRepository.findByUsernameOrNull("2") }
         verify(exactly = 2) { repository.save(any()) }
@@ -202,5 +203,51 @@ class TransactionServiceTest {
         assertEquals(true, result.body?.success)
         assertEquals("Transaction completed successfully", result.body?.message)
         assertNotNull(result.body?.data)
+    }
+
+    @Test
+    fun `getTransactions should return UNAUTHORIZED when user does not exist`() {
+        // Arrange
+        val token = "Bearer token"
+        every { authorization.getUserIdFromToken(token.tokenFromAuth()) } returns token
+        every { userRepository.findByIdOrNull(any()) } returns null
+
+        // Act
+        val result = transactionService.getTransactions(token)
+
+        // Assert
+        verify(exactly = 1) { authorization.getUserIdFromToken(token.tokenFromAuth()) }
+        verify(exactly = 1) { userRepository.findByIdOrNull(any()) }
+        verify(exactly = 0) { repository.findByUser(any()) }
+        assertEquals(HttpStatus.UNAUTHORIZED, result.statusCode)
+        assertEquals(false, result.body?.success)
+        assertEquals("User does not exist", result.body?.message)
+        assertNull(result.body?.data)
+    }
+
+    @Test
+    fun `getTransactions should return OK when successful`() {
+        // Arrange
+        val auth = "Bearer token"
+        val token = auth.tokenFromAuth()
+        val user = User()
+        val transactions = List(10) {
+            Transaction(id = it.toString())
+        }
+        every { authorization.getUserIdFromToken(token) } returns user.id
+        every { userRepository.findByIdOrNull(user.id) } returns user
+        every { repository.findByUser(user) } returns transactions
+
+        // Act
+        val result = transactionService.getTransactions(auth)
+
+        // Assert
+        verify(exactly = 1) { authorization.getUserIdFromToken(token) }
+        verify(exactly = 1) { userRepository.findByIdOrNull(user.id) }
+        verify(exactly = 1) { repository.findByUser(user) }
+        assertEquals(HttpStatus.OK, result.statusCode)
+        assertEquals(true, result.body?.success)
+        assertEquals("Transactions retrieved successfully", result.body?.message)
+        assertEquals(transactions, result.body?.data)
     }
 }

@@ -62,6 +62,6 @@ class Authorization {
     }
 
     companion object {
-        fun tokenFromAuth(auth: String) = auth.substring(7)
+        fun String.tokenFromAuth() = substring(7)
     }
 }
