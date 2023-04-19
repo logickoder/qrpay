@@ -1,5 +1,6 @@
 [versions]
 accompanist = "0.30.0"
+azure = "2.6.4"
 compose = "2023.04.00"
 compose-compiler = "1.4.5"
 gradlePlugin = "8.0.0"
@@ -20,6 +21,9 @@ worker = "2.8.1"
 accompanist-placeholdermaterial = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanist" }
 # Appyx Navigation
 appyx = "com.bumble.appyx:core:1.2.0"
+# Azure
+azure-insights = { module = "com.microsoft.azure:applicationinsights-spring-boot-starter", version.ref = "azure" }
+azure-logging = { module = "com.microsoft.azure:applicationinsights-logging-logback", version.ref = "azure" }
 # Core
 core = "androidx.core:core-ktx:1.10.0"
 core-appcompat = "androidx.appcompat:appcompat:1.6.1"

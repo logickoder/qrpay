@@ -16,6 +16,10 @@ java {
 }
 
 dependencies {
+    // Azure
+    implementation(libs.azure.insights)
+    implementation(libs.azure.logging)
+
     // H2 Database
     runtimeOnly(libs.h2)
 
