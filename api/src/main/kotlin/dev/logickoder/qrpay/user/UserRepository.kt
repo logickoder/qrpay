@@ -3,10 +3,10 @@ package dev.logickoder.qrpay.user
 import org.springframework.data.repository.CrudRepository
 import java.util.Optional
 
-interface UserRepository : CrudRepository<User, String> {
-    fun findByUsername(username: String): Optional<User>
+internal interface UserRepository : CrudRepository<UserEntity, String> {
+    fun findByUsername(username: String): Optional<UserEntity>
 }
 
-fun UserRepository.findByUsernameOrNull(username: String): User? {
+internal fun UserRepository.findByUsernameOrNull(username: String): UserEntity? {
     return findByUsername(username).orElse(null)
 }

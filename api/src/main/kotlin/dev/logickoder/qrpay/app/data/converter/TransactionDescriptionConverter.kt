@@ -1,6 +1,6 @@
 package dev.logickoder.qrpay.app.data.converter
 
-import dev.logickoder.qrpay.transaction.TransactionDescription
+import dev.logickoder.qrpay.model.TransactionDescription
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
 import kotlinx.serialization.decodeFromString

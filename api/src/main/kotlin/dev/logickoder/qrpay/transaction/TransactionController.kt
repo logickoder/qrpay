@@ -1,6 +1,6 @@
 package dev.logickoder.qrpay.transaction
 
-import dev.logickoder.qrpay.transaction.dto.SendMoneyRequest
+import dev.logickoder.qrpay.model.dto.SendMoneyRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.http.HttpHeaders
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/api/transactions")
-class TransactionController(
+internal class TransactionController(
     private val service: TransactionService,
 ) {
     /**

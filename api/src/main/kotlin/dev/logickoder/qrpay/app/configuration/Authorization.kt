@@ -1,6 +1,6 @@
 package dev.logickoder.qrpay.app.configuration
 
-import dev.logickoder.qrpay.user.User
+import dev.logickoder.qrpay.user.UserEntity
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
@@ -12,7 +12,7 @@ import java.util.Date
 
 
 @Component
-class Authorization {
+internal class Authorization {
     @Value("\${authorization.secret}")
     private lateinit var secret: String
 
@@ -42,7 +42,7 @@ class Authorization {
         return getExpirationDateFromToken(token).before(Date())
     }
 
-    fun generateToken(user: User): String {
+    fun generateToken(user: UserEntity): String {
         val claims: MutableMap<String, Any?> = HashMap()
         claims["role"] = user.roles
         val expirationTimeLong = expirationTime.toLong() //in second

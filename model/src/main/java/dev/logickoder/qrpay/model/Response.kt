@@ -1,8 +1,6 @@
-package dev.logickoder.qrpay.app.data.model
+package dev.logickoder.qrpay.model
 
 import kotlinx.serialization.Serializable
-
-typealias ResponseData = Map<String, Any?>
 
 @Serializable
 class Response<T>(

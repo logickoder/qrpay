@@ -16,6 +16,7 @@ java {
 }
 
 dependencies {
+    implementation(project(":model"))
     // Azure
     implementation(libs.azure.insights)
     implementation(libs.azure.logging)

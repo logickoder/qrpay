@@ -2,11 +2,12 @@ package dev.logickoder.qrpay.transaction
 
 import dev.logickoder.qrpay.app.configuration.Authorization
 import dev.logickoder.qrpay.app.configuration.Authorization.Companion.tokenFromAuth
-import dev.logickoder.qrpay.app.data.model.Response
-import dev.logickoder.qrpay.transaction.dto.SendMoneyRequest
+import dev.logickoder.qrpay.model.Response
+import dev.logickoder.qrpay.model.Transaction
+import dev.logickoder.qrpay.model.TransactionDescription
+import dev.logickoder.qrpay.model.dto.SendMoneyRequest
 import dev.logickoder.qrpay.user.UserRepository
 import dev.logickoder.qrpay.user.findByUsernameOrNull
-import kotlinx.serialization.json.Json
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,21 +18,11 @@ import org.springframework.transaction.annotation.Transactional
  * Service class for handling transactions.
  */
 @Service
-class TransactionService(
+internal class TransactionService(
     private val authorization: Authorization,
     private val userRepository: UserRepository,
     private val repository: TransactionRepository,
-    private val json: Json,
 ) {
-    /**
-     * Extension function to convert Transaction object to JSON response.
-     * @return JSON response as Map
-     */
-    private fun Transaction.toResponse(): Transaction {
-        // change all values that are not to be shown to null
-        return copy(user = null)
-    }
-
     /**
      * Sends money from one user to another.
      * @param token Authentication token
@@ -84,7 +75,7 @@ class TransactionService(
 
                 // deduct the transaction amount from the sender
                 sender = sender.copy(balance = sender.balance.minus(amount))
-                var senderTransaction = Transaction(
+                var senderTransaction = TransactionEntity(
                     description = TransactionDescription(
                         value = body.narration,
                         recipient = recipient.username,
@@ -97,7 +88,7 @@ class TransactionService(
 
                 // add the transaction amount to the recipient
                 recipient = recipient.copy(balance = recipient.balance.plus(amount))
-                val recipientTransaction = Transaction(
+                val recipientTransaction = TransactionEntity(
                     description = TransactionDescription(
                         value = body.narration,
                         sender = sender.username,
@@ -112,7 +103,7 @@ class TransactionService(
                     Response(
                         true,
                         "Transaction completed successfully",
-                        senderTransaction.toResponse(),
+                        senderTransaction.toTransaction(),
                     )
                 )
             }
@@ -136,7 +127,7 @@ class TransactionService(
         )
 
         // Retrieve transactions for the user and map them to response objects
-        val transactions = repository.findByUser(user).map { it.toResponse() }
+        val transactions = repository.findByUser(user).map { it.toTransaction() }
 
         // Return the response entity with transactions and success status
         return ResponseEntity.ok(

@@ -2,15 +2,15 @@ package dev.logickoder.qrpay.user
 
 
 import dev.logickoder.qrpay.app.configuration.Authorization
-import dev.logickoder.qrpay.user.dto.AuthResponse
-import dev.logickoder.qrpay.user.dto.LoginRequest
+import dev.logickoder.qrpay.model.User
+import dev.logickoder.qrpay.model.dto.AuthResponse
+import dev.logickoder.qrpay.model.dto.LoginRequest
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.serialization.json.Json
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
@@ -38,7 +38,7 @@ class UserServiceTest {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        service = UserService(repository, passwordEncoder, authorization, Json)
+        service = UserService(repository, passwordEncoder, authorization)
     }
 
     @Test
@@ -60,7 +60,7 @@ class UserServiceTest {
     @Test
     fun `should return success if user exists`() {
         // given
-        every { repository.findByUsernameOrNull(any()) } returns User("test", "password")
+        every { repository.findByUsernameOrNull(any()) } returns UserEntity("test", "password")
 
         // when
         val responseEntity = service.getUser("test")
@@ -76,7 +76,7 @@ class UserServiceTest {
     @Test
     fun `should return error if user already exists`() {
         // given
-        every { repository.findByUsernameOrNull(any()) } returns User(username = "test")
+        every { repository.findByUsernameOrNull(any()) } returns UserEntity(username = "test")
 
         // when
         val responseEntity = service.createUser(User(username = "test"))
@@ -91,13 +91,13 @@ class UserServiceTest {
 
     @Test
     fun `should create user and return success`() {
-        val user = User(username = "test", password = "password")
+        val user = UserEntity(username = "test", password = "password")
         // given
         every { repository.findByUsernameOrNull(any()) } returns null
         every { repository.save(any()) } returns user
 
         // when
-        val responseEntity = service.createUser(user)
+        val responseEntity = service.createUser(user.toUser())
         val response = responseEntity.body!!
 
         // then
@@ -110,7 +110,7 @@ class UserServiceTest {
     @Test
     fun `should return error if passwords don't match`() {
         // given
-        every { repository.findByUsernameOrNull(any()) } returns User()
+        every { repository.findByUsernameOrNull(any()) } returns UserEntity()
 
         // when
         val responseEntity = service.validateUser(LoginRequest("test", "password"))
@@ -128,7 +128,7 @@ class UserServiceTest {
         // given
         every {
             repository.findByUsernameOrNull(any())
-        } returns User(
+        } returns UserEntity(
             password = passwordEncoder.encode("password")
         )
         every {
@@ -150,7 +150,7 @@ class UserServiceTest {
     fun `test refreshToken with valid refresh token`() {
         // Mock input and expected output
         val refreshToken = "valid_refresh_token"
-        val user = User(username = "testuser")
+        val user = UserEntity(username = "testuser")
         every { authorization.getUserIdFromToken(refreshToken) } returns user.username
         every { repository.findByIdOrNull(user.username) } returns user
         every { authorization.generateToken(user) } returns "new_access_token"

@@ -2,10 +2,10 @@ package dev.logickoder.qrpay.user
 
 
 import dev.logickoder.qrpay.app.configuration.Authorization
-import dev.logickoder.qrpay.app.data.model.Response
-import dev.logickoder.qrpay.user.dto.AuthResponse
-import dev.logickoder.qrpay.user.dto.LoginRequest
-import kotlinx.serialization.json.Json
+import dev.logickoder.qrpay.model.Response
+import dev.logickoder.qrpay.model.User
+import dev.logickoder.qrpay.model.dto.AuthResponse
+import dev.logickoder.qrpay.model.dto.LoginRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,18 +19,11 @@ import org.springframework.stereotype.Service
  * @property passwordEncoder password encoder used to encode/decode passwords
  */
 @Service
-class UserService(
+internal class UserService(
     private val repository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
     private val authorization: Authorization,
-    private val json: Json,
 ) {
-
-    private fun User.toResponse(): User {
-        // change all values not be shown to null
-        return copy(password = null)
-    }
-
     /**
      * Retrieves a user with the given username from the repository.
      * @param username the username of the user to retrieve
@@ -45,7 +38,7 @@ class UserService(
             )
 
             else -> ResponseEntity.ok(
-                Response(true, "User retrieved successfully", user.toResponse())
+                Response(true, "User retrieved successfully", user.toUser())
             )
         }
     }
@@ -63,11 +56,12 @@ class UserService(
             null -> {
                 // Hash the password before saving to the database
                 val password = passwordEncoder.encode(user.password)
+                val entity = user.copy(password = password).toEntity()
                 ResponseEntity(
                     Response(
                         true,
                         "User created successfully",
-                        repository.save(user.copy(password = password)).toResponse()
+                        repository.save(entity).toUser()
                     ),
                     HttpStatus.CREATED,
                 )

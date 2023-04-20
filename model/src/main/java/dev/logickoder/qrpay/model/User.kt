@@ -1,12 +1,6 @@
-package dev.logickoder.qrpay.user
+package dev.logickoder.qrpay.model
 
-import dev.logickoder.qrpay.app.data.converter.BigDecimalSerializer
-import dev.logickoder.qrpay.app.data.converter.RolesConverter
-import jakarta.persistence.Convert
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import dev.logickoder.qrpay.model.serializer.BigDecimalSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
@@ -23,10 +17,7 @@ import java.math.BigDecimal
  * @property roles The roles assigned to the user. Default value is a list containing [Role.User].
  */
 @Serializable
-@Entity(name = "user_")
 data class User(
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     val id: String = "",
     @SerialName("first_name")
     val firstName: String = "",
@@ -34,9 +25,8 @@ data class User(
     val lastName: String = "",
     val username: String = "",
     @Serializable(with = BigDecimalSerializer::class)
-    val balance: BigDecimal = 50_000.toBigDecimal(),
+    val balance: BigDecimal = BigDecimal.ZERO,
     val password: String? = null,
-    @Convert(converter = RolesConverter::class)
     val roles: List<Role> = listOf(Role.User),
 )
 

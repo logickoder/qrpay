@@ -64,6 +64,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":model"))
+
     // for using some java 8 classes like LocalDate with older versions of android
     coreLibraryDesugaring(libs.core.java8)
 

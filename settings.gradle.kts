@@ -15,5 +15,7 @@ dependencyResolutionManagement {
         maven { url = uri("https://jitpack.io") }
     }
 }
+
 include(":app")
 include(":api")
+include(":model")
