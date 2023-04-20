@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.transaction.dto
+package dev.logickoder.qrpay.model.dto
 
 import kotlinx.serialization.Serializable
 

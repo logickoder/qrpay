@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono
 typealias Token = @receiver:RequestHeader(name = "Authorization") String
 
 @Component
-class AuthenticationManager(
+internal class AuthenticationManager(
     private val authorization: Authorization,
 ) : ReactiveAuthenticationManager {
     override fun authenticate(authentication: Authentication): Mono<Authentication> {

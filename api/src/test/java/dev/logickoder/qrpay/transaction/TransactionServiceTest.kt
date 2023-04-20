@@ -2,15 +2,13 @@ package dev.logickoder.qrpay.transaction
 
 import dev.logickoder.qrpay.app.configuration.Authorization
 import dev.logickoder.qrpay.app.configuration.Authorization.Companion.tokenFromAuth
-import dev.logickoder.qrpay.transaction.dto.SendMoneyRequest
-import dev.logickoder.qrpay.user.User
+import dev.logickoder.qrpay.model.dto.SendMoneyRequest
+import dev.logickoder.qrpay.user.UserEntity
 import dev.logickoder.qrpay.user.UserRepository
 import dev.logickoder.qrpay.user.findByUsernameOrNull
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -24,7 +22,6 @@ class TransactionServiceTest {
     private lateinit var authorization: Authorization
     private lateinit var userRepository: UserRepository
     private lateinit var repository: TransactionRepository
-    private lateinit var json: Json
     private lateinit var transactionService: TransactionService
 
     @BeforeEach
@@ -32,8 +29,7 @@ class TransactionServiceTest {
         authorization = mockk()
         userRepository = mockk()
         repository = mockk()
-        json = mockk()
-        transactionService = TransactionService(authorization, userRepository, repository, json)
+        transactionService = TransactionService(authorization, userRepository, repository)
     }
 
     @Test
@@ -107,7 +103,7 @@ class TransactionServiceTest {
         val token = "Bearer token"
         val sendMoneyRequest = SendMoneyRequest("recipient", 100f, "narration")
         every { authorization.getUserIdFromToken(token.tokenFromAuth()) } returns token
-        every { userRepository.findByIdOrNull(any()) } returns User()
+        every { userRepository.findByIdOrNull(any()) } returns UserEntity()
         every { userRepository.findByUsernameOrNull(any()) } returns null
 
         // Act
@@ -129,7 +125,7 @@ class TransactionServiceTest {
     fun `sendMoney should return BAD_REQUEST when sender is also recipient`() {
         // Arrange
         val token = "Bearer token"
-        val user = User(username = "test", id = "12")
+        val user = UserEntity(username = "test", id = "12")
         val sendMoneyRequest = SendMoneyRequest(user.username, 100f, "narration")
         every { authorization.getUserIdFromToken(any()) } returns token
         every { userRepository.findByIdOrNull(any()) } returns user
@@ -154,10 +150,10 @@ class TransactionServiceTest {
     fun `sendMoney should return PAYMENT_REQUIRED when sender does not have sufficient balance`() {
         // Arrange
         val token = "Bearer token"
-        val recipient = User("recipient")
+        val recipient = UserEntity("recipient")
         val sendMoneyRequest = SendMoneyRequest(recipient.username, 100f, "narration")
         every { authorization.getUserIdFromToken(any()) } returns token
-        every { userRepository.findByIdOrNull(any()) } returns User(balance = 90.toBigDecimal())
+        every { userRepository.findByIdOrNull(any()) } returns UserEntity(balance = 90.toBigDecimal())
         every { userRepository.findByUsernameOrNull(any()) } returns recipient
 
         // Act
@@ -182,13 +178,10 @@ class TransactionServiceTest {
         val token = "Bearer token"
         val sendMoneyRequest = SendMoneyRequest("2", 100f, "narration")
         every { authorization.getUserIdFromToken(any()) } returns "1"
-        every { userRepository.findByIdOrNull("1") } returns User(id = "1")
-        every { userRepository.findByUsernameOrNull("2") } returns User(id = "2")
+        every { userRepository.findByIdOrNull("1") } returns UserEntity(id = "1")
+        every { userRepository.findByUsernameOrNull("2") } returns UserEntity(id = "2")
         every { userRepository.save(any()) } answers { firstArg() }
         every { repository.save(any()) } answers { firstArg() }
-        every { json.encodeToJsonElement<Transaction>(any()) } returns Json.encodeToJsonElement(
-            Transaction()
-        )
 
         // Act
         val result = transactionService.sendMoney(token, sendMoneyRequest)
@@ -230,9 +223,9 @@ class TransactionServiceTest {
         // Arrange
         val auth = "Bearer token"
         val token = auth.tokenFromAuth()
-        val user = User()
+        val user = UserEntity()
         val transactions = List(10) {
-            Transaction(id = it.toString())
+            TransactionEntity(id = it.toString())
         }
         every { authorization.getUserIdFromToken(token) } returns user.id
         every { userRepository.findByIdOrNull(user.id) } returns user
@@ -248,6 +241,6 @@ class TransactionServiceTest {
         assertEquals(HttpStatus.OK, result.statusCode)
         assertEquals(true, result.body?.success)
         assertEquals("Transactions retrieved successfully", result.body?.message)
-        assertEquals(transactions, result.body?.data)
+        assertEquals(transactions.map { it.toTransaction() }, result.body?.data)
     }
 }

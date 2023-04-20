@@ -1,8 +1,8 @@
 package dev.logickoder.qrpay.transaction
 
-import dev.logickoder.qrpay.user.User
+import dev.logickoder.qrpay.user.UserEntity
 import org.springframework.data.repository.CrudRepository
 
-interface TransactionRepository : CrudRepository<Transaction, String> {
-    fun findByUser(user: User): List<Transaction>
+internal interface TransactionRepository : CrudRepository<TransactionEntity, String> {
+    fun findByUser(user: UserEntity): List<TransactionEntity>
 }

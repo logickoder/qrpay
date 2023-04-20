@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 
 
 @Component
-class SecurityContextRepository(
+internal class SecurityContextRepository(
     private val authenticationManager: AuthenticationManager,
 ) : ServerSecurityContextRepository {
 

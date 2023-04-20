@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.app.data.converter
+package dev.logickoder.qrpay.model.serializer
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializer

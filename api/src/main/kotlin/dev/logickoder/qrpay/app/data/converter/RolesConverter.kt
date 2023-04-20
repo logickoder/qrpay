@@ -1,6 +1,6 @@
 package dev.logickoder.qrpay.app.data.converter
 
-import dev.logickoder.qrpay.user.Role
+import dev.logickoder.qrpay.model.Role
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
 

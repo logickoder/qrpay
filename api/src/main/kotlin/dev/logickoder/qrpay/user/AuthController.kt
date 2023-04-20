@@ -1,7 +1,8 @@
 package dev.logickoder.qrpay.user
 
-import dev.logickoder.qrpay.user.dto.AuthResponse
-import dev.logickoder.qrpay.user.dto.LoginRequest
+import dev.logickoder.qrpay.model.User
+import dev.logickoder.qrpay.model.dto.AuthResponse
+import dev.logickoder.qrpay.model.dto.LoginRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/api")
-class AuthController(
+internal class AuthController(
     private val service: UserService,
 ) {
     /**

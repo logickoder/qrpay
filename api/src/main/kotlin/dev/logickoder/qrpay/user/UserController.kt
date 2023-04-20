@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/api/users")
-class UserController(
+internal class UserController(
     private val service: UserService,
 ) {
     /**
      * Retrieves a user with the given [username].
      *
      * @param username The username of the user to retrieve.
-     * @return The retrieved [User] object.
+     * @return The retrieved user.
      */
     @GetMapping("/{username}")
     @Operation(summary = "Get user", description = "Retrieves the specified user")

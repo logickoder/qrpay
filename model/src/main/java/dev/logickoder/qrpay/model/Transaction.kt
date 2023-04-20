@@ -1,17 +1,7 @@
-package dev.logickoder.qrpay.transaction
+package dev.logickoder.qrpay.model
 
-import dev.logickoder.qrpay.app.data.converter.BigDecimalSerializer
-import dev.logickoder.qrpay.app.data.converter.LocalDateTimeSerializer
-import dev.logickoder.qrpay.app.data.converter.TransactionDescriptionConverter
-import dev.logickoder.qrpay.user.User
-import jakarta.persistence.Column
-import jakarta.persistence.Convert
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import dev.logickoder.qrpay.model.serializer.BigDecimalSerializer
+import dev.logickoder.qrpay.model.serializer.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -24,18 +14,13 @@ import java.time.LocalDateTime
  * @property description The description of the transaction.
  * @property amount The amount of the transaction.
  * @property time The time of the transaction
- * @property user The user associated with the transaction using Many-to-One relationship.
  */
-@Entity
 @Serializable
 data class Transaction(
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     val id: String = "",
 
     val type: TransactionType = TransactionType.Transfer,
 
-    @Convert(converter = TransactionDescriptionConverter::class)
     val description: TransactionDescription = TransactionDescription(),
 
     @Serializable(with = BigDecimalSerializer::class)
@@ -43,10 +28,6 @@ data class Transaction(
 
     @Serializable(with = LocalDateTimeSerializer::class)
     val time: LocalDateTime = LocalDateTime.now(),
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    val user: User? = null,
 )
 
 /**
@@ -65,7 +46,6 @@ enum class TransactionType {
  */
 @Serializable
 data class TransactionDescription(
-    @Column(name = "description")
     val value: String = "",
 
     val sender: String? = null,
