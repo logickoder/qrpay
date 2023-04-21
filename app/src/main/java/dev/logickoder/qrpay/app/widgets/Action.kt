@@ -1,15 +1,17 @@
 package dev.logickoder.qrpay.app.widgets
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import dev.logickoder.qrpay.app.theme.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,16 +20,23 @@ fun Action(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    Column(
+    Scaffold(
         modifier = modifier,
-        content = {
+        topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = title)) },
+                title = {
+                    Text(text = stringResource(id = title))
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Theme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                 ),
             )
-            content()
+        },
+        content = {
+            Surface(
+                modifier = modifier.padding(it),
+                content = content,
+            )
         }
     )
 }

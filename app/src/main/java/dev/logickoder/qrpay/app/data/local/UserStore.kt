@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.logickoder.qrpay.app.data.model.User
+import dev.logickoder.qrpay.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
@@ -19,11 +19,13 @@ import javax.inject.Inject
 /**
  * Stores the user info on the device
  */
-class UserStore @Inject constructor(@ApplicationContext private val context: Context) {
+class UserStore @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
     /**
      * save the user into the local storage
      */
-    suspend fun save(user: User) {
+    suspend fun saveUser(user: User) {
         context.userStore.edit { preferences ->
             preferences[USER] = Json.encodeToString(user)
         }
@@ -32,11 +34,25 @@ class UserStore @Inject constructor(@ApplicationContext private val context: Con
     /**
      * retrieves the user saved on the device or null if no user is present
      */
-    fun get(): Flow<User?> = context.userStore.data.map { preferences ->
+    fun getUser(): Flow<User?> = context.userStore.data.map { preferences ->
         preferences[USER]?.let {
             Json.decodeFromString(it)
         }
     }
+
+    /**
+     * saves the bearer token to the device
+     */
+    suspend fun saveToken(token: String) {
+        context.userStore.edit { preferences ->
+            preferences[TOKEN] = token
+        }
+    }
+
+    /**
+     * retrieves the token saved on the device or null if no token is present
+     */
+    fun getToken(): Flow<String?> = context.userStore.data.map { it[TOKEN] }
 
     /**
      * Delete the user from the local store
@@ -47,6 +63,7 @@ class UserStore @Inject constructor(@ApplicationContext private val context: Con
 
     companion object {
         private val USER = stringPreferencesKey("user")
+        private val TOKEN = stringPreferencesKey("token")
 
         private val Context.userStore: DataStore<Preferences> by preferencesDataStore(
             name = "user"

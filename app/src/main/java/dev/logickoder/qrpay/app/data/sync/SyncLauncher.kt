@@ -12,23 +12,27 @@ import kotlin.time.Duration.Companion.seconds
 class SyncLauncher @Inject constructor(
     private val transactionsSync: TransactionsSync,
     private val userSync: UserSync,
-) {
+) : Sync {
     private val scope = MainScope() + Dispatchers.Default
 
     private val rerunDelay = 20L.seconds
 
-    fun launch() {
+    init {
         scope.launch {
             while (true) {
-                coroutineScope {
-                    launch {
-                        userSync.sync()
-                    }
-                    launch {
-                        transactionsSync.sync()
-                    }
-                }
+                sync()
                 delay(rerunDelay)
+            }
+        }
+    }
+
+    override suspend fun sync() {
+        coroutineScope {
+            launch {
+                userSync.sync()
+            }
+            launch {
+                transactionsSync.sync()
             }
         }
     }

@@ -2,8 +2,8 @@ package dev.logickoder.qrpay.user
 
 
 import dev.logickoder.qrpay.app.configuration.Authorization
-import dev.logickoder.qrpay.model.User
 import dev.logickoder.qrpay.model.dto.AuthResponse
+import dev.logickoder.qrpay.model.dto.CreateUserRequest
 import dev.logickoder.qrpay.model.dto.LoginRequest
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -79,7 +79,7 @@ class UserServiceTest {
         every { repository.findByUsernameOrNull(any()) } returns UserEntity(username = "test")
 
         // when
-        val responseEntity = service.createUser(User(username = "test"))
+        val responseEntity = service.createUser(CreateUserRequest(username = "test"))
         val response = responseEntity.body!!
 
         // then
@@ -97,7 +97,9 @@ class UserServiceTest {
         every { repository.save(any()) } returns user
 
         // when
-        val responseEntity = service.createUser(user.toUser())
+        val responseEntity = service.createUser(
+            CreateUserRequest(username = user.username, password = user.password)
+        )
         val response = responseEntity.body!!
 
         // then

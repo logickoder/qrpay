@@ -50,6 +50,6 @@ internal fun TransactionEntity.toTransaction() = Transaction(
     id = id,
     type = type,
     description = description,
-    amount = amount,
+    amount = amount.toFloat(),
     time = time,
 )

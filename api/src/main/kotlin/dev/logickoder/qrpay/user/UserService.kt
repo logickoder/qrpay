@@ -5,6 +5,7 @@ import dev.logickoder.qrpay.app.configuration.Authorization
 import dev.logickoder.qrpay.model.Response
 import dev.logickoder.qrpay.model.User
 import dev.logickoder.qrpay.model.dto.AuthResponse
+import dev.logickoder.qrpay.model.dto.CreateUserRequest
 import dev.logickoder.qrpay.model.dto.LoginRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
@@ -30,7 +31,7 @@ internal class UserService(
      * @return a Response object containing the retrieved user,
      * or an error message if the user doesn't exist
      */
-    fun getUser(username: String): ResponseEntity<Response<User?>> {
+    fun getUser(username: String): ResponseEntity<Response<User>> {
         return when (val user = repository.findByUsernameOrNull(username)) {
             null -> ResponseEntity(
                 Response(false, "User does not exist", null),
@@ -46,22 +47,22 @@ internal class UserService(
 
     /**
      * Creates a new user with the given User object.
-     * @param user the object representing the new user to create
+     * @param request the object representing the new user to create
      * @return a Response object containing the created user,
      * or an error message if the user already exists
      */
-    fun createUser(user: User): ResponseEntity<Response<User?>> {
-        return when (repository.findByUsernameOrNull(user.username)) {
+    fun createUser(request: CreateUserRequest): ResponseEntity<Response<User>> {
+        return when (repository.findByUsernameOrNull(request.username)) {
             // user does not exist
             null -> {
                 // Hash the password before saving to the database
-                val password = passwordEncoder.encode(user.password)
-                val entity = user.copy(password = password).toEntity()
+                val password = passwordEncoder.encode(request.password)
+                val user = request.copy(password = password).toEntity()
                 ResponseEntity(
                     Response(
                         true,
                         "User created successfully",
-                        repository.save(entity).toUser()
+                        repository.save(user).toUser()
                     ),
                     HttpStatus.CREATED,
                 )
@@ -81,7 +82,7 @@ internal class UserService(
      * or an error message if the user doesn't exist
      * or the password is incorrect
      */
-    fun validateUser(request: LoginRequest): ResponseEntity<Response<AuthResponse?>> {
+    fun validateUser(request: LoginRequest): ResponseEntity<Response<AuthResponse>> {
         // Retrieve the user from the repository
         return when (val user = repository.findByUsernameOrNull(request.username)) {
             null -> ResponseEntity(
@@ -113,7 +114,7 @@ internal class UserService(
      * @param body The refresh token to use for token refresh.
      * @return A ResponseEntity containing a Response object with the refreshed access token and response status.
      */
-    fun refreshToken(body: AuthResponse): ResponseEntity<Response<AuthResponse?>> {
+    fun refreshToken(body: AuthResponse): ResponseEntity<Response<AuthResponse>> {
         return try {
             // Extract user id from the provided token
             val userId = authorization.getUserIdFromToken(body.token)

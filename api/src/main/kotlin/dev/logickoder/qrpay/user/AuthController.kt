@@ -2,6 +2,7 @@ package dev.logickoder.qrpay.user
 
 import dev.logickoder.qrpay.model.User
 import dev.logickoder.qrpay.model.dto.AuthResponse
+import dev.logickoder.qrpay.model.dto.CreateUserRequest
 import dev.logickoder.qrpay.model.dto.LoginRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -23,14 +24,14 @@ internal class AuthController(
     /**
      * Creates a new user with the given [body].
      *
-     * @param body The [User] object representing the new user to create.
+     * @param body The [CreateUserRequest] object representing the new user to create.
      * @return The created [User] object.
      */
     @PostMapping("/register")
     @Operation(summary = "Create user", description = "Creates a new user")
     @ApiResponse(responseCode = "201", description = "User created successfully")
     @ApiResponse(responseCode = "409", description = "User already exists")
-    fun createUser(@RequestBody body: User) = service.createUser(body)
+    fun createUser(@RequestBody body: CreateUserRequest) = service.createUser(body)
 
     /**
      * Validates a user with the given [request].

@@ -1,16 +1,19 @@
 package dev.logickoder.qrpay
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.logickoder.qrpay.app.data.model.Transaction
-import dev.logickoder.qrpay.app.data.model.User
 import dev.logickoder.qrpay.app.data.repository.TransactionsRepository
 import dev.logickoder.qrpay.app.data.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import dev.logickoder.qrpay.app.data.sync.SyncLauncher
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,43 +21,26 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val userRepository: UserRepository,
+    private val syncLauncher: SyncLauncher,
 ) : ViewModel() {
 
-    val transactions = mutableStateListOf<Transaction>()
+    val transactions = transactionsRepository.transactions.map {
+        it.toPersistentList()
+    }.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5_000), persistentListOf()
+    )
 
-    val user = mutableStateOf<User?>(null)
+    val user = userRepository.currentUser.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5_000), null
+    )
 
-    val isRefreshing = mutableStateOf(false)
-
-    init {
-        viewModelScope.launch {
-            launch {
-                userRepository.currentUser.collect {
-                    user.value = it
-                }
-            }
-            launch {
-                transactionsRepository.transactions.collect { data ->
-                    transactions.clear()
-                    transactions.addAll(data)
-                }
-            }
-        }
-    }
+    var refreshing by mutableStateOf(false)
 
     fun refresh() {
-        val userId = user.value?.id
-        if (userId != null) viewModelScope.launch(Dispatchers.Default) {
-            isRefreshing.value = true
-            coroutineScope {
-                launch {
-                    userRepository.login(userId)
-                }
-                launch {
-                    transactionsRepository.fetchTransactions(userId)
-                }
-            }
-            isRefreshing.value = false
+        viewModelScope.launch {
+            refreshing = true
+            syncLauncher.sync()
+            refreshing = false
         }
     }
 

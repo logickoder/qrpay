@@ -13,33 +13,37 @@ import androidx.compose.ui.unit.dp
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.app.data.model.QrCode
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 
 @Composable
 fun QRCode(
-    qrCode: QrCode,
+    qrCode: String,
     modifier: Modifier = Modifier,
-) = BoxWithConstraints(modifier = modifier, contentAlignment = Alignment.Center) {
-    val size = (maxWidth.value / 1.5).toInt()
-    val bitmap = remember {
-        try {
-            BarcodeEncoder().encodeBitmap(
-                Json.encodeToString(qrCode),
-                BarcodeFormat.QR_CODE,
-                size,
-                size
+) {
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+        content = {
+            val size = (maxWidth.value / 1.5).toInt()
+            val bitmap = remember {
+                try {
+                    BarcodeEncoder().encodeBitmap(
+                        Json.encodeToString(qrCode),
+                        BarcodeFormat.QR_CODE,
+                        size,
+                        size
+                    ).asImageBitmap()
+                } catch (e: Exception) {
+                    null
+                }
+            }
+            if (bitmap != null) Image(
+                bitmap = bitmap,
+                contentDescription = stringResource(id = R.string.qr_code_description, qrCode),
+                modifier = Modifier.size(size.dp)
             )
-                .asImageBitmap()
-        } catch (e: Exception) {
-            null
         }
-    }
-    if (bitmap != null) Image(
-        bitmap = bitmap,
-        contentDescription = stringResource(id = R.string.qr_code_description, qrCode.qrPayUid),
-        modifier = Modifier.size(size.dp)
     )
 }

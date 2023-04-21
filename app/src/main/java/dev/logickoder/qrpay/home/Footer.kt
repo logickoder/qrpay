@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.Login
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -36,9 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.theme.QRPayTheme
-import dev.logickoder.qrpay.app.theme.Theme
-import dev.logickoder.qrpay.app.theme.paddingPrimary
-import dev.logickoder.qrpay.app.theme.paddingSecondary
+import dev.logickoder.qrpay.app.theme.primaryPadding
+import dev.logickoder.qrpay.app.theme.secondaryPadding
 import dev.logickoder.qrpay.app.widgets.DropdownField
 
 @Composable
@@ -53,11 +53,11 @@ fun Footer(
     content = {
         Column(
             modifier = modifier
-                .background(Theme.colorScheme.background.copy(alpha = 0.1f))
+                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.1f))
                 .fillMaxWidth()
                 .padding(
-                    vertical = paddingSecondary(),
-                    horizontal = paddingPrimary(),
+                    vertical = secondaryPadding(),
+                    horizontal = primaryPadding(),
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             content = {
@@ -65,7 +65,7 @@ fun Footer(
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Black)) {
                         append(stringResource(id = R.string.app_name))
                     }
-                    withStyle(style = SpanStyle(color = Theme.colorScheme.onTertiary)) {
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onTertiary)) {
                         append(" ${stringResource(id = R.string.made_by)} ")
                     }
                     val me = stringResource(id = R.string.me)
@@ -77,7 +77,7 @@ fun Footer(
                 val context = LocalContext.current
                 ClickableText(
                     text = text,
-                    style = Theme.typography.bodyMedium.copy(color = Theme.colorScheme.onSurface),
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                     onClick = { offset ->
                         text.getStringAnnotations(tag = "me", start = offset, end = offset)
                             .firstOrNull()
@@ -92,7 +92,7 @@ fun Footer(
                 )
                 Row(
                     horizontalArrangement = Arrangement.SpaceAround,
-                    modifier = Modifier.padding(horizontal = paddingPrimary()),
+                    modifier = Modifier.padding(horizontal = primaryPadding()),
                     content = {
                         DropdownField(
                             suggested = stringResource(id = R.string.currency),
@@ -101,13 +101,13 @@ fun Footer(
                         ) { suggested, expanded ->
                             TextButton(
                                 onClick = {},
-                                shape = Theme.shapes.medium,
-                                border = BorderStroke(1.dp, Theme.colorScheme.onBackground),
-                                colors = ButtonDefaults.textButtonColors(contentColor = Theme.colorScheme.onBackground),
+                                shape = MaterialTheme.shapes.medium,
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+                                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
                                 content = {
                                     Text(
                                         text = suggested,
-                                        style = Theme.typography.labelMedium,
+                                        style = MaterialTheme.typography.labelMedium,
                                     )
                                     Icon(
                                         Icons.Outlined.ArrowDropDown,
@@ -120,9 +120,9 @@ fun Footer(
                         Spacer(Modifier.width(dimensionResource(id = R.dimen.primary_padding)))
                         TextButton(
                             onClick = logout,
-                            shape = Theme.shapes.medium,
-                            border = BorderStroke(1.dp, Theme.colorScheme.error),
-                            colors = ButtonDefaults.textButtonColors(contentColor = Theme.colorScheme.error),
+                            shape = MaterialTheme.shapes.medium,
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.error),
+                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
                             content = {
                                 Icon(
                                     imageVector = Icons.Outlined.Login,
@@ -131,7 +131,7 @@ fun Footer(
                                 )
                                 Text(
                                     text = stringResource(id = R.string.logout),
-                                    style = Theme.typography.labelMedium,
+                                    style = MaterialTheme.typography.labelMedium,
                                 )
                             }
                         )

@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,10 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
 import dev.logickoder.qrpay.app.theme.QRPayTheme
-import dev.logickoder.qrpay.app.theme.Theme
+import dev.logickoder.qrpay.auth.AuthRoute
 import dev.logickoder.qrpay.home.HomeModal
 import dev.logickoder.qrpay.home.HomeScreen
-import dev.logickoder.qrpay.login.LoginScreen
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -84,6 +85,9 @@ private fun Content(
             }
         }
     }
+    val user by viewModel.user.collectAsState()
+    val transactions by viewModel.transactions.collectAsState()
+    val currency = '\u20a6'.toString()
 
     BackHandler(
         enabled = sheetValue != SheetValue.Hidden,
@@ -94,9 +98,9 @@ private fun Content(
         modifier = modifier,
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp,
-        sheetShape = Theme.shapes.large,
-        sheetContainerColor = Theme.colorScheme.background,
-        containerColor = Theme.colorScheme.background,
+        sheetShape = MaterialTheme.shapes.large,
+        sheetContainerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = {
@@ -108,13 +112,17 @@ private fun Content(
             )
         },
         content = {
-            if (viewModel.user.value == null) LoginScreen()
+            if (user == null) AuthRoute(
+                modifier = Modifier.padding(it)
+            )
             HomeScreen(
-                user = viewModel.user,
+                user = user,
+                currency = currency,
+                transactions = transactions.size,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(it),
-                isRefreshing = viewModel.isRefreshing,
+                refreshing = viewModel.refreshing,
                 refresh = viewModel::refresh,
                 showSheet = showSheet,
                 logout = viewModel::logout
@@ -123,8 +131,8 @@ private fun Content(
         sheetContent = {
             HomeModal(
                 modal = modal,
-                user = viewModel.user,
-                transactions = viewModel.transactions,
+                currency = currency,
+                transactions = transactions,
             )
         }
     )

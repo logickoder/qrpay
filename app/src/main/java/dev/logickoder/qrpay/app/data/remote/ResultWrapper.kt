@@ -23,3 +23,10 @@ sealed class ResultWrapper<out T> {
         constructor(message: String) : this(Throwable(message))
     }
 }
+
+inline fun <T, S, R : ResultWrapper<S>> ResultWrapper<T>.successful(action: (T) -> R) =
+    when (this) {
+        is ResultWrapper.Success -> action(data)
+        ResultWrapper.Loading -> ResultWrapper.Loading
+        is ResultWrapper.Failure -> ResultWrapper.Failure(error)
+    }

@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 class Response<T>(
     val success: Boolean = true,
     val message: String,
-    val data: T,
+    val data: T?,
 )
+
+fun <T> Response<T>.isSuccessful() = success && data != null

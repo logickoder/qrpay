@@ -30,7 +30,7 @@ internal class TransactionService(
      * @return ResponseEntity containing the response data
      */
     @Transactional
-    fun sendMoney(token: String, body: SendMoneyRequest): ResponseEntity<Response<Transaction?>> {
+    fun sendMoney(token: String, body: SendMoneyRequest): ResponseEntity<Response<Transaction>> {
         return when {
             body.amount == 0f -> ResponseEntity(
                 Response(false, "No amount specified", null),
@@ -117,7 +117,7 @@ internal class TransactionService(
      * @return A [ResponseEntity] with a [Response] containing a list of transactions,
      *         along with the status and error messages.
      */
-    fun getTransactions(token: String): ResponseEntity<Response<List<Transaction>?>> {
+    fun getTransactions(token: String): ResponseEntity<Response<List<Transaction>>> {
         // Retrieve the user Id from the auth token
         val userId = authorization.getUserIdFromToken(token.tokenFromAuth())
 

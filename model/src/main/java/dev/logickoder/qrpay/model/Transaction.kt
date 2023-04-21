@@ -1,9 +1,7 @@
 package dev.logickoder.qrpay.model
 
-import dev.logickoder.qrpay.model.serializer.BigDecimalSerializer
 import dev.logickoder.qrpay.model.serializer.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
 import java.time.LocalDateTime
 
 /**
@@ -23,8 +21,7 @@ data class Transaction(
 
     val description: TransactionDescription = TransactionDescription(),
 
-    @Serializable(with = BigDecimalSerializer::class)
-    val amount: BigDecimal = BigDecimal.ZERO,
+    val amount: Float = 0f,
 
     @Serializable(with = LocalDateTimeSerializer::class)
     val time: LocalDateTime = LocalDateTime.now(),
