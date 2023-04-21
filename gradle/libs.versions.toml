@@ -102,6 +102,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 spring-acutator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
 spring-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }

@@ -16,6 +16,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.theme.mediumPadding
@@ -118,7 +119,10 @@ fun SendMoneyScreen(
                     InputField(
                         title = stringResource(id = R.string.amount),
                         value = state.amount.formatted,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next,
+                        ),
                         onValueChange = { amount ->
                             amount.replace(",", "").toFloatOrNull()?.let {
                                 onUpdate(state.copy(amount = it.absoluteValue))
@@ -148,8 +152,7 @@ fun SendMoneyScreen(
                                 stringResource(id = R.string.transaction_successful)
                             } else state.apiResponse.message,
                             style = MaterialTheme.typography.labelMedium,
-                            color =
-                            if (state.apiResponse.success) {
+                            color = if (state.apiResponse.success) {
                                 MaterialTheme.colorScheme.secondary
                             } else MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(top = primaryPadding() / 2),

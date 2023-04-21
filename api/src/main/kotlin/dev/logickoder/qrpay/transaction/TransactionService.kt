@@ -52,7 +52,7 @@ internal class TransactionService(
                         HttpStatus.UNAUTHORIZED,
                     )
 
-                var recipient = userRepository.findByUsernameOrNull(body.recipient)
+                var recipient = userRepository.findByUsernameOrNull(body.recipient.trim())
                     ?: return ResponseEntity(
                         Response(false, "Recipient does not exist", null),
                         HttpStatus.NOT_FOUND,

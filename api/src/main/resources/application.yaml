@@ -10,6 +10,7 @@ azure:
 authorization:
   secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
   expiration: 28800
+
 spring:
   datasource:
     url: jdbc:h2:file:~/qrpay
@@ -24,6 +25,7 @@ spring:
   h2:
     console:
       enabled: true
+
 springdoc:
   api-docs:
     version: OPENAPI_3_0

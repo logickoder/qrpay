@@ -44,6 +44,7 @@ dependencies {
     // Spring
     implementation(libs.spring.acutator)
     implementation(libs.spring.data)
+    implementation(libs.spring.jackson)
     implementation(libs.spring.security)
     implementation(libs.spring.validation)
     implementation(libs.spring.webflux)

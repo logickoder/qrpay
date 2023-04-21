@@ -37,11 +37,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class QrPayApi constructor(
+class QrPayApi @Inject constructor(
     private val userStore: UserStore,
 ) {
-    private val baseUrl = "qrpay-logickoder.azurewebsites.net/api"
+    private val baseUrl = "https://qrpay-logickoder.azurewebsites.net/api"
 
     suspend fun login(body: LoginRequest): ResultWrapper<Response<AuthResponse>> {
         return client.call {

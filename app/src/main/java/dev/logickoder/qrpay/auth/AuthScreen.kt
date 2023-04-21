@@ -3,10 +3,12 @@ package dev.logickoder.qrpay.auth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Visibility
@@ -24,12 +26,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.window.DialogProperties
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.theme.mediumPadding
 import dev.logickoder.qrpay.app.theme.primaryPadding
+import dev.logickoder.qrpay.app.theme.smallPadding
 import dev.logickoder.qrpay.app.widgets.InputField
 import dev.logickoder.qrpay.app.widgets.LoadingButton
 
@@ -43,6 +48,7 @@ fun AuthScreen(
 ) {
     AlertDialog(
         modifier = modifier
+            .padding(primaryPadding())
             .clip(MaterialTheme.shapes.large)
             .background(MaterialTheme.colorScheme.background)
             .padding(primaryPadding()),
@@ -66,6 +72,7 @@ fun AuthScreen(
                                     },
                                     placeholder = stringResource(R.string.enter_firstname),
                                 )
+                                Spacer(modifier = Modifier.height(mediumPadding()))
                                 InputField(
                                     title = stringResource(R.string.lastname),
                                     value = state.lastname,
@@ -74,6 +81,7 @@ fun AuthScreen(
                                     },
                                     placeholder = stringResource(R.string.enter_lastname),
                                 )
+                                Spacer(modifier = Modifier.height(mediumPadding()))
                             }
 
                             InputField(
@@ -90,6 +98,8 @@ fun AuthScreen(
                                     )
                                 },
                             )
+
+                            Spacer(modifier = Modifier.height(mediumPadding()))
 
                             val passwordVisible = remember {
                                 mutableStateOf(false)
@@ -119,31 +129,40 @@ fun AuthScreen(
                                 visualTransformation = if (passwordVisible.value) {
                                     VisualTransformation.None
                                 } else PasswordVisualTransformation(),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Password,
+                                    imeAction = ImeAction.Done,
+                                )
                             )
 
-                            Text(
-                                text = stringResource(
-                                    id = if (state.type == AuthScreenType.Login) {
-                                        R.string.dont_have_account
-                                    } else R.string.already_have_account,
-                                ),
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontWeight = FontWeight.Bold
-                                ),
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.clickable {
-                                    if (!state.loading) {
-                                        update(
-                                            state.copy(
-                                                type = when (state.type) {
-                                                    AuthScreenType.Login -> AuthScreenType.Register
-                                                    AuthScreenType.Register -> AuthScreenType.Login
-                                                }
+                            Spacer(modifier = Modifier.height(smallPadding()))
+
+                            Row {
+                                Spacer(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = stringResource(
+                                        id = if (state.type == AuthScreenType.Login) {
+                                            R.string.dont_have_account
+                                        } else R.string.already_have_account,
+                                    ),
+                                    style = MaterialTheme.typography.bodyMedium.copy(
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.clickable {
+                                        if (!state.loading) {
+                                            update(
+                                                state.copy(
+                                                    type = when (state.type) {
+                                                        AuthScreenType.Login -> AuthScreenType.Register
+                                                        AuthScreenType.Register -> AuthScreenType.Login
+                                                    }
+                                                )
                                             )
-                                        )
-                                    }
-                                },
-                            )
+                                        }
+                                    },
+                                )
+                            }
                         }
 
                         else -> {
@@ -154,7 +173,7 @@ fun AuthScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(mediumPadding()))
+                    Spacer(modifier = Modifier.height(primaryPadding()))
 
                     LoadingButton(
                         isLoading = state.loading,

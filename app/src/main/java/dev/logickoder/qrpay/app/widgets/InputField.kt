@@ -12,6 +12,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import dev.logickoder.qrpay.app.theme.smallPadding
@@ -26,7 +27,9 @@ fun InputField(
     enabled: Boolean = true,
     singleLine: Boolean = true,
     onValueChange: (String) -> Unit,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
+        imeAction = ImeAction.Next,
+    ),
     visualTransformation: VisualTransformation = VisualTransformation.None,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,

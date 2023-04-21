@@ -32,7 +32,7 @@ internal class UserService(
      * or an error message if the user doesn't exist
      */
     fun getUser(username: String): ResponseEntity<Response<User>> {
-        return when (val user = repository.findByUsernameOrNull(username)) {
+        return when (val user = repository.findByUsernameOrNull(username.trim())) {
             null -> ResponseEntity(
                 Response(false, "User does not exist", null),
                 HttpStatus.NOT_FOUND,
@@ -52,7 +52,7 @@ internal class UserService(
      * or an error message if the user already exists
      */
     fun createUser(request: CreateUserRequest): ResponseEntity<Response<User>> {
-        return when (repository.findByUsernameOrNull(request.username)) {
+        return when (repository.findByUsernameOrNull(request.username.trim())) {
             // user does not exist
             null -> {
                 // Hash the password before saving to the database
@@ -84,7 +84,7 @@ internal class UserService(
      */
     fun validateUser(request: LoginRequest): ResponseEntity<Response<AuthResponse>> {
         // Retrieve the user from the repository
-        return when (val user = repository.findByUsernameOrNull(request.username)) {
+        return when (val user = repository.findByUsernameOrNull(request.username.trim())) {
             null -> ResponseEntity(
                 Response(false, "User does not exist", null),
                 HttpStatus.NOT_FOUND

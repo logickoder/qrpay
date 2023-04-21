@@ -10,8 +10,16 @@ concurrency:
 on:
   push:
     branches: [ dev ]
+    paths:
+      - 'api/**'
+      - 'build.gradle.kts'
+      - 'gradle/**'
   pull_request:
     branches: [ dev ]
+    paths:
+      - 'api/**'
+      - 'build.gradle.kts'
+      - 'gradle/**'
   workflow_dispatch:
 
 jobs:
