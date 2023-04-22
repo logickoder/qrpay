@@ -44,8 +44,8 @@ import javax.inject.Singleton
 class QrPayApi @Inject constructor(
     private val userStore: UserStore,
 ) {
-    //    private val baseUrl = "https://qrpay-logickoder.azurewebsites.net/api"
-    private val baseUrl = "http://localhost:8080/api"
+    private val baseUrl = "https://qrpay-logickoder.azurewebsites.net/api"
+//    private val baseUrl = "http://localhost:8080/api"
 
     suspend fun login(body: LoginRequest): ResultWrapper<Response<AuthResponse>> {
         return client.call {

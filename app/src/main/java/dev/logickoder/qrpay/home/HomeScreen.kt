@@ -44,6 +44,11 @@ fun HomeScreen(
     val pullRefreshState = rememberPullRefreshState(refreshing, refresh)
     val scrollState = rememberScrollState()
 
+    LaunchedEffect(key1 = Unit, block = {
+        // pulls data from the server on app launch
+        refresh()
+    })
+
     LaunchedEffect(key1 = user, block = {
         // scrolls to the top of the screen when the user is null
         // which is what usually happens when the user is logged out
