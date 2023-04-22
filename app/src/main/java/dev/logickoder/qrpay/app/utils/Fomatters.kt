@@ -7,7 +7,7 @@ import java.time.format.FormatStyle
 import kotlin.math.absoluteValue
 
 private val amountFormatter = DecimalFormat("#,###.00")
-private val timeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+private val timeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
 
 /**
  * Returns a formatted amount

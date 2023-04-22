@@ -4,19 +4,26 @@ import dev.logickoder.qrpay.app.data.local.UserStore
 import dev.logickoder.qrpay.app.data.remote.QrPayApi
 import dev.logickoder.qrpay.app.data.remote.ResultWrapper
 import dev.logickoder.qrpay.app.data.remote.successful
+import dev.logickoder.qrpay.app.data.sync.TransactionsSync
 import dev.logickoder.qrpay.model.User
 import dev.logickoder.qrpay.model.dto.CreateUserRequest
 import dev.logickoder.qrpay.model.dto.LoginRequest
 import dev.logickoder.qrpay.model.isSuccessful
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
+import io.ktor.client.plugins.plugin
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Handles operations relating to the user
  */
+@Singleton
 class UserRepository @Inject constructor(
     private val local: UserStore,
     private val remote: QrPayApi,
+    private val transactions: TransactionsSync,
 ) {
 
     /**
@@ -35,6 +42,11 @@ class UserRepository @Inject constructor(
         return remote.login(LoginRequest(username, password)).successful { token ->
             when {
                 token.isSuccessful() -> {
+                    // manually clear any previous token from the auth provider
+                    remote.client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>()
+                        .forEach {
+                            it.clearToken()
+                        }
                     // save the token to local storage
                     local.saveToken(token.data!!.token)
                     remote.getUser(username).successful { user ->
@@ -43,6 +55,7 @@ class UserRepository @Inject constructor(
                             ResultWrapper.Success(user.message)
                         } else ResultWrapper.Failure(user.message)
                     }
+                    transactions.sync()
                 }
 
                 else -> ResultWrapper.Failure(token.message)

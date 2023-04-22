@@ -14,11 +14,13 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
 /**
  * Stores the user info on the device
  */
+@Singleton
 class UserStore @Inject constructor(
     @ApplicationContext private val context: Context
 ) {

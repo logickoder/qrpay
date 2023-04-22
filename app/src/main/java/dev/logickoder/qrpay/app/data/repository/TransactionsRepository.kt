@@ -12,10 +12,12 @@ import dev.logickoder.qrpay.model.isSuccessful
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Handles operations regarding to transactions
  */
+@Singleton
 class TransactionsRepository @Inject constructor(
     private val local: TransactionStore,
     private val remote: QrPayApi,

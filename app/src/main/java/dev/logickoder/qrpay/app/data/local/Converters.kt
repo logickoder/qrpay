@@ -2,6 +2,7 @@ package dev.logickoder.qrpay.app.data.local
 
 import androidx.room.TypeConverter
 import dev.logickoder.qrpay.model.TransactionDescription
+import dev.logickoder.qrpay.model.serializer.LocalDateTimeSerializer
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -12,6 +13,7 @@ object Converters {
     @TypeConverter
     fun fromTransactionDescription(description: TransactionDescription?): String? {
         if (description == null) return null
+
         return Json.encodeToString(description)
     }
 
@@ -26,13 +28,14 @@ object Converters {
     @TypeConverter
     fun fromLocalDateTime(time: LocalDateTime?): String? {
         if (time == null) return null
-        return Json.encodeToString(time)
+
+        return Json.encodeToString(LocalDateTimeSerializer, time)
     }
 
     @TypeConverter
     fun toLocalDateTime(time: String?): LocalDateTime? {
         if (time == null) return null
 
-        return Json.decodeFromString(time)
+        return Json.decodeFromString(LocalDateTimeSerializer, time)
     }
 }

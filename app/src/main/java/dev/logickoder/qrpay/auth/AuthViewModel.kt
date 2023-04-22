@@ -85,7 +85,7 @@ class AuthViewModel @Inject constructor(
             }
             if (result is ResultWrapper.Failure) {
                 _state.update {
-                    it.copy(error = result.error.localizedMessage)
+                    it.copy(error = result.error.message)
                 }
             }
             _state.update {

@@ -38,11 +38,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class QrPayApi @Inject constructor(
     private val userStore: UserStore,
 ) {
-    private val baseUrl = "https://qrpay-logickoder.azurewebsites.net/api"
+    //    private val baseUrl = "https://qrpay-logickoder.azurewebsites.net/api"
+    private val baseUrl = "http://localhost:8080/api"
 
     suspend fun login(body: LoginRequest): ResultWrapper<Response<AuthResponse>> {
         return client.call {
@@ -88,7 +91,7 @@ class QrPayApi @Inject constructor(
         }
     }
 
-    private val client = HttpClient(OkHttp) {
+    val client = HttpClient(OkHttp) {
         install(Auth) {
             bearer {
                 loadTokens {
@@ -120,15 +123,15 @@ class QrPayApi @Inject constructor(
             })
         }
         install(Logging) {
+            level = LogLevel.ALL
             logger = object : Logger {
                 override fun log(message: String) {
                     Napier.v(message)
                 }
             }
-            level = LogLevel.BODY
         }
         install(HttpTimeout) {
-            val timeout = 10_000L
+            val timeout = 60_000L
             socketTimeoutMillis = timeout
             requestTimeoutMillis = timeout
             connectTimeoutMillis = timeout
