@@ -34,7 +34,7 @@ fun ReceiveMoneyScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = primaryPadding()),
-                    text = stringResource(id = R.string.use_user_id, username),
+                    text = stringResource(id = R.string.use_username, username),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                 )

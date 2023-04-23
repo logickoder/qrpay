@@ -1,5 +1,7 @@
 package dev.logickoder.qrpay.auth
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -55,7 +57,7 @@ class AuthViewModel @Inject constructor(
         _state.update { state }
     }
 
-    fun submit() {
+    fun submit(context: Context) {
         viewModelScope.launch {
             _state.update {
                 it.copy(loading = true)
@@ -83,9 +85,28 @@ class AuthViewModel @Inject constructor(
                     )
                 }
             }
-            if (result is ResultWrapper.Failure) {
-                _state.update {
+            when (result) {
+                // show the error screen
+                is ResultWrapper.Failure -> _state.update {
                     it.copy(error = result.error.message)
+                }
+
+                ResultWrapper.Loading -> {
+                    // Do nothing
+                }
+
+                is ResultWrapper.Success -> {
+                    val message = when (_state.value.type) {
+                        AuthScreenType.Login -> R.string.login_successful
+                        AuthScreenType.Register -> {
+                            // switch to login screen
+                            _state.update {
+                                it.copy(type = AuthScreenType.Login)
+                            }
+                            R.string.registration_successful
+                        }
+                    }
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             }
             _state.update {

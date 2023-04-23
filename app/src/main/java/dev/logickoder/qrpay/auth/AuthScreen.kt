@@ -68,7 +68,7 @@ fun AuthScreen(
                                     title = stringResource(R.string.firstname),
                                     value = state.firstname,
                                     onValueChange = {
-                                        update(state.copy(firstname = it))
+                                        update(state.copy(firstname = it.trim()))
                                     },
                                     placeholder = stringResource(R.string.enter_firstname),
                                 )
@@ -77,7 +77,7 @@ fun AuthScreen(
                                     title = stringResource(R.string.lastname),
                                     value = state.lastname,
                                     onValueChange = {
-                                        update(state.copy(lastname = it))
+                                        update(state.copy(lastname = it.trim()))
                                     },
                                     placeholder = stringResource(R.string.enter_lastname),
                                 )
@@ -88,7 +88,7 @@ fun AuthScreen(
                                 title = stringResource(R.string.username),
                                 value = state.username,
                                 onValueChange = {
-                                    update(state.copy(username = it))
+                                    update(state.copy(username = it.trim()))
                                 },
                                 placeholder = stringResource(R.string.enter_username),
                                 leadingIcon = {

@@ -78,7 +78,7 @@ fun SendMoneyScreen(
                         title = stringResource(id = R.string.recipient),
                         value = state.recipient,
                         onValueChange = {
-                            onUpdate(state.copy(recipient = it))
+                            onUpdate(state.copy(recipient = it.trim()))
                         },
                         enabled = state.method == SendMoneyMethod.Username,
                         placeholder = stringResource(id = R.string.recipients_username),
@@ -90,7 +90,7 @@ fun SendMoneyScreen(
                         }
                     )
                     Text(
-                        text = stringResource(id = R.string.userid_of_receiver),
+                        text = stringResource(id = R.string.username_of_receiver),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(MaterialTheme.colorScheme.onSurfaceVariant.alpha),
                         modifier = Modifier.padding(top = mediumPadding() / 2),

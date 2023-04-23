@@ -109,6 +109,10 @@ private fun Content(
                     )
                 },
                 scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                )
             )
         },
         content = {

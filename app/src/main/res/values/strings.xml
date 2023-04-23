@@ -21,6 +21,8 @@
     <string name="dont_have_account">Don\'t have an account?</string>
     <string name="already_have_account">Already have an account?</string>
     <string name="go_back">Go back</string>
+    <string name="login_successful">User validated successfully</string>
+    <string name="registration_successful">User created successfully</string>
 
     <!-- Balance Summary -->
     <string name="balance_summary">Balance Summary</string>
@@ -48,9 +50,9 @@
     <string name="refresh">Refresh</string>
 
     <!-- Receive Money -->
-    <string name="use_user_id">
+    <string name="use_username">
         Scan code from another device\n
-        Or use your User ID: %1$s
+        Or use your username: %1$s
     </string>
     <string name="qr_code_description">QRCode for %1$s</string>
 
@@ -59,7 +61,7 @@
     <string name="send_method">Send Method</string>
     <string name="recipient">Recipient</string>
     <string name="recipients_username">Recipient\'s username</string>
-    <string name="userid_of_receiver">UserID of the receiver</string>
+    <string name="username_of_receiver">Username of the receiver</string>
     <string name="amount">Amount</string>
     <string name="note">Note (Optional)</string>
     <string name="optional_note">Optional Note</string>
