@@ -17,38 +17,42 @@ import androidx.compose.material.icons.outlined.Contacts
 import androidx.compose.material.icons.outlined.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.logickoder.qrpay.R
-import dev.logickoder.qrpay.app.data.model.User
 import dev.logickoder.qrpay.app.theme.QRPayTheme
-import dev.logickoder.qrpay.app.theme.paddingPrimary
-import dev.logickoder.qrpay.app.theme.paddingSecondary
+import dev.logickoder.qrpay.app.theme.primaryPadding
+import dev.logickoder.qrpay.app.theme.secondaryPadding
 import dev.logickoder.qrpay.app.widgets.Card
 import dev.logickoder.qrpay.app.widgets.pullrefresh.PullRefreshIndicator
 import dev.logickoder.qrpay.app.widgets.pullrefresh.pullRefresh
 import dev.logickoder.qrpay.app.widgets.pullrefresh.rememberPullRefreshState
+import dev.logickoder.qrpay.model.User
 
 @Composable
 fun HomeScreen(
-    user: State<User?>,
-    isRefreshing: State<Boolean>,
+    user: User?,
+    currency: String,
+    transactions: Int,
+    refreshing: Boolean,
     modifier: Modifier = Modifier,
     refresh: () -> Unit,
     showSheet: (HomeModal) -> Unit,
     logout: () -> Unit,
 ) {
-    val pullRefreshState = rememberPullRefreshState(isRefreshing.value, refresh)
+    val pullRefreshState = rememberPullRefreshState(refreshing, refresh)
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = Unit, block = {
+        // pulls data from the server on app launch
+        refresh()
+    })
 
     LaunchedEffect(key1 = user, block = {
         // scrolls to the top of the screen when the user is null
         // which is what usually happens when the user is logged out
-        if (user.value == null) scrollState.animateScrollTo(
+        if (user == null) scrollState.animateScrollTo(
             value = 0,
             animationSpec = tween(durationMillis = 1_000, easing = LinearEasing),
         )
@@ -64,19 +68,19 @@ fun HomeScreen(
                 content = {
 
                     val cardModifier = Modifier.padding(
-                        bottom = paddingPrimary(),
-                        start = paddingSecondary(),
-                        end = paddingSecondary(),
+                        bottom = primaryPadding(),
+                        start = secondaryPadding(),
+                        end = secondaryPadding(),
                     )
                     val cardContentModifier = Modifier.fillMaxWidth()
 
-                    Spacer(modifier = Modifier.height(paddingPrimary() / 2))
+                    Spacer(modifier = Modifier.height(primaryPadding() / 2))
                     Card(
                         modifier = cardModifier,
                         content = {
                             BalanceSummaryCard(
-                                user.value?.balance,
-                                user.value?.currency,
+                                user?.balance,
+                                currency,
                                 cardContentModifier
                             )
                         }
@@ -85,8 +89,8 @@ fun HomeScreen(
                         modifier = cardModifier,
                         content = {
                             InfoCard(
-                                title = R.string.your_userid,
-                                content = user.value?.id,
+                                title = R.string.your_username,
+                                content = user?.username,
                                 caption = R.string.login_transactions,
                                 icon = Icons.Outlined.Contacts,
                                 modifier = cardContentModifier,
@@ -98,7 +102,7 @@ fun HomeScreen(
                         content = {
                             InfoCard(
                                 title = R.string.transactions,
-                                content = user.value?.transactions,
+                                content = transactions,
                                 caption = R.string.total_transactions,
                                 icon = Icons.Outlined.TrendingUp,
                                 modifier = cardContentModifier,
@@ -109,9 +113,9 @@ fun HomeScreen(
                         modifier = cardModifier,
                         content = {
                             DemoCard(
-                                userName = user.value?.name,
-                                demoBalance = user.value?.demoBalance,
-                                currency = user.value?.currency,
+                                userName = user?.username,
+                                demoBalance = 50_000f,
+                                currency = currency,
                                 modifier = cardContentModifier
                             )
                         }
@@ -147,14 +151,14 @@ fun HomeScreen(
                         }
                     )
                     Footer(
-                        currencies = listOf(user.value?.currency.orEmpty()),
+                        currencies = listOf('\u20a6'.toString()),
                         onCurrencyChange = {},
                         logout = logout,
                     )
                 }
             )
             PullRefreshIndicator(
-                isRefreshing.value,
+                refreshing,
                 pullRefreshState,
                 Modifier.align(Alignment.TopCenter)
             )
@@ -166,20 +170,14 @@ fun HomeScreen(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() = QRPayTheme {
     HomeScreen(
-        user = remember {
-            mutableStateOf(
-                User(
-                    name = "logickoder",
-                    id = "",
-                    balance = 40000.0,
-                    transactions = 1,
-                    currency = "$"
-                )
-            )
-        },
-        isRefreshing = remember {
-            mutableStateOf(false)
-        },
+        user = User(
+            username = "logickoder",
+            id = "",
+            balance = 40000f,
+        ),
+        transactions = 10,
+        currency = '\u20a6'.toString(),
+        refreshing = false,
         refresh = {},
         showSheet = {},
         logout = {},

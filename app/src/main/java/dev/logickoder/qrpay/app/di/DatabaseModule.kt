@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.logickoder.qrpay.QrPayDatabase
+import dev.logickoder.qrpay.app.data.local.QrPayDatabase
 import dev.logickoder.qrpay.R
 import javax.inject.Singleton
 

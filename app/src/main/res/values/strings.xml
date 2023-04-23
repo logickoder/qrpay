@@ -6,20 +6,30 @@
     <!-- Login -->
     <string name="login">Login</string>
     <string name="register">Register</string>
-    <string name="user_id">UserId</string>
-    <string name="name">Name</string>
-    <string name="enter_your_userid">Enter Your UserID</string>
-    <string name="name_or_nickname">Name or Nickname</string>
-    <string name="dont_have_userid">Don\'t have a UserID?</string>
-    <string name="already_have_userid">Already have a UserID?</string>
+    <string name="firstname">Firstname</string>
+    <string name="enter_firstname">Enter your firstname</string>
+    <string name="firstname_required">Your firstname is required</string>
+    <string name="lastname">Lastname</string>
+    <string name="enter_lastname">Enter your lastname</string>
+    <string name="lastname_required">Your lastname is required</string>
+    <string name="username">Username</string>
+    <string name="enter_username">Enter your username</string>
+    <string name="username_required">Your username is required</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="password_required">Your password is required</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="already_have_account">Already have an account?</string>
     <string name="go_back">Go back</string>
+    <string name="login_successful">User validated successfully</string>
+    <string name="registration_successful">User created successfully</string>
 
     <!-- Balance Summary -->
     <string name="balance_summary">Balance Summary</string>
     <string name="total_balance">Total Balance</string>
 
-    <!-- Your UserID -->
-    <string name="your_userid">Your UserID</string>
+    <!-- Your Username -->
+    <string name="your_username">Your Username</string>
     <string name="login_transactions">Login &amp; Transactions</string>
 
     <!-- Transactions -->
@@ -40,18 +50,18 @@
     <string name="refresh">Refresh</string>
 
     <!-- Receive Money -->
-    <string name="use_user_id">
+    <string name="use_username">
         Scan code from another device\n
-        Or use your User ID: %1$s
+        Or use your username: %1$s
     </string>
     <string name="qr_code_description">QRCode for %1$s</string>
 
     <!-- Send Money -->
     <string name="send">Send</string>
     <string name="send_method">Send Method</string>
-    <string name="recipients_id">Recipient\'s ID</string>
-    <string name="recipients_user_id">Recipient\'s User ID</string>
-    <string name="userid_of_receiver">UserID of the receiver</string>
+    <string name="recipient">Recipient</string>
+    <string name="recipients_username">Recipient\'s username</string>
+    <string name="username_of_receiver">Username of the receiver</string>
     <string name="amount">Amount</string>
     <string name="note">Note (Optional)</string>
     <string name="optional_note">Optional Note</string>

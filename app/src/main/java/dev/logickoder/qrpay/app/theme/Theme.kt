@@ -14,8 +14,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-typealias Theme = MaterialTheme
-
 @Composable
 fun QRPayTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -34,6 +32,7 @@ fun QRPayTheme(
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
+        // change the status bar color to primary color
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()

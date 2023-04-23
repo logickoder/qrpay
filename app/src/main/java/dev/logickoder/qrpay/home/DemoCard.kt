@@ -18,10 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import dev.logickoder.qrpay.R
 import dev.logickoder.qrpay.app.theme.QRPayTheme
-import dev.logickoder.qrpay.app.theme.paddingPrimary
-import dev.logickoder.qrpay.app.theme.paddingSmall
-import dev.logickoder.qrpay.app.utils.Amount
-import dev.logickoder.qrpay.app.utils.formattedWith
+import dev.logickoder.qrpay.app.theme.primaryPadding
+import dev.logickoder.qrpay.app.theme.smallPadding
+import dev.logickoder.qrpay.app.utils.formatted
 import dev.logickoder.qrpay.app.widgets.Card
 import dev.logickoder.qrpay.app.widgets.nonExistent
 
@@ -29,8 +28,8 @@ import dev.logickoder.qrpay.app.widgets.nonExistent
 @Composable
 fun DemoCard(
     userName: String?,
-    demoBalance: Amount?,
-    currency: String?,
+    demoBalance: Float,
+    currency: String,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -52,9 +51,9 @@ fun DemoCard(
                     )
                     Text(
                         modifier = Modifier
-                            .padding(vertical = paddingSmall())
+                            .padding(vertical = smallPadding())
                             .nonExistent(demoBalance),
-                        text = demoBalance?.formattedWith(currency.toString()).toString(),
+                        text = demoBalance.formatted(currency),
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -69,7 +68,7 @@ fun DemoCard(
             )
             Image(
                 modifier = Modifier
-                    .absoluteOffset(y = paddingPrimary())
+                    .absoluteOffset(y = primaryPadding())
                     .fillMaxWidth(.25f),
                 painter = painterResource(id = R.drawable.prize_light),
                 contentDescription = null,
@@ -83,7 +82,7 @@ fun DemoCard(
 private fun DemoCardPreview() = QRPayTheme {
     Card(
         content = {
-            DemoCard(userName = "logickoder", demoBalance = 50000.0, currency = "$")
+            DemoCard(userName = "logickoder", demoBalance = 50000f, currency = "$")
         }
     )
 }

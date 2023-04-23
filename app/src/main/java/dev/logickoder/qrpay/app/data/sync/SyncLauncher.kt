@@ -1,35 +1,29 @@
 package dev.logickoder.qrpay.app.data.sync
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
+import dev.logickoder.qrpay.app.data.remote.ResultWrapper
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 class SyncLauncher @Inject constructor(
     private val transactionsSync: TransactionsSync,
     private val userSync: UserSync,
-) {
-    private val scope = MainScope() + Dispatchers.Default
+) : Sync {
 
-    private val rerunDelay = 20L.seconds
-
-    fun launch() {
-        scope.launch {
-            while (true) {
-                coroutineScope {
-                    launch {
-                        userSync.sync()
-                    }
-                    launch {
-                        transactionsSync.sync()
-                    }
+    override suspend fun sync(): ResultWrapper<String> {
+        val jobs = coroutineScope {
+            listOf(
+                async {
+                    userSync.sync()
+                },
+                async {
+                    transactionsSync.sync()
                 }
-                delay(rerunDelay)
-            }
+            ).map { it.await() }
         }
+
+        return jobs.firstOrNull {
+            it is ResultWrapper.Failure
+        } ?: ResultWrapper.Success("Sync successful")
     }
 }

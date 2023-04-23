@@ -7,17 +7,17 @@ import dev.logickoder.qrpay.R
 
 @ReadOnlyComposable
 @Composable
-fun paddingPrimary() = dimensionResource(id = R.dimen.primary_padding)
+fun primaryPadding() = dimensionResource(id = R.dimen.primary_padding)
 
 @ReadOnlyComposable
 @Composable
-fun paddingSecondary() = dimensionResource(id = R.dimen.secondary_padding)
+fun secondaryPadding() = dimensionResource(id = R.dimen.secondary_padding)
 
 @ReadOnlyComposable
 @Composable
-fun paddingSmall() = paddingSecondary() / 2
+fun smallPadding() = secondaryPadding() / 2
 
 
 @ReadOnlyComposable
 @Composable
-fun paddingMedium() = paddingPrimary() / 2
+fun mediumPadding() = primaryPadding() / 2

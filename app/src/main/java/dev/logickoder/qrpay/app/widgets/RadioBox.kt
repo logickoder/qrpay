@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -15,15 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.logickoder.qrpay.app.theme.Theme
 
 @Composable
 fun RadioBox(
     selected: Boolean,
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Theme.colorScheme.primary,
-    unselectedColor: Color = Theme.colorScheme.onSurface.copy(alpha = 0.6f),
+    color: Color = MaterialTheme.colorScheme.primary,
+    unselectedColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
     padding: Dp = 8.dp,
     onClick: () -> Unit,
 ) = Row(
@@ -31,7 +31,7 @@ fun RadioBox(
         .border(
             if (selected) 2.dp else 1.dp,
             if (selected) color else unselectedColor,
-            Theme.shapes.medium
+            MaterialTheme.shapes.medium
         )
         .clickable { onClick() }
         .padding(vertical = padding / 2, horizontal = padding),
@@ -48,7 +48,7 @@ fun RadioBox(
     Spacer(modifier = Modifier.width(padding))
     Text(
         text = text,
-        style = Theme.typography.bodyMedium,
-        color = Theme.colorScheme.onBackground,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground,
     )
 }

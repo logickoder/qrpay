@@ -1,16 +1,18 @@
 [versions]
 accompanist = "0.30.0"
-compose = "2023.03.00"
-compose-compiler = "1.4.4"
-gradlePlugin = "7.4.2"
+azure = "2.6.4"
+compose = "2023.04.00"
+compose-compiler = "1.4.5"
+gradlePlugin = "8.0.0"
 hilt = "2.45"
-kotlin = "1.8.10"
+junit = "5.9.2"
+jwt = "0.11.5"
+kotlin = "1.8.20"
 ktor = "2.2.4"
 lifecycle = "2.6.1"
 navigation = "2.5.3"
 okhttp = "5.0.0-alpha.11"
 permissions = "4.9.2"
-retrofit = "2.9.0"
 room = "2.5.1"
 worker = "2.8.1"
 
@@ -18,9 +20,12 @@ worker = "2.8.1"
 # Accompanist
 accompanist-placeholdermaterial = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanist" }
 # Appyx Navigation
-appyx = "com.bumble.appyx:core:1.1.1"
+appyx = "com.bumble.appyx:core:1.2.0"
+# Azure
+azure-insights = { module = "com.microsoft.azure:applicationinsights-spring-boot-starter", version.ref = "azure" }
+azure-logging = { module = "com.microsoft.azure:applicationinsights-logging-logback", version.ref = "azure" }
 # Core
-core = "androidx.core:core-ktx:1.9.0"
+core = "androidx.core:core-ktx:1.10.0"
 core-appcompat = "androidx.appcompat:appcompat:1.6.1"
 core-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 core-exifinterface = "androidx.exifinterface:exifinterface:1.3.6"
@@ -49,17 +54,27 @@ compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling
 datastore = "androidx.datastore:datastore-preferences:1.1.0-alpha04"
 # Expresso
 expresso = "androidx.test.espresso:espresso-core:3.5.1"
+# H2
+h2 = { module = "com.h2database:h2" }
 # Hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 # JUnit
-junit4 = "junit:junit:4.13.2"
-junit4-androidx = "androidx.test.ext:junit:1.1.5"
+junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-android = "androidx.test.ext:junit:1.1.5"
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+# JWT
+jwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jwt" }
+jwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jwt" }
+jwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jwt" }
 # Kotlinx
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
 kotlin-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 # Ktor
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
@@ -70,12 +85,28 @@ ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", versi
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+# MockK
+mockk = "io.mockk:mockk:1.13.4"
 # Napier
 napier = "io.github.aakira:napier:2.6.1"
+# Open Api
+openapi = "org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0"
+# Project Reactor
+projectreactor = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions" }
+projectreactor-test = { module = "io.projectreactor:reactor-test" }
 # Room
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+# Spring
+spring-acutator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+spring-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 # Worker
 worker = { module = "androidx.work:work-runtime-ktx", version.ref = "worker" }
 worker-hilt = "androidx.hilt:hilt-work:1.0.0"
@@ -88,10 +119,16 @@ zxing-android = "com.journeyapps:zxing-android-embedded:4.3.0"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "gradlePlugin" }
+asciidoctor = { id = "org.asciidoctor.convert", version = "2.4.0" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.20" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version = "1.8.10-1.0.9" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version = "1.8.20-1.0.11" }
+spring = { id = "org.springframework.boot", version = "3.0.4" }
+spring-dependency = { id = "io.spring.dependency-management", version = "1.1.0" }

@@ -10,9 +10,10 @@ plugins {
 
 android {
     compileSdk = 33
+    namespace = "dev.logickoder.qrpay"
 
     defaultConfig.apply {
-        applicationId = "dev.logickoder.qrpay"
+        applicationId = namespace
         minSdk = 23
         targetSdk = 33
         versionCode = 1
@@ -63,6 +64,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":model"))
+
     // for using some java 8 classes like LocalDate with older versions of android
     coreLibraryDesugaring(libs.core.java8)
 
@@ -109,6 +112,7 @@ dependencies {
     implementation(libs.kotlin.serialization)
 
     // Ktor - for network calls
+    implementation(libs.ktor.client.auth)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.serialization)
@@ -128,7 +132,8 @@ dependencies {
     implementation(libs.zxing.android) { isTransitive = false }
     implementation(libs.zxing.core)
 
-    testImplementation(libs.junit4)
+    testImplementation(libs.junit)
+    testImplementation(libs.junit.engine)
     androidTestImplementation(libs.expresso)
-    androidTestImplementation(libs.junit4.androidx)
+    androidTestImplementation(libs.junit.android)
 }

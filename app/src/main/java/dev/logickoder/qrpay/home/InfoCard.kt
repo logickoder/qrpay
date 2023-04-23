@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import dev.logickoder.qrpay.app.theme.QRPayTheme
-import dev.logickoder.qrpay.app.theme.paddingMedium
+import dev.logickoder.qrpay.app.theme.mediumPadding
 import dev.logickoder.qrpay.app.widgets.Card
 import dev.logickoder.qrpay.app.widgets.Icon
 import dev.logickoder.qrpay.app.widgets.nonExistent
@@ -51,7 +51,7 @@ fun <T> InfoCard(
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
                 color = MaterialTheme.colorScheme.secondaryContainer,
             )
-            Spacer(modifier = Modifier.height(paddingMedium()))
+            Spacer(modifier = Modifier.height(mediumPadding()))
             Text(
                 text = stringResource(id = caption),
                 style = MaterialTheme.typography.labelMedium,
