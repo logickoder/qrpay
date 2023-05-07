@@ -1,12 +1,3 @@
-azure:
-  application-insights:
-    instrumentation-key: 7bcb7386-6660-48ae-902b-3a6cbc9b1537
-    enabled: true
-    web:
-      enabled: true
-    logger:
-      level: trace
-
 authorization:
   secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
   expiration: 28800
