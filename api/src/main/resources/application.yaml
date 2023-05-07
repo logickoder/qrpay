@@ -13,18 +13,16 @@ authorization:
 
 spring:
   datasource:
-    url: jdbc:h2:file:~/qrpay
-    username: qrpay
-    password: password
-    driverClassName: org.h2.Driver
+    url: jdbc:postgresql://${DB_HOST}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
-  h2:
-    console:
-      enabled: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 springdoc:
   api-docs:

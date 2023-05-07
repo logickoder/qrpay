@@ -21,9 +21,6 @@ dependencies {
     implementation(libs.azure.insights)
     implementation(libs.azure.logging)
 
-    // H2 Database
-    runtimeOnly(libs.h2)
-
     // JWT
     implementation(libs.jwt.api)
     runtimeOnly(libs.jwt.impl)
@@ -36,6 +33,9 @@ dependencies {
 
     // Open Api
     implementation(libs.openapi)
+
+    // Postgres
+    implementation(libs.postgre)
 
     // Project Reactor
     implementation(libs.projectreactor)

@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="QrPayApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <envs>
+      <env name="DB_HOST" value="localhost:5432" />
+      <env name="DB_NAME" value="qrpay" />
+      <env name="DB_USER" value="postgres" />
+      <env name="DB_PASS" value="password" />
+    </envs>
+    <module name="qrpay.api.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="dev.logickoder.qrpay.QrPayApiApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
