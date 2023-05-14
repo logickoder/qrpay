@@ -28,9 +28,6 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.serialization)
 
-    // Open Api
-    implementation(libs.openapi)
-
     // Postgres
     implementation(libs.postgre)
 

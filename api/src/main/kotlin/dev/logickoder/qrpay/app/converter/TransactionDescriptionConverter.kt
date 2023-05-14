@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.app.data.converter
+package dev.logickoder.qrpay.app.converter
 
 import dev.logickoder.qrpay.model.TransactionDescription
 import jakarta.persistence.AttributeConverter
@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 
 
 @Converter
-object TransactionDescriptionConverter : AttributeConverter<TransactionDescription?, String?> {
+internal object TransactionDescriptionConverter : AttributeConverter<TransactionDescription?, String?> {
 
     override fun convertToDatabaseColumn(attribute: TransactionDescription?): String? {
         if (attribute == null) return null

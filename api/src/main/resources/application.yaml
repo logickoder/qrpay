@@ -1,6 +1,9 @@
-authorization:
-  secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
-  expiration: 28800
+qrpay:
+  api:
+    docs: https://documenter.getpostman.com/view/16581102/2s93eYUBgn
+  authorization:
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
+    expiration: 28800
 
 spring:
   datasource:
@@ -14,7 +17,3 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
-springdoc:
-  api-docs:
-    version: OPENAPI_3_0

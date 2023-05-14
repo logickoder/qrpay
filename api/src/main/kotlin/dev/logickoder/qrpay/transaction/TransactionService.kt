@@ -43,7 +43,7 @@ internal class TransactionService(
             )
 
             else -> {
-                // retrieve the user Id from the auth token
+                // retrieve the user id from the auth token
                 val userId = authorization.getUserIdFromToken(token.tokenFromAuth())
 
                 var sender = userRepository.findByIdOrNull(userId)

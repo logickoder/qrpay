@@ -22,12 +22,12 @@ internal class SecurityContextRepository(
 
     override fun load(exchange: ServerWebExchange): Mono<SecurityContext> {
         return Mono.justOrEmpty(exchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION))
-            .filter { authHeader: String ->
-                authHeader.startsWith("Bearer ")
+            .filter { authHeader ->
+                authHeader.startsWith("Bearer ", true)
             }
             .flatMap { authHeader: String ->
-                val authToken = authHeader.tokenFromAuth()
-                val auth = UsernamePasswordAuthenticationToken(authToken, authToken)
+                val token = authHeader.tokenFromAuth()
+                val auth = UsernamePasswordAuthenticationToken(token, token)
                 authenticationManager.authenticate(auth).map { authentication ->
                     SecurityContextImpl(authentication)
                 }

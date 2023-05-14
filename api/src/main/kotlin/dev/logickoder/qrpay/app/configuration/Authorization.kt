@@ -6,17 +6,18 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Component
 import java.security.Key
-import java.util.Date
+import java.util.*
 
 
 @Component
 internal class Authorization {
-    @Value("\${authorization.secret}")
+    @Value("\${qrpay.authorization.secret}")
     private lateinit var secret: String
 
-    @Value("\${authorization.expiration}")
+    @Value("\${qrpay.authorization.expiration}")
     private lateinit var expirationTime: String
 
     private lateinit var key: Key
@@ -26,20 +27,28 @@ internal class Authorization {
         key = Keys.hmacShaKeyFor(secret.toByteArray())
     }
 
-    fun getAllClaimsFromToken(token: String?): Claims {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
-    }
-
     fun getUserIdFromToken(token: String?): String {
-        return getAllClaimsFromToken(token).subject
+        return getAllClaimsFromToken(token)?.subject.orEmpty()
     }
 
-    fun getExpirationDateFromToken(token: String?): Date {
-        return getAllClaimsFromToken(token).expiration
+    fun getRolesFromToken(token: String?): List<SimpleGrantedAuthority> {
+        return (getAllClaimsFromToken(token)?.get(
+            "role",
+            MutableList::class.java
+        ) ?: emptyList()).asSequence().map {
+            it as? String
+        }.filterNot {
+            it.isNullOrBlank()
+        }.map {
+            SimpleGrantedAuthority(it)
+        }.toList()
     }
 
-    private fun isTokenExpired(token: String): Boolean {
-        return getExpirationDateFromToken(token).before(Date())
+    fun validateToken(token: String): Boolean {
+        // retrieve expiration date from token
+        val expiration = getAllClaimsFromToken(token)?.expiration ?: return false
+        // check if the expiration date is before now
+        return !expiration.before(Date())
     }
 
     fun generateToken(user: UserEntity): String {
@@ -57,11 +66,15 @@ internal class Authorization {
             .compact()
     }
 
-    fun validateToken(token: String): Boolean {
-        return !isTokenExpired(token)
+    private fun getAllClaimsFromToken(token: String?): Claims? {
+        return try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
+        } catch (e: Exception) {
+            null
+        }
     }
 
     companion object {
-        fun String.tokenFromAuth() = substring(7)
+        fun String.tokenFromAuth() = split(Regex("\\s+")).lastOrNull() ?: ""
     }
 }

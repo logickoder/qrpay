@@ -84,8 +84,6 @@ lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel
 mockk = "io.mockk:mockk:1.13.5"
 # Napier
 napier = "io.github.aakira:napier:2.6.1"
-# Open Api
-openapi = "org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0"
 # Postgre
 postgre = { module = "org.postgresql:postgresql" }
 # Project Reactor
