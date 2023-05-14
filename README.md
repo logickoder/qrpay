@@ -74,7 +74,7 @@ Very simple
 
 The api documentation for this project backend is hosted at
 
-* [API documentation](http://qrpay-logickoder.azurewebsites.net/swagger-ui.html) (it may take
+* [API documentation](http://qrpay-logickoder.azurewebsites.net/api/docs) (it may take
   sometime to load due to the azure virtual machine booting up)
 
 <p align="right">(<a href="#top">back to top</a>)</p>

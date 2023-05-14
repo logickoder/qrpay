@@ -4,8 +4,6 @@ import dev.logickoder.qrpay.model.User
 import dev.logickoder.qrpay.model.dto.AuthResponse
 import dev.logickoder.qrpay.model.dto.CreateUserRequest
 import dev.logickoder.qrpay.model.dto.LoginRequest
-import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -28,9 +26,6 @@ internal class AuthController(
      * @return The created [User] object.
      */
     @PostMapping("/register")
-    @Operation(summary = "Create user", description = "Creates a new user")
-    @ApiResponse(responseCode = "201", description = "User created successfully")
-    @ApiResponse(responseCode = "409", description = "User already exists")
     fun createUser(@RequestBody body: CreateUserRequest) = service.createUser(body)
 
     /**
@@ -40,10 +35,6 @@ internal class AuthController(
      * @return The validated [User] object.
      */
     @PostMapping("/login")
-    @Operation(summary = "Validate user", description = "Validates an existing user")
-    @ApiResponse(responseCode = "200", description = "User validated successfully")
-    @ApiResponse(responseCode = "401", description = "Provided user credentials don't match")
-    @ApiResponse(responseCode = "404", description = "User does not exist")
     fun validateUser(@RequestBody request: LoginRequest) = service.validateUser(request)
 
     /**
@@ -53,9 +44,5 @@ internal class AuthController(
      * @return The refreshed token.
      */
     @PostMapping("/refresh-token")
-    @Operation(summary = "Refresh user token", description = "Refreshes the jwt user token")
-    @ApiResponse(responseCode = "200", description = "Token refreshed successfully")
-    @ApiResponse(responseCode = "401", description = "User with specified token does not exist")
-    @ApiResponse(responseCode = "403", description = "Failed to generate new token")
     fun refreshToken(@RequestBody body: AuthResponse) = service.refreshToken(body)
 }

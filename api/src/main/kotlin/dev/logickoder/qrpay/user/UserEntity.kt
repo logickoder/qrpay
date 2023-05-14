@@ -1,14 +1,10 @@
 package dev.logickoder.qrpay.user
 
-import dev.logickoder.qrpay.app.data.converter.RolesConverter
+import dev.logickoder.qrpay.app.converter.RolesConverter
 import dev.logickoder.qrpay.model.Role
 import dev.logickoder.qrpay.model.User
 import dev.logickoder.qrpay.model.dto.CreateUserRequest
-import jakarta.persistence.Convert
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import java.math.BigDecimal

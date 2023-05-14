@@ -1,4 +1,4 @@
-package dev.logickoder.qrpay.app.data.converter
+package dev.logickoder.qrpay.app.converter
 
 import dev.logickoder.qrpay.model.Role
 import jakarta.persistence.AttributeConverter
@@ -6,7 +6,7 @@ import jakarta.persistence.Converter
 
 
 @Converter
-object RolesConverter : AttributeConverter<List<Role>?, String?> {
+internal object RolesConverter : AttributeConverter<List<Role>?, String?> {
 
     override fun convertToDatabaseColumn(attribute: List<Role>?): String? {
         return attribute?.joinToString()

@@ -17,12 +17,6 @@ java {
 
 dependencies {
     implementation(project(":model"))
-    // Azure
-    implementation(libs.azure.insights)
-    implementation(libs.azure.logging)
-
-    // H2 Database
-    runtimeOnly(libs.h2)
 
     // JWT
     implementation(libs.jwt.api)
@@ -34,8 +28,8 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.serialization)
 
-    // Open Api
-    implementation(libs.openapi)
+    // Postgres
+    implementation(libs.postgre)
 
     // Project Reactor
     implementation(libs.projectreactor)
