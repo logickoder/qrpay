@@ -67,7 +67,7 @@ kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0"
 kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
 kotlin-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
-kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 # Ktor
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
