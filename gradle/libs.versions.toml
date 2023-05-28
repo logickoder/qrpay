@@ -4,7 +4,7 @@ azure = "2.6.4"
 compose = "2023.05.00"
 compose-compiler = "1.4.7"
 gradlePlugin = "7.4.2"
-hilt = "2.45"
+hilt = "2.46.1"
 junit = "5.9.3"
 jwt = "0.11.5"
 kotlin = "1.8.21"
@@ -31,7 +31,7 @@ core-material = "com.google.android.material:material:1.9.0"
 core-splashscreen = "androidx.core:core-splashscreen:1.0.1"
 core-swiperefresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 # Coil
-coil = "io.coil-kt:coil-compose:2.3.0"
+coil = "io.coil-kt:coil-compose:2.4.0"
 # Compose
 compose = { group = "androidx.compose", name = "compose-bom", version.ref = "compose" }
 compose-activity = "androidx.activity:activity-compose:1.7.1"
@@ -63,11 +63,11 @@ jwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jwt" }
 jwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jwt" }
 jwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jwt" }
 # Kotlinx
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
 kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
 kotlin-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
-kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 # Ktor
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -116,7 +116,7 @@ android-application = { id = "com.android.application", version.ref = "gradlePlu
 android-library = { id = "com.android.library", version.ref = "gradlePlugin" }
 asciidoctor = { id = "org.asciidoctor.convert", version = "2.4.0" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
-graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.21" }
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.22" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -125,5 +125,5 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "1.8.21-1.0.11" }
-spring = { id = "org.springframework.boot", version = "3.0.6" }
+spring = { id = "org.springframework.boot", version = "3.1.0" }
 spring-dependency = { id = "io.spring.dependency-management", version = "1.1.0" }
