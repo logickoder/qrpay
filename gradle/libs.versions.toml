@@ -125,5 +125,5 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "1.8.21-1.0.11" }
-spring = { id = "org.springframework.boot", version = "3.1.0" }
+spring = { id = "org.springframework.boot", version = "3.1.1" }
 spring-dependency = { id = "io.spring.dependency-management", version = "1.1.0" }
