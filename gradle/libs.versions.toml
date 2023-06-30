@@ -116,7 +116,7 @@ android-application = { id = "com.android.application", version.ref = "gradlePlu
 android-library = { id = "com.android.library", version.ref = "gradlePlugin" }
 asciidoctor = { id = "org.asciidoctor.convert", version = "2.4.0" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
-graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.22" }
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.23" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
