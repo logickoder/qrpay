@@ -9,13 +9,13 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     namespace = "dev.logickoder.qrpay"
 
     defaultConfig.apply {
         applicationId = namespace
         minSdk = 23
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
