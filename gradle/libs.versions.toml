@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.30.1"
 compose = "2023.06.01"
-compose-compiler = "1.4.8"
+compose-compiler = "1.5.0"
 gradlePlugin = "7.4.2"
 hilt = "2.47"
 junit = "5.9.3"
