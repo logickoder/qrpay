@@ -2,7 +2,7 @@
 accompanist = "0.30.1"
 compose = "2023.06.01"
 compose-compiler = "1.5.0"
-gradlePlugin = "7.4.2"
+gradlePlugin = "8.0.2"
 hilt = "2.46.1"
 junit = "5.10.0"
 jwt = "0.11.5"
@@ -26,7 +26,7 @@ compose-activity = "androidx.activity:activity-compose:1.7.2"
 compose-constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 compose-custom-view = "androidx.customview:customview:1.2.0-alpha02"
 compose-custom-view-pooling = "androidx.customview:customview-poolingcontainer:1.0.0"
-compose-material = "androidx.compose.material3:material3:1.2.0-alpha03"
+compose-material = "androidx.compose.material3:material3:1.2.0-alpha04"
 compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4" }
