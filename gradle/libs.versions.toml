@@ -1,13 +1,13 @@
 [versions]
 accompanist = "0.32.0"
 compose = "2023.06.01"
-compose-compiler = "1.5.0"
+compose-compiler = "1.5.3"
 gradlePlugin = "8.1.0"
 hilt = "2.46.1"
 junit = "5.10.0"
 jwt = "0.11.5"
-kotlin = "1.9.0"
-ktor = "2.3.3"
+kotlin = "1.9.10"
+ktor = "2.3.4"
 lifecycle = "2.6.1"
 room = "2.5.2"
 
@@ -51,7 +51,7 @@ jwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jwt" }
 kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
 kotlin-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
-kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
 # Ktor
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -65,7 +65,7 @@ lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", versi
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 # MockK
-mockk = "io.mockk:mockk:1.13.7"
+mockk = "io.mockk:mockk:1.13.8"
 # Napier
 napier = "io.github.aakira:napier:2.6.1"
 # Postgre
@@ -94,7 +94,7 @@ zxing-android = "com.journeyapps:zxing-android-embedded:4.3.0"
 android-application = { id = "com.android.application", version.ref = "gradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "gradlePlugin" }
 asciidoctor = { id = "org.asciidoctor.convert", version = "2.4.0" }
-graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.24" }
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.27" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -102,5 +102,5 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "1.9.10-1.0.13" }
-spring = { id = "org.springframework.boot", version = "3.1.2" }
+spring = { id = "org.springframework.boot", version = "3.1.4" }
 spring-dependency = { id = "io.spring.dependency-management", version = "1.1.3" }
