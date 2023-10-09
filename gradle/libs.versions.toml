@@ -49,7 +49,7 @@ jwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jwt" }
 jwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jwt" }
 # Kotlinx
 kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
-kotlin-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+kotlin-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
 # Ktor
