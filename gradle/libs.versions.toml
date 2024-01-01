@@ -67,7 +67,7 @@ lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel
 # MockK
 mockk = "io.mockk:mockk:1.13.8"
 # Napier
-napier = "io.github.aakira:napier:2.6.1"
+napier = "io.github.aakira:napier:2.7.0"
 # Postgre
 postgre = { module = "org.postgresql:postgresql" }
 # Project Reactor
