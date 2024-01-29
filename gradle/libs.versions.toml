@@ -1,5 +1,5 @@
 [versions]
-accompanist = "0.32.0"
+accompanist = "0.34.0"
 compose = "2023.06.01"
 compose-compiler = "1.5.6"
 gradlePlugin = "8.1.0"
