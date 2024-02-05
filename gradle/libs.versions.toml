@@ -87,7 +87,7 @@ spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 # Zxing (QR)
-zxing-core = "com.google.zxing:core:3.5.2"
+zxing-core = "com.google.zxing:core:3.5.3"
 zxing-android = "com.journeyapps:zxing-android-embedded:4.3.0"
 
 [plugins]
