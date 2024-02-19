@@ -33,7 +33,7 @@ compose-ui-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4"
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 # Datastore
-datastore = "androidx.datastore:datastore-preferences:1.1.0-alpha04"
+datastore = "androidx.datastore:datastore-preferences:1.1.0-dev01"
 # Expresso
 expresso = "androidx.test.espresso:espresso-core:3.5.1"
 # Hilt
