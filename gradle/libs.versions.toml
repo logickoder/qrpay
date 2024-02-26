@@ -102,5 +102,5 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.16" }
-spring = { id = "org.springframework.boot", version = "3.2.1" }
+spring = { id = "org.springframework.boot", version = "3.2.3" }
 spring-dependency = { id = "io.spring.dependency-management", version = "1.1.4" }
